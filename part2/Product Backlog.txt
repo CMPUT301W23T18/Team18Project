@@ -1,0 +1,137 @@
+Player
+
+US 01.01.01
+As a player, I want to add new QR codes to my account.
+Story points: 4
+Risk level: medium
+
+US 01.02.01
+As a player, I want to see what QR codes I have added to my account.
+Story points: 3
+Risk level: low
+
+US 01.03.01
+As a player, I want to remove QR codes from my account.
+Story points: 2
+Risk level: low
+
+US 01.04.01
+As a player, I want to see my highest and lowest scoring QR codes.
+Story points: 2
+Risk level: low
+
+US 01.05.01
+As a player, I want to see the sum of scores of QR codes that I have scanned.
+Story points: 2
+Risk level: low
+
+US 01.06.01
+As a player, I want to see the total number of QR codes that I have scanned.
+Story points: 2
+Risk level: low
+
+US 01.07.01
+As a player, I want to see other player’s profiles
+Story points: 6
+Risk level: medium
+
+
+Game QR Codes
+
+US 02.01.01
+As a player, I want to be able to scan QR codes and record a photo of the location or object, and the geolocation of the location or object.
+Story points: 8
+Risk level: high
+
+US 02.02.01
+As a player, I want to be able to comment on QR codes.
+Story points: 4
+Risk level: medium
+
+US 02.03.01
+As a player, I want to be able to browse QR codes that other players have scanned.
+Story points: 7
+Risk level: high
+
+US 02.04.01
+As a player, I want to see that other players have scanned the same QR code.
+Story points: 4
+Risk level: medium
+
+US 02.05.01
+As a player, I want QR codes to have a unique human readable name.
+Story points: 3
+Risk level: low
+
+US 02.06.01
+As a player, I want to see a visual representation of a QR code relatively unique to that QR code.
+Story points: 8
+Risk level: medium
+
+
+Player profile
+
+US 04.01.01
+As a player, I want a profile with a unique username and my contact information.
+Story points: 2
+Risk level: low
+
+US 04.02.01 
+As a player, I do not want to log into my application using a username and password as my device can identify me.
+Story points: 4
+Risk level: high
+
+
+Searching
+
+US 05.01.01
+As a player, I want to search for other players by username.
+Story points: 3
+Risk level: low
+
+US 05.02.01
+As a player, I want to search for nearby QR codes by using geolocation.
+Story points: 8
+Risk level: high
+
+
+Location
+
+US 06.01.01
+As a player, I want to see a map of geo-locations of nearby QR codes.
+Story points: 10
+Risk level: high
+
+
+Scoring
+
+US 07.01.01
+As a player, I want to see game-wide high scores of all players.
+Story points: 3
+Risk level: low
+
+US 07.02.01
+As a player, I want an estimate of my ranking for the highest scoring unique QR code.
+Story points: 4
+Risk level: medium
+
+
+Privacy
+
+US 08.01.01
+As a player, I don’t want the actual code recorded. E.g., so I can scan and score my vaccine passport.
+Story points: 2
+Risk level: low
+
+US 08.02.01
+As a player, I want to be able to decline recording geolocation for privacy reasons.
+Story points: 2
+Risk level: medium
+
+
+Owner
+
+US 09.01.01 
+As an owner, I don’t want to store big images online.
+Story points: 4
+Risk level: high
