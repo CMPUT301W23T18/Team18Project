@@ -2,19 +2,21 @@ package com.example.team18project;
 
 import android.graphics.Bitmap;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class QRCode {
+    private String qid;
     private String name;
-    private Bitmap photoBitmap; //TODO might need to replace with file if bitmaps are too big
+    private File photo; //TODO different data type might be better, look into it
     private ArrayList<Comment> comments; //TODO tree might be better if comments can be replied to
     private int score;
     private double longitude;
     private double latitude;
 
-    public QRCode(String name, Bitmap photoBitmap, ArrayList<Comment> comments, int score, double longitude, double latitude) {
+    public QRCode(String name, File photo, ArrayList<Comment> comments, int score, double longitude, double latitude) {
         this.name = name;
-        this.photoBitmap = photoBitmap;
+        this.photo = photo;
         this.comments = comments;
         this.score = score;
         this.longitude = longitude;
@@ -31,12 +33,12 @@ public class QRCode {
         this.name = name;
     }
 
-    public Bitmap getPhotoBitmap() {
-        return photoBitmap;
+    public File getPhoto() {
+        return photo;
     }
 
-    public void setPhotoBitmap(Bitmap photoBitmap) {
-        this.photoBitmap = photoBitmap;
+    public void setPhoto(File photo) {
+        this.photo = photo;
     }
 
     public ArrayList<Comment> getComments() {
@@ -69,5 +71,13 @@ public class QRCode {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getQid() {
+        return qid;
+    }
+
+    public void setQid(String qid) {
+        this.qid = qid;
     }
 }

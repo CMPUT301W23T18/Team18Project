@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Player {
     private ArrayList<QRCode> codes;
+    private String uid;
     private String username;
     private String email;
     private String phoneNumber;
@@ -57,5 +58,13 @@ public class Player {
 
     public void setHidden(boolean hidden) {
         isHidden = hidden;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
