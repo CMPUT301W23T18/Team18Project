@@ -10,12 +10,22 @@ public class Player {
     private String phoneNumber;
     private boolean isHidden;
 
-    public Player(ArrayList<QRCode> codes, String username, String email, String phoneNumber, boolean isHidden) {
+    public Player(ArrayList<QRCode> codes, String uid, String username, String email, String phoneNumber, boolean isHidden) {
         this.codes = codes;
+        this.uid = uid;
         this.username = username;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.isHidden = isHidden;
+    }
+
+    public Player(String uid) {
+        this.uid = uid;
+        this.codes = new ArrayList<QRCode>();
+        this.username = "";
+        this.email = "";
+        this.phoneNumber = "";
+        this.isHidden = true;
     }
 
     //getters and setters
