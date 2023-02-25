@@ -81,4 +81,9 @@ public class Player {
     public void addQRCode(QRCode qrCode) {
         this.codes.add(qrCode);
     }
+
+    public void removeQRCode(QRCode qrCode) {
+        assert (this.codes.contains(qrCode)); // throw an exception if the qrCode is not in codes
+        this.codes.remove(qrCode);
+    }
 }
