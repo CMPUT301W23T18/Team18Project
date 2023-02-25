@@ -1,6 +1,7 @@
 package com.example.team18project;
 
 public class Comment {
+    private String cid;
     private Player poster;
     private String text;
 
@@ -25,5 +26,13 @@ public class Comment {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 }
