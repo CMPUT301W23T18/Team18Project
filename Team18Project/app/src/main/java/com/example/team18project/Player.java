@@ -77,4 +77,8 @@ public class Player {
     public void setUid(String uid) {
         this.uid = uid;
     }
+
+    public void addQRCode(QRCode qrCode) {
+        this.codes.add(qrCode);
+    }
 }
