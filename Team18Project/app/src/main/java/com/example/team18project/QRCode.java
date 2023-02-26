@@ -23,6 +23,10 @@ public class QRCode {
         this.latitude = latitude;
     }
 
+    public String getVisual() { //TODO implement proper representation, maybe change return type
+        return ":)";
+    }
+
     //getters and setters
 
     public String getName() {
