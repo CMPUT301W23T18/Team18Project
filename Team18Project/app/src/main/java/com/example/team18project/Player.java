@@ -91,13 +91,13 @@ public class Player {
      * @return code
      *      returns name of the highest scored QRcode
      */
-    public String highestQRCode(){
-        String code = "No QR codes scanned";
+    public QRCode getHighestQRCode(){
+        QRCode code = null;
         int score = 0;
         for(int i = 0; i < codes.size(); i++){
             QRCode QRobject = codes.get(i);
             if(QRobject.getScore() > score){
-                code = QRobject.getName();
+                code = QRobject;
                 score = QRobject.getScore();
             }
         }
@@ -108,13 +108,13 @@ public class Player {
      * @return code
      *      returns name of the lowest scored QRcode
      */
-    public String lowestQRCode(){
-        String code = "No QR codes scanned";
+    public QRCode getLowestQRCode(){
+        QRCode code = null;
         int score = 0;
         for(int i = 0; i < codes.size(); i++){
             QRCode QRobject = codes.get(i);
             if(QRobject.getScore() < score){
-                code = QRobject.getName();
+                code = QRobject;
                 score = QRobject.getScore();
             }
         }
