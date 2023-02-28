@@ -12,6 +12,14 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * Extends the ArrayAdapter<QRCode> class so that it can provide views for QR Codes.
+ * These views display the QR codes name, score, and visual representation instead of just
+ * its toString() representation
+ * @author Michael Schaefer-Pham
+ * @see android.widget.ArrayAdapter
+ * @see QRCode
+ */
 public class QRArrayAdapter extends ArrayAdapter<QRCode> {
     public QRArrayAdapter(Context context, ArrayList<QRCode> cities) {
         super(context, 0, cities);
