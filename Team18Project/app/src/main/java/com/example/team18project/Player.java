@@ -86,4 +86,12 @@ public class Player {
         assert (this.codes.contains(qrCode)); // throw an exception if the qrCode is not in codes
         this.codes.remove(qrCode);
     }
+
+    public int totalQRScore() {
+        int score = 0;
+        for (QRCode code : codes) {
+            score += code.getScore();
+        }
+        return score;
+    }
 }
