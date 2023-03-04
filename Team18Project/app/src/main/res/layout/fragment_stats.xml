@@ -22,6 +22,18 @@
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:text="test" />
+
+        <TextView
+            android:id="@+id/highest_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/lowest_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
     </LinearLayout>
 
 </FrameLayout>
