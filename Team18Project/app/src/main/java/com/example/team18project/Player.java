@@ -94,4 +94,36 @@ public class Player {
         }
         return score;
     }
+
+    /**
+     *      @return code returns name of the highest scored QRcode
+     */
+    public QRCode getHighestQRCode(){
+        QRCode code = null;
+        int score = 0;
+        for(int i = 0; i < codes.size(); i++){
+            QRCode QRobject = codes.get(i);
+            if(QRobject.getScore() > score){
+                code = QRobject;
+                score = QRobject.getScore();
+            }
+        }
+        return code;
+    }
+
+    /**
+     *  @return code returns name of the lowest scored QRcode
+     */
+    public QRCode getLowestQRCode() {
+        QRCode code = null;
+        int score = 0;
+        for (int i = 0; i < codes.size(); i++) {
+            QRCode QRobject = codes.get(i);
+            if (QRobject.getScore() < score) {
+                code = QRobject;
+                score = QRobject.getScore();
+            }
+        }
+        return code;
+    }
 }
