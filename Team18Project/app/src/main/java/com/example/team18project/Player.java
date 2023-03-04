@@ -86,7 +86,6 @@ public class Player {
         assert (this.codes.contains(qrCode)); // throw an exception if the qrCode is not in codes
         this.codes.remove(qrCode);
     }
-
     /**
      * @return code
      *      returns name of the highest scored QRcode
@@ -108,16 +107,23 @@ public class Player {
      * @return code
      *      returns name of the lowest scored QRcode
      */
-    public QRCode getLowestQRCode(){
+    public QRCode getLowestQRCode() {
         QRCode code = null;
         int score = 0;
-        for(int i = 0; i < codes.size(); i++){
+        for (int i = 0; i < codes.size(); i++) {
             QRCode QRobject = codes.get(i);
-            if(QRobject.getScore() < score){
+            if (QRobject.getScore() < score) {
                 code = QRobject;
                 score = QRobject.getScore();
             }
         }
         return code;
+    }
+    public int totalQRScore() {
+        int score = 0;
+        for (QRCode code : codes) {
+            score += code.getScore();
+        }
+        return score;
     }
 }
