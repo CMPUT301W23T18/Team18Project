@@ -2,39 +2,73 @@ package com.example.team18project;
 
 import android.graphics.Bitmap;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class QRCode {
     private String qid;
-    private String name;
+    private String value;
     private File photo; //TODO different data type might be better, look into it
     private ArrayList<Comment> comments; //TODO tree might be better if comments can be replied to
-    private int score;
     private double longitude;
     private double latitude;
 
-    public QRCode(String name, File photo, ArrayList<Comment> comments, int score, double longitude, double latitude) {
-        this.name = name;
+    public QRCode(String value, File photo, ArrayList<Comment> comments, double longitude, double latitude) {
+        this.value = value;
         this.photo = photo;
         this.comments = comments;
-        this.score = score;
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public QRCode(DocumentReference doc) {
+        qid = doc.getId();
+        doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                qid = doc.getId();
+                photo = null; //TODO figure out how photos will be stored
+                value = documentSnapshot.getString("value");
+                longitude = documentSnapshot.getDouble("longitude");
+                latitude = documentSnapshot.getDouble("latitude");
+                ArrayList<DocumentReference> commentRefs = (ArrayList<DocumentReference>) documentSnapshot.get("comments");
+                comments = new ArrayList<Comment>();
+
+                //fill comments ArrayList
+                for (int i = 0; i < commentRefs.size(); i++) {
+                    comments.add(new Comment(commentRefs.get(i)));
+                }
+            }
+        });
     }
 
     public String getVisual() { //TODO implement proper representation, maybe change return type
         return ":)";
     }
 
-    //getters and setters
-
-    public String getName() {
-        return name;
+    public String getName() { //TODO generate name properly
+        return "QRmon";
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public int getScore() { //TODO generate score properly
+        return 1863;
+    }
+
+    //getters and setters
+
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public File getPhoto() {
@@ -51,14 +85,6 @@ public class QRCode {
 
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     public double getLongitude() {
