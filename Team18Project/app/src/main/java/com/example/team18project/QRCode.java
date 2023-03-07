@@ -7,6 +7,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.io.File;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +50,18 @@ public class QRCode {
         });
     }
 
+    //TODO temporary method, copy paste this code to whereever you need it
+    public static String getSHA256(String s) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hashBytes = digest.digest(s.getBytes());
+        String hashString = "";
+        for (int i = 0; i < hashBytes.length; i++) {
+            hashString += Integer.toHexString(((int)hashBytes[i]) & 0xFF);
+        }
+
+        return hashString;
+    }
+
     public String getVisual() { //TODO implement proper representation, maybe change return type
         return ":)";
     }
@@ -61,7 +75,6 @@ public class QRCode {
     }
 
     //getters and setters
-
 
     public String getValue() {
         return value;
