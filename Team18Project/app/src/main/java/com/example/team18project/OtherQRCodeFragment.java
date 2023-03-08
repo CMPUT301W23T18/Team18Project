@@ -30,16 +30,14 @@ public class OtherQRCodeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getOtherQRCode();
+        ArrayList<QRCode> otherQRCodeList = new ArrayList<QRCode>();
+        QRArrayAdapter qrArrayAdapter = new QRArrayAdapter(this, otherQRCodeList);
+        getOtherQRCode(otherQRCodeList, qrArrayAdapter);
     }
 
 
-    private void getOtherQRCode() {
+    private void getOtherQRCode(ArrayList<QRCode> otherQRCodeList, QRArrayAdapter qrArrayAdapter) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        ArrayList<QRCode> otherQRCodeList = new ArrayList<QRCode>();
-        QRArrayAdapter qrArrayAdapter = new QRArrayAdapter(this, otherQRCodeList);
-
-
         CollectionReference qrCodesColl = db.collection("QRCodes");
 
         qrCodesColl.addSnapshotListener(new EventListener<QuerySnapshot>() {
