@@ -1,30 +1,20 @@
 package com.example.team18project;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.os.Bundle;
+import android.provider.Settings;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.provider.Settings;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
 import com.example.team18project.databinding.ActivityMainBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,9 +23,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private Player player;
     private FirebaseFirestore db;
-    //private ArrayList<QRCode> qrData;
-    //private ListView qrList;
-    //private QRArrayAdapter qrAdapter;
     private ActivityMainBinding binding;
 
     @Override
@@ -46,19 +33,19 @@ public class MainActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         login();
+    }
 
-//        qrData = player.getCodes();
-//
-//        //make ListView
-//        qrList = (ListView) findViewById(R.id.qr_list);
-//        qrAdapter = new QRArrayAdapter(this, qrData);
-//        qrList.setAdapter(qrAdapter);
-
-        replaceFragment(new HomeFragment());
+    /**
+     * Initializes the frame and navigation bar of the main activity. This needs to be done after
+     * the player is logged in, which is why this code is separate from onCreate
+     * @author Michael Schaefer-Pham
+     */
+    private void activityInit() {
+        replaceFragment(HomeFragment.newInstance(player));
 
         binding.navBar.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.home_icon: replaceFragment(new HomeFragment()); break;
+                case R.id.home_icon: replaceFragment(HomeFragment.newInstance(player)); break;
                 case R.id.all_qr_codes_icon: replaceFragment(new AllQRCodesFragment()); break;
                 case R.id.search_icon: replaceFragment(new SearchFragment()); break;
                 case R.id.stats_icon: replaceFragment(new StatsFragment()); break;
@@ -77,9 +64,10 @@ public class MainActivity extends AppCompatActivity {
         String id = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
         CollectionReference playersColl = db.collection("Players");
         DocumentReference playerReference = playersColl.document(id);
+        Task readTask = playerReference.get();
 
         //try to read account from database
-        playerReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String username = documentSnapshot.getString("username");
@@ -109,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 player = new Player(codes,id,username,email,phoneNumber,isHidden);
+                activityInit();
             }
         });
     }

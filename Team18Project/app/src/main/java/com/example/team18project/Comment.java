@@ -1,10 +1,15 @@
 package com.example.team18project;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-public class Comment {
+public class Comment implements Parcelable {
     private String cid;
     private String posterId;
     private String text;
@@ -26,8 +31,39 @@ public class Comment {
         });
     }
 
-    //getters and setters
+    //Parcelable implementation
 
+    protected Comment(Parcel in) {
+        cid = in.readString();
+        posterId = in.readString();
+        text = in.readString();
+    }
+
+    public static final Creator<Comment> CREATOR = new Creator<Comment>() {
+        @Override
+        public Comment createFromParcel(Parcel in) {
+            return new Comment(in);
+        }
+
+        @Override
+        public Comment[] newArray(int size) {
+            return new Comment[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(cid);
+        dest.writeString(posterId);
+        dest.writeString(text);
+    }
+
+    //getters and setters
 
     public String getPosterId() {
         return posterId;
