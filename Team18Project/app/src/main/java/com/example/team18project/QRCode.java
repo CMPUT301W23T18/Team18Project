@@ -132,7 +132,7 @@ public class QRCode implements Parcelable {
         return photoIds;
     }
 
-    public void setPhoto(ArrayList<String> photoIds) {
+    public void setPhotoIds(ArrayList<String> photoIds) {
         this.photoIds = photoIds;
     }
 
