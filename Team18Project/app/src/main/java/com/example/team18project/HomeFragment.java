@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ public class HomeFragment extends Fragment {
     private ListView qrList;
     private QRArrayAdapter qrAdapter;
 
+    /**
+     * Required empty public constructor
+     */
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -41,7 +45,6 @@ public class HomeFragment extends Fragment {
      * @param player The logged in player
      * @return A new instance of fragment HomeFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(Player player) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -74,5 +77,13 @@ public class HomeFragment extends Fragment {
         qrList = (ListView) getView().findViewById(R.id.qr_list);
         qrAdapter = new QRArrayAdapter(getContext(), qrData);
         qrList.setAdapter(qrAdapter);
+
+        qrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                QRCode clicked = (QRCode) qrList.getItemAtPosition(position);
+                QRMenuFragment.newInstance(clicked).show(getParentFragmentManager(),"Menu");
+            }
+        });
     }
 }
