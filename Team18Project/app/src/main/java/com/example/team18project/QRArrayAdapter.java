@@ -21,8 +21,8 @@ import java.util.ArrayList;
  * @see QRCode
  */
 public class QRArrayAdapter extends ArrayAdapter<QRCode> {
-    public QRArrayAdapter(Context context, ArrayList<QRCode> qrCodes) {
-        super(context, 0, qrCodes);
+    public QRArrayAdapter(Context context, ArrayList<QRCode> cities) {
+        super(context, 0, cities);
     }
 
     @NonNull
