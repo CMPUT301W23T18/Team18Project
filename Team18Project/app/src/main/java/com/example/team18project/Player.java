@@ -1,9 +1,19 @@
 package com.example.team18project;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 
@@ -37,12 +47,34 @@ public class Player implements Parcelable {
 
     public void addQRCode(QRCode qrCode) {
         this.codes.add(qrCode);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference QRCodesRef = db.collection("QRCodes");
+        QRCodesRef.add(qrCode);
+
     }
 
     public void removeQRCode(QRCode qrCode) {
-        assert (this.codes.contains(qrCode)); // throw an exception if the qrCode is not in codes
-        this.codes.remove(qrCode);
+        if (this.codes.contains(qrCode)) {
+            this.codes.remove(qrCode);
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference QRCodesRef = db.collection("QRCodes");
+            DocumentReference qrCodeDocRef = QRCodesRef.document(qrCode.getValue());
+            qrCodeDocRef.delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error deleting document", e);
+                        }
+                    });
+        }
     }
+
 
     //Parcelable implementation
 
