@@ -31,7 +31,7 @@ public class OtherQRCodeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ArrayList<QRCode> otherQRCodeList = new ArrayList<QRCode>();
-        QRArrayAdapter qrArrayAdapter = new QRArrayAdapter(this, otherQRCodeList);
+        QRArrayAdapter qrArrayAdapter = new QRArrayAdapter(getContext(), otherQRCodeList);
         getOtherQRCode(otherQRCodeList, qrArrayAdapter);
     }
 
