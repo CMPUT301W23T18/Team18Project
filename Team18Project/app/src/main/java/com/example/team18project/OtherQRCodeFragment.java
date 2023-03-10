@@ -2,6 +2,7 @@ package com.example.team18project;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,12 +28,18 @@ import java.io.File;
 
 public class OtherQRCodeFragment extends Fragment {
 
+    private ArrayList<QRCode> otherQRCodeList;
+    private ListView qrListView;
+    private QRArrayAdapter qrAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayList<QRCode> otherQRCodeList = new ArrayList<QRCode>();
-        QRArrayAdapter qrArrayAdapter = new QRArrayAdapter(getContext(), otherQRCodeList);
-        getOtherQRCode(otherQRCodeList, qrArrayAdapter);
+        otherQRCodeList = new ArrayList<QRCode>();
+        qrListView = (ListView) getView().findViewById(R.id.qr_list);
+        qrAdapter = new QRArrayAdapter(getContext(), otherQRCodeList);
+        qrListView.setAdapter(qrAdapter);
+        getOtherQRCode(otherQRCodeList, qrAdapter);
     }
 
 
