@@ -1,8 +1,14 @@
 package com.example.team18project;
 
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Parcelable {
     private ArrayList<QRCode> codes;
     private String uid;
     private String username;
@@ -26,6 +32,45 @@ public class Player {
         this.email = "";
         this.phoneNumber = "";
         this.isHidden = true;
+    }
+    //Parcelable implementation
+
+    protected Player(Parcel in) {
+        codes = in.createTypedArrayList(QRCode.CREATOR);
+        uid = in.readString();
+        username = in.readString();
+        email = in.readString();
+        phoneNumber = in.readString();
+        isHidden = in.readByte() != 0;
+    }
+
+    public static final Creator<Player> CREATOR = new Creator<Player>() {
+        @Override
+        public Player createFromParcel(Parcel in) {
+            return new Player(in);
+        }
+
+        @Override
+        public Player[] newArray(int size) {
+            return new Player[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            dest.writeParcelableList(codes,flags);
+        }
+        dest.writeString(uid);
+        dest.writeString(username);
+        dest.writeString(email);
+        dest.writeString(phoneNumber);
+        dest.writeByte((byte) (isHidden ? 1 : 0));
     }
 
     //getters and setters
@@ -126,4 +171,5 @@ public class Player {
         }
         return score;
     }
+
 }
