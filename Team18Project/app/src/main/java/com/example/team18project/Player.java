@@ -1,11 +1,8 @@
 package com.example.team18project;
 
-<<<<<<< HEAD
 import static android.content.ContentValues.TAG;
 
-=======
 import android.os.Build;
->>>>>>> b47d5a83df4f9600be08853ea1c5eea94c47bc34
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.Settings;
@@ -19,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
@@ -51,40 +49,40 @@ public class Player implements Parcelable {
         this.phoneNumber = "";
         this.isHidden = true;
     }
-<<<<<<< HEAD
 
     //QR Code methods
 
     public void addQRCode(QRCode qrCode) {
         this.codes.add(qrCode);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference QRCodesRef = db.collection("QRCodes");QRCodesRef.add(qrCode);
-        DocumentReference newQRRef = QRCodesRef.document(qrCode.getQid());
-            Task readTask = newQRRef.get();
-            //try to read account from database
-            readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("qid", qrCode.getQid());
-                    data.put("value", qrCode.getValue());
-                    data.put("longitude", qrCode.getLongitude());
-                    data.put("latitude", qrCode.getLatitude());
-                    data.put("photo", qrCode.getPhotoIds());
-                    newQRRef.set(data);
-                    return;
-                }
-            });
-
+        CollectionReference QRCodesRef = db.collection("QRCodes");
+        CollectionReference PlayersRef = db.collection("Players");
+        DocumentReference player = PlayersRef.document(this.getUid());
+                // Append the new QRCode document reference to the player's "codes" array
+        player.update("codes", FieldValue.arrayUnion(qrCode.getQid()))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully added!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
     }
+
 
     public void removeQRCode(QRCode qrCode) {
         if (this.codes.contains(qrCode)) {
             this.codes.remove(qrCode);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            CollectionReference QRCodesRef = db.collection("QRCodes");
-            DocumentReference qrCodeDocRef = QRCodesRef.document(qrCode.getQid());
-            qrCodeDocRef.delete()
+            //CollectionReference QRCodesRef = db.collection("QRCodes");
+            CollectionReference PlayersRef = db.collection("Players");
+            DocumentReference player = PlayersRef.document(this.getUid());
+            player.update("codes", FieldValue.arrayRemove(qrCode.getQid()))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -101,8 +99,6 @@ public class Player implements Parcelable {
     }
 
 
-=======
->>>>>>> b47d5a83df4f9600be08853ea1c5eea94c47bc34
     //Parcelable implementation
 
     protected Player(Parcel in) {
@@ -190,14 +186,7 @@ public class Player implements Parcelable {
         this.uid = uid;
     }
 
-    public void addQRCode(QRCode qrCode) {
-        this.codes.add(qrCode);
-    }
 
-    public void removeQRCode(QRCode qrCode) {
-        assert (this.codes.contains(qrCode)); // throw an exception if the qrCode is not in codes
-        this.codes.remove(qrCode);
-    }
 
     /**
      * retrieve the sum score of all the QR codes owned by the player
