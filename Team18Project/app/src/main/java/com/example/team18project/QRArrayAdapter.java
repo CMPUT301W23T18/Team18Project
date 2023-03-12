@@ -45,7 +45,6 @@ public class QRArrayAdapter extends ArrayAdapter<QRCode> {
         ImageView qrVisual = view.findViewById(R.id.qr_visual);
 
         qrName.setText(code.getName());
-        qrName.setText(code.getName());
         qrScore.setText("Score: " + Integer.toString(code.getScore()));
         qrVisual.setImageBitmap(code.getVisual(getContext()));
 
