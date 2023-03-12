@@ -65,26 +65,50 @@ public class Comment implements Parcelable {
 
     //getters and setters
 
+    /**
+     * Gets the Firestore document ID of the player who posted the comment
+     * @return The comment poster's id
+     */
     public String getPosterId() {
         return posterId;
     }
 
+    /**
+     * Sets the Firestore document ID of the comment's poster
+     * @param posterId The comment's poster's Firestore document ID
+     */
     public void setPosterId(String posterId) {
         this.posterId = posterId;
     }
 
+    /**
+     * Gets the text of the comment
+     * @return The comment's text
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     * Sets the text of the comment
+     * @param text The comment's text
+     */
     public void setText(String text) {
         this.text = text;
     }
 
+    /**
+     * Gets the Firestore document ID of the comment
+     * @return The comment's Firestore document ID
+     */
     public String getCid() {
         return cid;
     }
 
+    /**
+     * Sets the Firestore document ID of the comment
+     * @param cid The comment's Firestore document ID
+     */
     public void setCid(String cid) {
         this.cid = cid;
     }
