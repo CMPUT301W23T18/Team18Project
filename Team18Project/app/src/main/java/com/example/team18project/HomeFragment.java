@@ -50,7 +50,6 @@ public class HomeFragment extends Fragment {
         Bundle args = new Bundle();
         args.putParcelable(ARG_PARAM1,player);
         fragment.setArguments(args);
-        System.out.println(player == null);
         return fragment;
     }
 

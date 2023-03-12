@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class for modelling QR codes.
+ */
 public class QRCode implements Parcelable {
     private String qid;
     private String value;
