@@ -3,6 +3,7 @@ package com.example.team18project;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -110,8 +111,28 @@ public class QRCode implements Parcelable {
         return ":)";
     }
 
-    public String getName() { //TODO generate name properly
-        return "QRmon";
+    /**
+     * @param hash: a shaw 256 hash converted into a string of characters
+     * @return a unique name
+     */
+    public String getName(String hash) {
+        // break the hash into a
+        char[] splitHash = hash.toCharArray();
+        int[] keyCodes = new int[4];
+        for (int index = 0; index < 32; index++) {
+            int key = index % 4;
+            keyCodes[key] += (int) splitHash[index];
+        }
+        String[] name = new String[4];
+        String[] title = {"Emperor", "Empress", "King", "Queen", "Duke", "Duchess", "Prince", "Princes"};
+        String[] firstName = {"Nolan", "Maximus", "Leo", "Victor", "Katie", "Kiara", "Selena", "Amy"};
+        String[] SurName = {"Smith", "White", "Price", "Harper", "Chambers", "Cohen", "Hoffman", "Freenet"};
+        String[] origin = {"Sinniko", "Sandgate", "Blastmore", "Wastehold", "Grimwall", "Driuru", "Smogmore", "Hookfort"};
+        name[0] = title[keyCodes[0] % title.length];
+        name[1] = firstName[keyCodes[1] % firstName.length];
+        name[2] = SurName[keyCodes[2] % SurName.length];
+        name[3] = origin[keyCodes[3] % origin.length];
+        return TextUtils.join(" ", name);
     }
 
     public int getScore() { //TODO generate score properly
