@@ -50,6 +50,7 @@ public class Player implements Parcelable {
         this.phoneNumber = "";
         this.isHidden = true;
     }
+
     //Parcelable implementation
 
     /**
@@ -84,6 +85,7 @@ public class Player implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeParcelableList(codes,flags);
         dest.writeString(uid);
         dest.writeString(username);
         dest.writeString(email);
