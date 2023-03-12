@@ -32,7 +32,6 @@ public class StatsFragment extends Fragment {
      * @param totalScore Score of all player QR codes added together
      * @return A new instance of fragment StatsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static StatsFragment newInstance(int totalScore,int highest_score,int lowest_score) {
         StatsFragment fragment = new StatsFragment();
         Bundle args = new Bundle();

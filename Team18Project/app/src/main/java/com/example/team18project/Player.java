@@ -63,9 +63,6 @@ public class Player implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            dest.writeParcelableList(codes,flags);
-        }
         dest.writeString(uid);
         dest.writeString(username);
         dest.writeString(email);
@@ -133,7 +130,8 @@ public class Player implements Parcelable {
     }
 
     /**
-     * @return retrieve the sum score of all the QR codes owned by the player
+     * retrieve the sum score of all the QR codes owned by the player
+     * @return final sum
      */
     public int totalQRScore() {
         int score = 0;
@@ -144,7 +142,8 @@ public class Player implements Parcelable {
     }
 
     /**
-     *      @return code returns name of the highest scored QRcode
+     *      returns name of the highest scored QRcode
+     *      @return a QR code
      */
     public QRCode getHighestQRCode(){
         QRCode code = null;
@@ -160,7 +159,8 @@ public class Player implements Parcelable {
     }
 
     /**
-     *  @return code returns name of the lowest scored QRcode
+     *  returns name of the lowest scored QRcode
+     *  @return a QR code
      */
     public QRCode getLowestQRCode() {
         QRCode code = null;

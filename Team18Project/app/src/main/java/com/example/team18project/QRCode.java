@@ -112,25 +112,30 @@ public class QRCode implements Parcelable {
     }
 
     /**
-     * @return a unique name
+     * Convert the QR codes hash functions(value) into a unique 4 part name string
+     * @return unique name string
      */
     public String getName() {
-        // break the hash into a
         char[] splitHash = value.toCharArray();
+        // convert the hash into 4 key codes which is the sum of all char int values in that quarter
         int[] keyCodes = new int[4];
         for (int index = 0; index < 32; index++) {
             int key = index % 4;
             keyCodes[key] += (int) splitHash[index];
         }
         String[] name = new String[4];
+        // create all string arrays the name can be pulled from
+        // note* do to the way this function is implemented each array can be expanded easily and indefinably by simply adding a new string at the end of an array
         String[] title = {"Emperor", "Empress", "King", "Queen", "Duke", "Duchess", "Prince", "Princes"};
         String[] firstName = {"Nolan", "Maximus", "Leo", "Victor", "Katie", "Kiara", "Selena", "Amy"};
         String[] SurName = {"Smith", "White", "Price", "Harper", "Chambers", "Cohen", "Hoffman", "Freenet"};
         String[] origin = {"Sinniko", "Sandgate", "Blastmore", "Wastehold", "Grimwall", "Driuru", "Smogmore", "Hookfort"};
+        // select a value from each string array
         name[0] = title[keyCodes[0] % title.length];
         name[1] = firstName[keyCodes[1] % firstName.length];
         name[2] = SurName[keyCodes[2] % SurName.length];
         name[3] = origin[keyCodes[3] % origin.length];
+        // merge the names characteristics and return it
         return TextUtils.join(" ", name);
     }
 
