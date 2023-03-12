@@ -96,6 +96,9 @@ public class Player implements Parcelable {
                         }
                     });
         }
+        else {
+            Log.w(TAG, "Player doesn't have this QRCode");
+        }
     }
 
 
