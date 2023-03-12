@@ -15,9 +15,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A fragment used to represent the home screen, where QR codes are displayed and added
  */
 public class HomeFragment extends Fragment {
 
