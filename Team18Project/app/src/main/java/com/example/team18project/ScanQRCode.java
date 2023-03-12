@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
@@ -16,8 +17,10 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,10 +28,21 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScanQRCode extends AppCompatActivity {
 
@@ -37,6 +51,7 @@ public class ScanQRCode extends AppCompatActivity {
     private double latitude;
     private double longitude;
     private Player player;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +60,16 @@ public class ScanQRCode extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            player = extras.getParcelable("player");
+            player = (Player) getIntent().getParcelableExtra("player");
         }
+        Log.d("testing", "Data in add qr activity");
+        Log.d("testing", player.toString());
+//        Log.d("testing", player.getUid());
+        if (player.getUid() == null) Log.d("testing", "no uid");
+        if (player.getUsername() == null) Log.d("testing", "no username");
+        if (player.getUid() == null) Log.d("testing", "no uid");
+        if (player.getPhoneNumber() == null) Log.d("testing", "no number");
+        db = FirebaseFirestore.getInstance();
 
         scanButton = findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
@@ -97,38 +120,52 @@ public class ScanQRCode extends AppCompatActivity {
             if (result.getContents() != null) {
                 if (takePhoto) {
                     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    try {
-                        startActivityForResult(takePictureIntent, 1);
-                    } catch (ActivityNotFoundException e) {
-                        Log.d("ERROR", "Activity not found");
-                    }
+                        try {
+                            startActivityForResult(takePictureIntent, 1);
+                        } catch (ActivityNotFoundException e) {
+                            Log.d("ERROR", "Activity not found");
+                        }
                 }
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                String sha256 = null;
+                try {
+                    sha256 = QRCode.getSHA256(result.getContents());
+                } catch (NoSuchAlgorithmException e) {
+                    Toast.makeText(getApplicationContext(), "ERROR: could not hash value", Toast.LENGTH_LONG).show();
+                    finish();
+                }
 
-//                try {
-//                    builder.setMessage(QRCode.getSHA256(result.getContents()));
-//                } catch (NoSuchAlgorithmException e) {
-//                    Toast.makeText(this, "ERROR: could not hash value", Toast.LENGTH_LONG).show();
-//                    finish();
-//                }
+                double roundedLat = (double) Math.round(latitude * 10000) / 10000;
+                double roundedLong = (double) Math.round(longitude * 10000) / 10000;
+                String id = sha256 + "_" + Double.toString(roundedLat) + "_" + Double.toString(roundedLong);
+                Log.d("testing", id);
+                CollectionReference qrcodesColl = db.collection("QRCodes");
+                DocumentReference qrcodesReference = qrcodesColl.document(id);
+                Task readTask = qrcodesReference.get();
 
-                builder.setMessage(Double.toString(latitude) + " " + Double.toString(longitude));
-                builder.setTitle("Results")
-                        .setPositiveButton("try again", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                scanCode();
-                            }
-                        })
-                        .setNegativeButton("finish", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                String finalSha25 = sha256;
+                readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        String hash = documentSnapshot.getString("value");
+                        if (hash == null) { // this is a newly scanned qr code
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("comments",new ArrayList<DocumentReference>());
+                            data.put("latitude",latitude);
+                            data.put("longitude",longitude);
+                            data.put("photo", null);
+                            data.put("value", finalSha25);
+                            qrcodesReference.set(data);
+                        }
+
+                        QRCode code = new QRCode(finalSha25, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
+                        code.setQid(id);
+                        //player.addQRCode(code);
+
+                    }
+                });
+
+                finish();
             } else {
                 Toast.makeText(this, "no result", Toast.LENGTH_LONG).show();
             }

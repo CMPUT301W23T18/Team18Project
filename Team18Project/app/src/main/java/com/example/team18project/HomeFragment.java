@@ -37,6 +37,10 @@ public class HomeFragment extends Fragment {
     private ListView qrList;
     private QRArrayAdapter qrAdapter;
 
+    public interface addQRCodeToPlayer {
+        public void add(QRCode code);
+    }
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -76,9 +80,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ScanQRCode.class);
+                Log.d("testing", "values in home fragment");
                 Log.d("testing", player.toString());
+                Log.d("testing", player.getUid());
+                Log.d("testing", player.getCodes().toString());
+                Log.d("testing", player.getEmail());
+                Log.d("testing", player.getUsername());
                 if (player != null) {
                     intent.putExtra("player", player);
+                    Log.d("testing", "data passed successfully");
                 }
                 startActivity(intent);
             }

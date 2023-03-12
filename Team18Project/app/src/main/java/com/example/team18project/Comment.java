@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -21,6 +22,7 @@ public class Comment implements Parcelable {
     }
 
     public Comment(DocumentReference doc) {
+        Task task = doc.get();
         doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -29,6 +31,9 @@ public class Comment implements Parcelable {
                 text = documentSnapshot.getString("text");
             }
         });
+        while (!task.isComplete()) {
+            //wait until document is read
+        }
     }
 
     //Parcelable implementation
