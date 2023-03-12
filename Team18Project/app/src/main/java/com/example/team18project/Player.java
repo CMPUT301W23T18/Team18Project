@@ -213,36 +213,34 @@ public class Player implements Parcelable {
     }
 
     /**
-     *      returns name of the highest scored QRcode
+     *      returns the highest scored QRcode
      *      @return a QR code
      */
     public QRCode getHighestQRCode(){
-        QRCode code = null;
-        int score = 0;
-        for(int i = 0; i < codes.size(); i++){
-            QRCode QRobject = codes.get(i);
-            if(QRobject.getScore() > score){
-                code = QRobject;
-                score = QRobject.getScore();
+        int score = Integer.MIN_VALUE;
+        QRCode highestQR = null;
+        for(QRCode code : codes){
+            if(code.getScore() > score){
+                score = code.getScore();
+                highestQR = code;
             }
         }
-        return code;
+        return highestQR;
     }
 
     /**
-     *  returns name of the lowest scored QRcode
+     *  returns the lowest scored QRcode
      *  @return a QR code
      */
     public QRCode getLowestQRCode() {
-        QRCode code = null;
-        int score = 0;
-        for (int i = 0; i < codes.size(); i++) {
-            QRCode QRobject = codes.get(i);
-            if (QRobject.getScore() < score) {
-                code = QRobject;
-                score = QRobject.getScore();
+        int score = Integer.MAX_VALUE;
+        QRCode lowestQR = null;
+        for(QRCode code : codes){
+            if(code.getScore() < score){
+                score = code.getScore();
+                lowestQR = code;
             }
         }
-        return code;
+        return lowestQR;
     }
 }
