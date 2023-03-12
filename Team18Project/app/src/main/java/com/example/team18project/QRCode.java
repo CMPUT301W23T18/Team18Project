@@ -1,6 +1,10 @@
 package com.example.team18project;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -12,12 +16,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Class for modelling QR codes.
@@ -112,10 +113,64 @@ public class QRCode implements Parcelable {
         dest.writeDouble(latitude);
     }
 
-    //generate information based on hash value
+    /**
+     * Transform the QR codes unique value into a unique sprite that is represented as a bitmap
+     * @param context
+     * @return a bitmap
+     */
+    public Bitmap getVisual(Context context) {
+        //start by splitting the value into three distinct keys
+        char[] splitHash = value.toCharArray();
+        int[] keyCodes = new int[3];
+        for (int index = 0; index < 32; index++) {
+            int key = index % 3;
+            keyCodes[key] += (int) splitHash[index];
+        }
 
-    public String getVisual() { //TODO implement proper representation, maybe change return type
-        return ":)";
+        // load all of our pngs into arrays so we can select one
+        int[] bodyIds = {R.drawable.imagegen_body_blueslime};
+        int[] faceIds = {R.drawable.imagegen_face_angry};
+        int[] accessoryIds = {R.drawable.imagegen_accessory_horns};
+
+        // select one
+        int bodyId = bodyIds[keyCodes[0] % bodyIds.length];
+        int faceId = faceIds[keyCodes[1] % faceIds.length];
+        int accessoryId = accessoryIds[keyCodes[2] % accessoryIds.length];
+
+        // load the resources
+        Bitmap bodyBitmap = BitmapFactory.decodeResource(context.getResources(), bodyId);
+        Bitmap faceBitmap = BitmapFactory.decodeResource(context.getResources(), faceId);
+        Bitmap accessoryBitmap = BitmapFactory.decodeResource(context.getResources(), accessoryId);
+
+        // Create all variables needed to scale the image by the scale factor
+        // *note all pngs are the same size so we just based the width and height off of an arbitrary one
+        int scaleFactor = 4;
+
+        int baseWidth = bodyBitmap.getWidth();
+        int baseHeight = bodyBitmap.getHeight();
+
+        int newWidth = baseWidth * scaleFactor;
+        int newHeight = baseHeight * scaleFactor;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleFactor, scaleFactor);
+
+        Bitmap combinedSprite = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888);
+
+        // Draw all the scaled images over each other to create our unique sprite
+        Canvas canvas = new Canvas(combinedSprite);
+
+        Bitmap scaledBody = Bitmap.createBitmap(bodyBitmap, 0, 0, baseWidth, baseHeight, matrix, true);
+        canvas.drawBitmap(scaledBody, 0, 0, null);
+
+        Bitmap scaledFace = Bitmap.createBitmap(faceBitmap, 0, 0, baseWidth, baseHeight, matrix, true);
+        canvas.drawBitmap(scaledFace, 0, 0, null);
+
+        Bitmap scaledAccessory = Bitmap.createBitmap(accessoryBitmap, 0, 0, baseWidth, baseHeight, matrix, true);
+        canvas.drawBitmap(scaledAccessory, 0, 0, null);
+
+        // Return the sprite
+        return combinedSprite;
     }
 
     /**
@@ -141,7 +196,7 @@ public class QRCode implements Parcelable {
         name[0] = title[keyCodes[0] % title.length];
         name[1] = firstName[keyCodes[1] % firstName.length];
         name[2] = SurName[keyCodes[2] % SurName.length];
-        name[3] = origin[keyCodes[3] % origin.length];
+        name[3] = "of " + origin[keyCodes[3] % origin.length];
         // merge the names characteristics and return it
         return TextUtils.join(" ", name);
     }
