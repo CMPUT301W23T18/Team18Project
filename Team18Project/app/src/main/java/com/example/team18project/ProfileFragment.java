@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -22,6 +26,14 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private EditText userNameText;
+    private EditText emailText;
+    private EditText userPhoneText;
+    private Player currentPlayer;
+
+    private Switch hideSwitch;
+
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -52,6 +64,30 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+       // hideSwitch = hideSwitch.findViewById(R.id.hide_Account_switch);
+
+
+
+        /*
+        userNameText =userNameText.findViewById(R.id.UserName_editText);
+        emailText =emailText.findViewById(R.id.playerEmail_TextEmailAddress);
+        userPhoneText =userPhoneText.findViewById(R.id.player_phone_number_editTextPhone);
+        hideSwitch = hideSwitch.findViewById(R.id.hide_Account_switch);
+
+
+
+        userNameText.setText(currentPlayer.getUsername());
+        emailText.setText(currentPlayer.getEmail());
+        userPhoneText.setText(currentPlayer.getPhoneNumber());
+
+         */
+
+
+
+    
+        //userNameText.addTextChangedListener(new);
+
+
     }
 
     @Override
@@ -59,5 +95,22 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
+
+
+
     }
+    /*
+    public void onSwitchClick(View view) {
+        if(hideSwitch.isChecked() == true){
+            currentPlayer.setHidden(true);
+            Toast.makeText(getContext(), "hidden", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            currentPlayer.setHidden(false);
+            Toast.makeText(getContext(), "not hidden", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+     */
+
 }
