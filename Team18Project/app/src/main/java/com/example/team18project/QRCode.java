@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -18,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class for modelling QR codes.
+ */
 public class QRCode implements Parcelable {
     private String qid;
     private String value;
@@ -48,10 +52,10 @@ public class QRCode implements Parcelable {
 
     public QRCode(DocumentReference doc) {
         qid = doc.getId();
-        doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        Task task = doc.get();
+        task.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                qid = doc.getId();
                 photoIds = null; //TODO figure out how photos will be stored
                 value = documentSnapshot.getString("value");
                 longitude = documentSnapshot.getDouble("longitude");
@@ -65,6 +69,9 @@ public class QRCode implements Parcelable {
                 }
             }
         });
+        while (!task.isComplete()) {
+            //wait until document is read
+        }
     }
 
     //Parcelable implementation
@@ -154,50 +161,98 @@ public class QRCode implements Parcelable {
 
     //getters and setters
 
+    /**
+     * Gets the hashed contents of the QR code
+     * @return The hashed contents of the QR code
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * Sets the hashed contents of the QR code
+     * @return The QR code's comments
+     */
     public void setValue(String value) {
         this.value = value;
     }
 
+    /**
+     * Gets the Firestore document IDs of the QR code's photos
+     * @return The Firestore document IDs of the QR code's photos
+     */
     public ArrayList<String> getPhotoIds() {
         return photoIds;
     }
 
+    /**
+     * Sets the Firestore document IDs of the QR code's photos
+     * @param photoIds The Firestore document IDs of the QR code's photos
+     */
     public void setPhotoIds(ArrayList<String> photoIds) {
         this.photoIds = photoIds;
     }
 
+    /**
+     * Gets the comments of the QR code
+     * @return The QR code's comments
+     */
     public ArrayList<Comment> getComments() {
         return comments;
     }
 
+    /**
+     * Sets the comments of the QR code
+     * @param comments The QR code's comments
+     */
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
     }
 
+    /**
+     * Gets the longitude of the location of the QR code
+     * @return The longitude of the QR code's location
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * Sets the longitude of the location of the QR code
+     * @param longitude The longitude of the QR code's location
+     */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
+    /**
+     * Gets the latitude of the location of the QR code
+     * @return The latitude of the QR code's location
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Sets the latitude of the location of the QR code
+     * @param latitude The latitude of the QR code's location
+     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
+    /**
+     * Gets the Firestore document ID the QR code
+     * @return The QR code's Firestore document ID
+     */
     public String getQid() {
         return qid;
     }
 
+    /**
+     * Sets the Firestore document ID of the QR code
+     * @param qid The QR code's Firestore document ID
+     */
     public void setQid(String qid) {
         this.qid = qid;
     }
