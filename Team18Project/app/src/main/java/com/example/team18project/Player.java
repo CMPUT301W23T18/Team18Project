@@ -1,7 +1,11 @@
 package com.example.team18project;
 
+<<<<<<< HEAD
 import static android.content.ContentValues.TAG;
 
+=======
+import android.os.Build;
+>>>>>>> b47d5a83df4f9600be08853ea1c5eea94c47bc34
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.Settings;
@@ -47,6 +51,7 @@ public class Player implements Parcelable {
         this.phoneNumber = "";
         this.isHidden = true;
     }
+<<<<<<< HEAD
 
     //QR Code methods
 
@@ -96,6 +101,8 @@ public class Player implements Parcelable {
     }
 
 
+=======
+>>>>>>> b47d5a83df4f9600be08853ea1c5eea94c47bc34
     //Parcelable implementation
 
     protected Player(Parcel in) {
@@ -126,7 +133,6 @@ public class Player implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeParcelableList(codes,flags);
         dest.writeString(uid);
         dest.writeString(username);
         dest.writeString(email);
@@ -182,5 +188,60 @@ public class Player implements Parcelable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public void addQRCode(QRCode qrCode) {
+        this.codes.add(qrCode);
+    }
+
+    public void removeQRCode(QRCode qrCode) {
+        assert (this.codes.contains(qrCode)); // throw an exception if the qrCode is not in codes
+        this.codes.remove(qrCode);
+    }
+
+    /**
+     * retrieve the sum score of all the QR codes owned by the player
+     * @return final sum
+     */
+    public int totalQRScore() {
+        int score = 0;
+        for (QRCode code : codes) {
+            score += code.getScore();
+        }
+        return score;
+    }
+
+    /**
+     *      returns name of the highest scored QRcode
+     *      @return a QR code
+     */
+    public QRCode getHighestQRCode(){
+        QRCode code = null;
+        int score = 0;
+        for(int i = 0; i < codes.size(); i++){
+            QRCode QRobject = codes.get(i);
+            if(QRobject.getScore() > score){
+                code = QRobject;
+                score = QRobject.getScore();
+            }
+        }
+        return code;
+    }
+
+    /**
+     *  returns name of the lowest scored QRcode
+     *  @return a QR code
+     */
+    public QRCode getLowestQRCode() {
+        QRCode code = null;
+        int score = 0;
+        for (int i = 0; i < codes.size(); i++) {
+            QRCode QRobject = codes.get(i);
+            if (QRobject.getScore() < score) {
+                code = QRobject;
+                score = QRobject.getScore();
+            }
+        }
+        return code;
     }
 }
