@@ -112,7 +112,6 @@ public class QRCode implements Parcelable {
     }
 
     /**
-     * @param hash: a shaw 256 hash converted into a string of characters
      * @return a unique name
      */
     public String getName() {
