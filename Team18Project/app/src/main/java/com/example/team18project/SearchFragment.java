@@ -71,13 +71,16 @@ public class SearchFragment extends Fragment {
                 generateUserList(new UserListCallback() {
                     @Override
                     public void onUserListGenerated(ArrayList<Pair<String, String>> userList) {
-                        ArrayList<Pair<String, String>> filteredUserList = new ArrayList<>();
+                        ArrayList<String> idfilteredUserList = new ArrayList<>();
+                        ArrayList<String> usernameFilteredUserList = new ArrayList<>();
+
                         for (Pair<String, String> item : userList) {
                             if (item.second.toLowerCase().contains(searchText.toLowerCase())) {
-                                filteredUserList.add(item);
+                                idfilteredUserList.add(item.first);
+                                usernameFilteredUserList.add(item.second);
                             }
                         }
-                        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, filteredUserList);
+                        ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, usernameFilteredUserList);
                         userListView.setAdapter(adapter);
                     }
                 });
