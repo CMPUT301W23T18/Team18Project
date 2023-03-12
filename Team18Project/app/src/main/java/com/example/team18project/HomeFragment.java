@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,9 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A fragment used to represent the home screen, where QR codes are displayed and added
  */
 public class HomeFragment extends Fragment {
 
@@ -37,9 +36,10 @@ public class HomeFragment extends Fragment {
     private ListView qrList;
     private QRArrayAdapter qrAdapter;
 
-    public interface addQRCodeToPlayer {
-        public void add(QRCode code);
-    }
+
+    /**
+     * Required empty public constructor
+     */
 
     public HomeFragment() {
         // Required empty public constructor
@@ -52,13 +52,11 @@ public class HomeFragment extends Fragment {
      * @param player The logged in player
      * @return A new instance of fragment HomeFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(Player player) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PARAM1,player);
         fragment.setArguments(args);
-        System.out.println(player == null);
         return fragment;
     }
 
@@ -104,5 +102,13 @@ public class HomeFragment extends Fragment {
         qrList = (ListView) getView().findViewById(R.id.qr_list);
         qrAdapter = new QRArrayAdapter(getContext(), qrData);
         qrList.setAdapter(qrAdapter);
+
+        qrList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                QRCode clicked = (QRCode) qrList.getItemAtPosition(position);
+                QRMenuFragment.newInstance(clicked).show(getParentFragmentManager(),"Menu");
+            }
+        });
     }
 }
