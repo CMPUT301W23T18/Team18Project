@@ -41,8 +41,16 @@ public class StatsFragment extends Fragment {
         if (getArguments() != null) {
             player = getArguments().getParcelable("player");
             totalScore = player.totalQRScore();
-            high_score = player.getHighestQRCode().getScore();
-            low_score = player.getLowestQRCode().getScore();
+            if (player.getHighestQRCode() != null) {
+                high_score = player.getHighestQRCode().getScore();
+            } else {
+                high_score = 0;
+            }
+            if (player.getLowestQRCode() != null) {
+                low_score = player.getLowestQRCode().getScore();
+            } else {
+                low_score = 0;
+            }
         }
 
     }
