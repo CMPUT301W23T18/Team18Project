@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     codes.add(new QRCode(codeRefs.get(i)));
                 }
 
-                player = new Player(codes, finalId,username,email,phoneNumber,isHidden);
+                player = new Player(codes,finalId,username,email,phoneNumber,isHidden);
                 activityInit();
             }
         });
