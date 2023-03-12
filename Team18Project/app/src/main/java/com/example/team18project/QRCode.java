@@ -54,6 +54,7 @@ public class QRCode implements Parcelable {
     public QRCode(DocumentReference doc) {
         qid = doc.getId();
         Task task = doc.get();
+
         task.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -211,7 +212,7 @@ public class QRCode implements Parcelable {
         for (char hash: splitHash) {
             score += (int) hash;
         }
-        return  score;
+        return score;
     }
 
     //getters and setters

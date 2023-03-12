@@ -43,6 +43,7 @@ public class StatsFragment extends Fragment {
         if (getArguments() != null) {
             player = getArguments().getParcelable("player");
             totalScore = player.totalQRScore();
+
             if (player.getHighestQRCode() != null) {
                 highScore = player.getHighestQRCode().getScore();
             } else {
@@ -73,6 +74,7 @@ public class StatsFragment extends Fragment {
 
         TextView total_qr_codes = view.findViewById(R.id.Codes_scanned_numebr_textView);
         total_qr_codes.setText(Integer.toString(qrCodesScanned));
+
         return view;
     }
 }
