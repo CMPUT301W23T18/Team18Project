@@ -4,18 +4,23 @@ import static android.content.ContentValues.TAG;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Player implements Parcelable {
     private ArrayList<QRCode> codes;
@@ -48,8 +53,23 @@ public class Player implements Parcelable {
     public void addQRCode(QRCode qrCode) {
         this.codes.add(qrCode);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference QRCodesRef = db.collection("QRCodes");
-        QRCodesRef.add(qrCode);
+        CollectionReference QRCodesRef = db.collection("QRCodes");QRCodesRef.add(qrCode);
+        DocumentReference newQRRef = QRCodesRef.document(qrCode.getQid());
+            Task readTask = newQRRef.get();
+            //try to read account from database
+            readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("qid", qrCode.getQid());
+                    data.put("value", qrCode.getValue());
+                    data.put("longitude", qrCode.getLongitude());
+                    data.put("latitude", qrCode.getLatitude());
+                    data.put("photo", qrCode.getPhotoIds());
+                    newQRRef.set(data);
+                    return;
+                }
+            });
 
     }
 
@@ -58,7 +78,7 @@ public class Player implements Parcelable {
             this.codes.remove(qrCode);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             CollectionReference QRCodesRef = db.collection("QRCodes");
-            DocumentReference qrCodeDocRef = QRCodesRef.document(qrCode.getValue());
+            DocumentReference qrCodeDocRef = QRCodesRef.document(qrCode.getQid());
             qrCodeDocRef.delete()
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
