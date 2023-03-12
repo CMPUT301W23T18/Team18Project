@@ -139,8 +139,17 @@ public class QRCode implements Parcelable {
         return TextUtils.join(" ", name);
     }
 
-    public int getScore() { //TODO generate score properly
-        return 1863;
+    /**
+     * Compute the score of a QR code as it's sum value of integer byte conversions
+     * @return the score as an integer
+     */
+    public int getScore() {
+        char[] splitHash = value.toCharArray();
+        int score = 0;
+        for (char hash: splitHash) {
+            score += (int) hash;
+        }
+        return  score;
     }
 
     //getters and setters
