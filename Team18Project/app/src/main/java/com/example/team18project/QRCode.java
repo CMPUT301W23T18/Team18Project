@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -51,10 +52,10 @@ public class QRCode implements Parcelable {
 
     public QRCode(DocumentReference doc) {
         qid = doc.getId();
-        doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        Task task = doc.get();
+        task.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                qid = doc.getId();
                 photoIds = null; //TODO figure out how photos will be stored
                 value = documentSnapshot.getString("value");
                 longitude = documentSnapshot.getDouble("longitude");
@@ -68,6 +69,9 @@ public class QRCode implements Parcelable {
                 }
             }
         });
+        while (!task.isComplete()) {
+            //wait until document is read
+        }
     }
 
     //Parcelable implementation
