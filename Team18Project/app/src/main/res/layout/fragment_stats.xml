@@ -9,20 +9,6 @@
     tools:context=".StatsFragment">
 
     <TextView
-        android:id="@+id/high_qr_score_number_textView2"
-        android:layout_width="77dp"
-        android:layout_height="63dp"
-
-        android:layout_marginStart="244dp"
-        android:text="0"
-
-        android:textSize="27sp"
-        app:layout_constraintBottom_toBottomOf="@+id/High_qr_score_textView"
-        app:layout_constraintStart_toEndOf="@+id/High_qr_score_textView"
-        app:layout_constraintTop_toBottomOf="@+id/Highest_textView"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
         android:id="@+id/lowest_qr_score_textView"
         android:layout_width="88dp"
         android:layout_height="63dp"

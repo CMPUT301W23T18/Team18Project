@@ -1,6 +1,7 @@
 package com.example.team18project;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,9 @@ import androidx.fragment.app.Fragment;
 public class StatsFragment extends Fragment {
 
     private int totalScore;
-    private int high_score;
-    private int low_score;
+    private int highScore;
+    private int lowScore;
+    private int qrCodesScanned;
     private Player player;
 
     /**
@@ -42,15 +44,16 @@ public class StatsFragment extends Fragment {
             player = getArguments().getParcelable("player");
             totalScore = player.totalQRScore();
             if (player.getHighestQRCode() != null) {
-                high_score = player.getHighestQRCode().getScore();
+                highScore = player.getHighestQRCode().getScore();
             } else {
-                high_score = 0;
+                highScore = 0;
             }
             if (player.getLowestQRCode() != null) {
-                low_score = player.getLowestQRCode().getScore();
+                lowScore = player.getLowestQRCode().getScore();
             } else {
-                low_score = 0;
+                lowScore = 0;
             }
+            qrCodesScanned = player.totalAmountOfQRCodes();
         }
 
     }
@@ -59,16 +62,17 @@ public class StatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_stats, null);
-        TextView tScore = view.findViewById(R.id.TotalScore);
+        TextView tScore = view.findViewById(R.id.total_score_number_textView);
         tScore.setText(Integer.toString(totalScore));
 
-        TextView high_score = view.findViewById(R.id.highest_score);
-        high_score.setText(Integer.toString(this.high_score));
+        TextView high_score = view.findViewById(R.id.High_qr_score_number_textView);
+        high_score.setText(Integer.toString(highScore));
 
-        TextView low_score = view.findViewById(R.id.lowest_score);
-        low_score.setText(Integer.toString(this.low_score));
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_stats, container, false);
+        TextView low_score = view.findViewById(R.id.lowest_qr_score_number_textView);
+        low_score.setText(Integer.toString(lowScore));
+
+        TextView total_qr_codes = view.findViewById(R.id.Codes_scanned_numebr_textView);
+        total_qr_codes.setText(Integer.toString(qrCodesScanned));
         return view;
     }
 }

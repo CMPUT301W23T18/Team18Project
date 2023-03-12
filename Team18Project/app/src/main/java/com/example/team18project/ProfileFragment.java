@@ -18,15 +18,6 @@ import androidx.fragment.app.Fragment;
  */
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private EditText userNameText;
     private EditText emailText;
     private EditText userPhoneText;
@@ -35,24 +26,17 @@ public class ProfileFragment extends Fragment {
     private Switch hideSwitch;
 
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param player An instance of the player class
      * @return A new instance of fragment ProfileFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
+    public static ProfileFragment newInstance(Player player) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable("Player", player);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,43 +45,25 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            currentPlayer = getArguments().getParcelable("Player");
         }
-       // hideSwitch = hideSwitch.findViewById(R.id.hide_Account_switch);
-
-
-
-        /*
-        userNameText =userNameText.findViewById(R.id.UserName_editText);
-        emailText =emailText.findViewById(R.id.playerEmail_TextEmailAddress);
-        userPhoneText =userPhoneText.findViewById(R.id.player_phone_number_editTextPhone);
-        hideSwitch = hideSwitch.findViewById(R.id.hide_Account_switch);
-
-
-
-        userNameText.setText(currentPlayer.getUsername());
-        emailText.setText(currentPlayer.getEmail());
-        userPhoneText.setText(currentPlayer.getPhoneNumber());
-
-         */
-
-
-
-    
-        //userNameText.addTextChangedListener(new);
-
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_profile, null);
+        userNameText =  view.findViewById(R.id.UserName_editText);
+        emailText = view.findViewById(R.id.playerEmail_TextEmailAddress);
+        userPhoneText = view.findViewById(R.id.player_phone_number_editTextPhone);
+        hideSwitch = view.findViewById(R.id.hide_Account_switch);
 
+        userNameText.setText(currentPlayer.getUsername());
+        emailText.setText(currentPlayer.getEmail());
+        userPhoneText.setText(currentPlayer.getPhoneNumber());
 
-
+        return view;
     }
     /*
     public void onSwitchClick(View view) {

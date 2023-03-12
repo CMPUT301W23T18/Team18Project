@@ -243,4 +243,16 @@ public class Player implements Parcelable {
         }
         return lowestQR;
     }
+
+    /**
+     * Calculate number of QR codes scanned by this player
+     * @return an integer sum
+     */
+    public int totalAmountOfQRCodes() {
+        int sum = 0;
+        for(QRCode code : codes){
+            sum ++;
+        }
+        return sum;
+    }
 }

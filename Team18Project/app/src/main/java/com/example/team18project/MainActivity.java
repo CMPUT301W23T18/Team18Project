@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.all_qr_codes_icon: replaceFragment(new AllQRCodesFragment()); break;
                 case R.id.search_icon: replaceFragment(new SearchFragment()); break;
                 case R.id.stats_icon: replaceFragment(new StatsFragment().newInstance(player)); break;
-                case R.id.profile_icon: replaceFragment(new ProfileFragment()); break;
+                case R.id.profile_icon: replaceFragment(new ProfileFragment().newInstance(player)); break;
             }
             return true;
         });
