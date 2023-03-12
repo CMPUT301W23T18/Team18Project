@@ -41,8 +41,16 @@ public class StatsFragment extends Fragment {
         if (getArguments() != null) {
             player = getArguments().getParcelable("player");
             totalScore = player.totalQRScore();
-            high_score = player.getHighestQRCode().getScore();
-            low_score = player.getLowestQRCode().getScore();
+            try {
+                high_score = player.getHighestQRCode().getScore();
+            } catch (NullPointerException e) {
+                high_score = -1;
+            }
+            try {
+                low_score = player.getLowestQRCode().getScore();
+            } catch (NullPointerException e) {
+                low_score = -1;
+            }
         }
 
     }
@@ -59,8 +67,6 @@ public class StatsFragment extends Fragment {
 
         TextView low_score = view.findViewById(R.id.lowest_score);
         low_score.setText(Integer.toString(this.low_score));
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_stats, container, false);
         return view;
     }
 }
