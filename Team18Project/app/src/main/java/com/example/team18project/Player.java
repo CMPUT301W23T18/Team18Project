@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Class for modelling players
+ * Class for modelling players. Stores scanned QR codes and account information.
  */
 public class Player implements Parcelable {
     private ArrayList<QRCode> codes;
@@ -50,8 +50,13 @@ public class Player implements Parcelable {
         this.phoneNumber = "";
         this.isHidden = true;
     }
+
     //Parcelable implementation
 
+    /**
+     * Constructs a Player from a given Parcel
+     * @param in The parcel to construct the player from
+     */
     protected Player(Parcel in) {
         codes = in.createTypedArrayList(QRCode.CREATOR);
         uid = in.readString();
@@ -80,6 +85,7 @@ public class Player implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeParcelableList(codes,flags);
         dest.writeString(uid);
         dest.writeString(username);
         dest.writeString(email);
