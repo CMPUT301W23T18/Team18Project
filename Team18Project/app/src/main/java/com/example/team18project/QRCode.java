@@ -115,9 +115,9 @@ public class QRCode implements Parcelable {
      * @param hash: a shaw 256 hash converted into a string of characters
      * @return a unique name
      */
-    public String getName(String hash) {
+    public String getName() {
         // break the hash into a
-        char[] splitHash = hash.toCharArray();
+        char[] splitHash = value.toCharArray();
         int[] keyCodes = new int[4];
         for (int index = 0; index < 32; index++) {
             int key = index % 4;
