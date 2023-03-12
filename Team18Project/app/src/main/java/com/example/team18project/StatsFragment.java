@@ -15,29 +15,22 @@ import androidx.fragment.app.Fragment;
  */
 public class StatsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private static final String ARG_PARAM3 = "param3";
-    // TODO: Rename and change types of parameters
     private int totalScore;
     private int high_score;
     private int low_score;
+    private Player player;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param totalScore Score of all player QR codes added together
+     * @param player an instance of the player class
      * @return A new instance of fragment StatsFragment.
      */
-    public static StatsFragment newInstance(int totalScore,int highest_score,int lowest_score) {
+    public static StatsFragment newInstance(Player player) {
         StatsFragment fragment = new StatsFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, totalScore);
-        args.putInt(ARG_PARAM2, highest_score);
-        args.putInt(ARG_PARAM3, lowest_score);
+        args.putParcelable("player", player);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,9 +39,10 @@ public class StatsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            totalScore = getArguments().getInt(ARG_PARAM1);
-            high_score = getArguments().getInt(ARG_PARAM2);
-            low_score = getArguments().getInt(ARG_PARAM3);
+            player = getArguments().getParcelable("player");
+            totalScore = player.totalQRScore();
+            high_score = player.getHighestQRCode().getScore();
+            low_score = player.getLowestQRCode().getScore();
         }
 
     }
