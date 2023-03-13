@@ -77,10 +77,12 @@ public class ProfileFragment extends Fragment {
                 // get current instance of db
 
                 currentPlayer.setUsername(s.toString());
+
                 Log.d("affterTextChan",currentPlayer.getUsername());
 
             }
         });
+
         emailText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
