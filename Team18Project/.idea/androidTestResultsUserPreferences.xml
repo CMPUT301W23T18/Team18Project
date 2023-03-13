@@ -49,20 +49,8 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="Pixel_2_API_TiramisuPrivacySandbox" value="120" />
                   <entry key="Pixel_3a_API_33" value="120" />
-                  <entry key="Pixel_4_API_33" value="120" />
-                  <entry key="Tests" value="360" />
-                </map>
-              </option>
-            </AndroidTestResultsTableState>
-          </value>
-        </entry>
-        <entry key="-1002802393">
-          <value>
-            <AndroidTestResultsTableState>
-              <option name="preferredColumnWidths">
-                <map>
-                  <entry key="Duration" value="90" />
                   <entry key="Pixel_4_API_33" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
@@ -96,19 +84,6 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
-        <entry key="1458429266">
-          <value>
-            <AndroidTestResultsTableState>
-              <option name="preferredColumnWidths">
-                <map>
-                  <entry key="Duration" value="90" />
-                  <entry key="Pixel_4_API_33" value="120" />
-                  <entry key="Tests" value="360" />
-                </map>
-              </option>
-            </AndroidTestResultsTableState>
-          </value>
-        </entry>
         <entry key="1561325469">
           <value>
             <AndroidTestResultsTableState>
@@ -116,19 +91,6 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_3a_API_33" value="120" />
-                  <entry key="Tests" value="360" />
-                </map>
-              </option>
-            </AndroidTestResultsTableState>
-          </value>
-        </entry>
-        <entry key="1961821288">
-          <value>
-            <AndroidTestResultsTableState>
-              <option name="preferredColumnWidths">
-                <map>
-                  <entry key="Duration" value="90" />
-                  <entry key="Pixel_4_API_33" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
