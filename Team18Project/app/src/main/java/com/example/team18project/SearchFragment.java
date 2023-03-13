@@ -67,7 +67,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String searchText = usernameSearchEditText.getText().toString();
-                Log.d("searching", searchText);
                 generateUserList(new UserListCallback() {
                     @Override
                     public void onUserListGenerated(ArrayList<Pair<String, String>> userList) {
