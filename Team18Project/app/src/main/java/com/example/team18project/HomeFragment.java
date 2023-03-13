@@ -18,8 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,8 +31,8 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
 
-    private static int request_Code = 3;
-    public static int RESULT_OK = 3;
+    public static int request_Code = 1;
+    public static int RESULT_OK = 0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "player";
@@ -111,10 +113,16 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //Toast.makeText(getContext(), "hello", Toast.LENGTH_SHORT).show();
+        //Log.d("testing", Integer.toString(requestCode) + " " + Integer.toString(requestCode));
+        //Log.d("testing", Integer.toString(resultCode) + " " + Integer.toString(RESULT_OK));
+        Log.d("testing", Boolean.toString(requestCode == request_Code));
+        Log.d("testing", Boolean.toString(resultCode == RESULT_OK));
         if (requestCode == request_Code) {
             if (resultCode == RESULT_OK) {
                 QRCode newCode = (QRCode) data.getParcelableExtra("newCode");
                 qrAdapter.add(newCode);
+                Log.d("testing", "made it here");
             }
         }
     }
