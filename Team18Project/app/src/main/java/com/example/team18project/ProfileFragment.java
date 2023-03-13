@@ -10,12 +10,18 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -87,8 +93,27 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // do something when the button is clicked
-                usersRef.whereIn("username", Collections.singletonList(userNameText.getText().toString()));
-                playerRef.update("username", userNameText.getText().toString());
+                String newUsername = userNameText.getText().toString();
+                Query query = usersRef.whereIn("username", Arrays.asList(newUsername));
+
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot.isEmpty()) {
+                                // There are no instances of the data
+                                playerRef.update("username", newUsername);
+                            } else {
+                                // There is at least one instance of the data
+                                userNameText.setText(currentPlayer.getUsername());
+                            }
+                        } else {
+                            // Handle any errors
+                        }
+                    }
+                });
+
             }
         });
 
