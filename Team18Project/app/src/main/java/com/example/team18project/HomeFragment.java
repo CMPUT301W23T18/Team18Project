@@ -111,13 +111,20 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * Method used to process the results of the ScanQRCode activity. Adds a
+     * newly scanned QRCode object to the qrAdapter if the player hasn't already scanned this
+     * code.
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //Toast.makeText(getContext(), "hello", Toast.LENGTH_SHORT).show();
-        //Log.d("testing", Integer.toString(requestCode) + " " + Integer.toString(requestCode));
-        //Log.d("testing", Integer.toString(resultCode) + " " + Integer.toString(RESULT_OK));
-        Log.d("testing", Boolean.toString(requestCode == request_Code));
-        Log.d("testing", Boolean.toString(resultCode == RESULT_OK));
         if (requestCode == request_Code) {
             if (resultCode == RESULT_OK) {
                 QRCode newCode = (QRCode) data.getParcelableExtra("newCode");
