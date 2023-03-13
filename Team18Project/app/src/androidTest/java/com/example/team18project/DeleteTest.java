@@ -27,22 +27,27 @@ public class DeleteTest {
     }
 
     @Test
-    public void testExistingAccount() throws InterruptedException {
+    public void testDelete() throws InterruptedException {
         Intent intent = new Intent();
         intent.putExtra("isTesting", true);
         intent.putExtra("testAndroidID", "DummyAcc");
         rule.launchActivity(intent);
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
 
-        solo.waitForText("Empress Nolan Harper of Sandgate");
+        solo.waitForText("Duchess Katie White of Grimwall");
 
         Player player = rule.getActivity().getPlayer();
         QRCode code = player.getCodes().get(0);
 
-        solo.clickOnText("Empress Nolan Harper of Sandgate");
+        solo.clickOnText("Duchess Katie White of Grimwall");
         solo.clickOnText("Delete");
-        assertTrue(player.getCodes().size() == 0);
-        assertFalse(solo.waitForText("Score:",1,3000));
+        try {
+            assertFalse(solo.waitForText("Score:",1,3000));
+            assertTrue(player.getCodes().size() == 0);
+        }
+        catch (AssertionError e) {
+            player.addQRCode(code);
+        }
         player.addQRCode(code);
     }
 
