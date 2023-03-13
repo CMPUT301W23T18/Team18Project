@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -108,6 +109,7 @@ public class ProfileFragment extends Fragment {
                                 // There is at least one instance of the data
                                 userNameText.setText(currentPlayer.getUsername());
                                 // implement pop up here
+                               
                             }
                         } else {
                             // Handle any errors
