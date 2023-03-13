@@ -34,12 +34,12 @@ public class DeleteTest {
         rule.launchActivity(intent);
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
 
-        solo.waitForText("Duchess Nolan Freenet Blastmore");
+        solo.waitForText("Empress Nolan Harper of Sandgate");
 
         Player player = rule.getActivity().getPlayer();
         QRCode code = player.getCodes().get(0);
 
-        solo.clickOnText("Duchess Nolan Freenet Blastmore");
+        solo.clickOnText("Empress Nolan Harper of Sandgate");
         solo.clickOnText("Delete");
         assertTrue(player.getCodes().size() == 0);
         assertFalse(solo.waitForText("Score:",1,3000));
