@@ -107,6 +107,7 @@ public class ProfileFragment extends Fragment {
                             } else {
                                 // There is at least one instance of the data
                                 userNameText.setText(currentPlayer.getUsername());
+                                // implement pop up here
                             }
                         } else {
                             // Handle any errors
