@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private Player player;
     private FirebaseFirestore db;
     private ActivityMainBinding binding;
-    private boolean isTesting = true;
-    public String testAndroidID = "0efa73fd748e4eba";
+    private boolean isTesting = false;
+    public String testAndroidID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
