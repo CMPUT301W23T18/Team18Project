@@ -10,6 +10,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="Other User's QRCodes" />
+
+    <ListView
+        android:id="@+id/other_qrcode_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
 
 </FrameLayout>

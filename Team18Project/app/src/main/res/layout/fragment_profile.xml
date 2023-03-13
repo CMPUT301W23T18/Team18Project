@@ -83,7 +83,7 @@
 
     <EditText
         android:id="@+id/playerEmail_TextEmailAddress"
-        android:layout_width="272dp"
+        android:layout_width="210dp"
         android:layout_height="57dp"
         android:ems="10"
         android:inputType="textEmailAddress"
@@ -93,7 +93,7 @@
 
     <EditText
         android:id="@+id/player_phone_number_editTextPhone"
-        android:layout_width="272dp"
+        android:layout_width="210dp"
         android:layout_height="57dp"
         android:ems="10"
         android:inputType="phone"
@@ -103,12 +103,40 @@
 
     <EditText
         android:id="@+id/UserName_editText"
-        android:layout_width="232dp"
-        android:layout_height="51dp"
+        android:layout_width="186dp"
+        android:layout_height="49dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="username"
         app:layout_constraintStart_toEndOf="@+id/user_nameTextView"
         app:layout_constraintTop_toBottomOf="@+id/Account_Info_textView" />
+
+    <Button
+        android:id="@+id/changeUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/UserName_editText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/submitEmailbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Submit"
+        app:layout_constraintStart_toEndOf="@+id/playerEmail_TextEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/Contact_Information_textView" />
+
+    <Button
+        android:id="@+id/submitPhoneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Submit"
+        app:layout_constraintStart_toEndOf="@+id/player_phone_number_editTextPhone"
+        app:layout_constraintTop_toBottomOf="@+id/submitEmailbutton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

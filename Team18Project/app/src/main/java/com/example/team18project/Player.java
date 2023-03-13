@@ -5,11 +5,11 @@ import static android.content.ContentValues.TAG;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -21,10 +21,11 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class for modelling players. Stores scanned QR codes and account information.
@@ -106,6 +107,7 @@ public class Player implements Parcelable, Serializable {
             CollectionReference QRCodesRef = db.collection("QRCodes");
             CollectionReference PlayersRef = db.collection("Players");
             DocumentReference player = PlayersRef.document(this.getUid());
+
             DocumentReference code = QRCodesRef.document(qrCode.getQid());
             player.update("codes", FieldValue.arrayRemove(code))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -121,7 +123,12 @@ public class Player implements Parcelable, Serializable {
                         }
                     });
         }
+        else {
+            Log.w(TAG, "Player doesn't have this QRCode");
+        }
     }
+
+
 
     //Parcelable implementation
 

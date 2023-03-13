@@ -106,7 +106,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 QRCode clicked = (QRCode) qrList.getItemAtPosition(position);
-                QRMenuFragment.newInstance(clicked).show(getParentFragmentManager(),"Menu");
+                new QRMenuFragment(player,clicked,qrAdapter).show(getParentFragmentManager(),"Menu");
             }
         });
     }

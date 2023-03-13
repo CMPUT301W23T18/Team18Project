@@ -21,6 +21,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 /**
  * Class for modelling QR codes.
  */
@@ -308,5 +312,13 @@ public class QRCode implements Parcelable {
      */
     public void setQid(String qid) {
         this.qid = qid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QRCode qrCode = (QRCode) o;
+        return qid.equals(qrCode.qid);
     }
 }
