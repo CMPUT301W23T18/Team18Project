@@ -36,7 +36,7 @@ public class OtherQRCodeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         otherQRCodeList = new ArrayList<QRCode>();
-        qrListView = (ListView) getView().findViewById(R.id.qr_list);
+        qrListView = (ListView) getView().findViewById(R.id.other_qrcode_list);
         qrAdapter = new QRArrayAdapter(getContext(), otherQRCodeList);
         qrListView.setAdapter(qrAdapter);
         getOtherQRCode(otherQRCodeList, qrAdapter);
