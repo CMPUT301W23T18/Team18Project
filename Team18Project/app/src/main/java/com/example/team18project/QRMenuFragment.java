@@ -16,43 +16,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link QRMenuFragment#newInstance} factory method to
- * create an instance of this fragment.
- *
+ * Fragment for menu that pops up when a QR Code is clicked
  */
 public class QRMenuFragment extends DialogFragment {
-    interface DeleteListener {
-        public void delete(QRCode code);
-    }
-
-    private static final String ARG_PARAM1 = "code";
-
     private QRArrayAdapter adapter;
     private QRCode code;
     private Player player;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param code The QR code that was clicked to open the menu
-     * @return A new instance of fragment QRMenuFragment.
-     */
-    public static QRMenuFragment newInstance(QRCode code) {
-        QRMenuFragment fragment = new QRMenuFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAM1, code);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    /**
-     * Required empty public constructor
-     */
-    public QRMenuFragment() {
-        // Required empty public constructor
-    }
 
     public QRMenuFragment(Player player, QRCode code, QRArrayAdapter adapter) {
         this.player = player;
@@ -61,23 +30,10 @@ public class QRMenuFragment extends DialogFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            //code = getArguments().getParcelable(ARG_PARAM1);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_qr_menu, container, false);
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
     }
 
     @NonNull
