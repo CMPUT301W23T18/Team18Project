@@ -39,7 +39,7 @@ public class Player implements Parcelable, Serializable {
      * @param username The username of the player
      * @param email The email of the player
      * @param phoneNumber The phone number of the player
-     * @param isHidden true if the player's account information is hidden, false otherwise
+     * @param isHidden true if the player's account is hidden, false otherwise
      */
     public Player(ArrayList<QRCode> codes, String uid, String username, String email, String phoneNumber, boolean isHidden) {
         this.codes = codes;
@@ -233,7 +233,7 @@ public class Player implements Parcelable, Serializable {
     }
 
     /**
-     * Checks if the player's account information is hidden to other users
+     * Checks if the player is hidden to other users
      * @return true if the player is hidden, false otherwise
      */
     public boolean isHidden() {
@@ -241,7 +241,7 @@ public class Player implements Parcelable, Serializable {
     }
 
     /**
-     * Sets whether the player's account information is hidden to other users or not
+     * Sets whether the player is hidden to other users or not
      * @param hidden true if the player is hidden, false otherwise
      */
     public void setHidden(boolean hidden) {

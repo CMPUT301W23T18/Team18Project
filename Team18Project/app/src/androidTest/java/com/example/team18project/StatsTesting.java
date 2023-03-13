@@ -27,7 +27,7 @@ import org.junit.Test;
 
 
 /**
- * Tests the search functionality. Has a test for searching for an account the is show and one that is hidden
+ * Tests the search functionality. Has a test for searching for an account that is shown and one that is hidden
  */
 public class StatsTesting {
     private Solo solo;

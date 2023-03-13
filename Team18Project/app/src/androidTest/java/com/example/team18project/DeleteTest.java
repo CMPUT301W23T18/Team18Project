@@ -15,6 +15,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+/**
+ * Test for deleting QR codes
+ */
 public class DeleteTest {
     private Solo solo;
 
