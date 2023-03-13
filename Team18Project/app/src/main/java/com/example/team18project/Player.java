@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -69,9 +70,10 @@ public class Player implements Parcelable, Serializable {
         this.isHidden = true;
     }
 
+    //QR Code methods
     /**
-     * Add an instance of a qr code to the the players firebase associated document
-     * @param qrCode
+     This method adds a QRCode object to the list of codes and Firestore database.
+     @param qrCode the QRCode object to be added.
      */
     public void addQRCode(QRCode qrCode) {
         this.codes.add(qrCode);
@@ -97,8 +99,8 @@ public class Player implements Parcelable, Serializable {
     }
 
     /**
-     * Remove an instance of a QR code from the players associated document
-     * @param qrCode
+     This method removes a QRCode object from the list of codes and Firestore database.
+     @param qrCode the QRCode object to be removed
      */
     public void removeQRCode(QRCode qrCode) {
         if (this.codes.contains(qrCode)) {
@@ -128,10 +130,7 @@ public class Player implements Parcelable, Serializable {
         }
     }
 
-
-
-    //Parcelable implementation
-
+    // parsing implementation
     /**
      * Constructs a Player from a given Parcel
      * @param in The parcel to construct the player from
@@ -328,5 +327,41 @@ public class Player implements Parcelable, Serializable {
             sum ++;
         }
         return sum;
+    }
+
+    /**
+     * Update the player to be up to date with the firestore
+     */
+    public void update() {
+        // Query all relevant information to the player from firebase
+        CollectionReference playersColl = FirebaseFirestore.getInstance().collection("Players");
+        DocumentReference playerReference = playersColl.document(uid);
+        Task readTask = playerReference.get();
+
+        // Read the data from the Query
+        readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String updatedUsername = documentSnapshot.getString("username");
+
+                String updatedEmail = documentSnapshot.getString("email");
+                String updatedPhoneNumber = documentSnapshot.getString("phoneNumber");
+                boolean updatedIsHidden = documentSnapshot.getBoolean("isHidden");
+                ArrayList<DocumentReference> codeRefs = (ArrayList<DocumentReference>) documentSnapshot.get("codes");
+                ArrayList<QRCode> updatedCodes = new ArrayList<QRCode>();
+
+                //convert QR code DocumentReferences to QRCode objects
+                for (int i = 0; i < codeRefs.size(); i++) {
+                    updatedCodes.add(new QRCode(codeRefs.get(i)));
+                }
+
+                // Implement the new data into our player variables
+                setCodes(updatedCodes);
+                setEmail(updatedEmail);
+                setUsername(updatedUsername);
+                setPhoneNumber(updatedPhoneNumber);
+                setHidden(updatedIsHidden);
+            }
+        });
     }
 }

@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Fragment class that does the same thing as ScanQRCode. Left unused at the moment.
  * A simple {@link Fragment} subclass.
  * Use the {@link ScanQRCodeFragment#newInstance} factory method to
  * create an instance of this fragment.

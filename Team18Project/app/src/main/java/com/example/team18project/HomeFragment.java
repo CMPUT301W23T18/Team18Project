@@ -18,8 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,8 +31,8 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
 
-    private static int request_Code = 3;
-    public static int RESULT_OK = 3;
+    public static int request_Code = 1;
+    public static int RESULT_OK = 0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "player";
@@ -109,12 +111,30 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * Method used to process the results of the ScanQRCode activity. Adds a
+     * newly scanned QRCode object to the qrAdapter if the player hasn't already scanned this
+     * code.
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == request_Code) {
             if (resultCode == RESULT_OK) {
                 QRCode newCode = (QRCode) data.getParcelableExtra("newCode");
-                qrAdapter.add(newCode);
+                boolean isNew = true;
+                for (int i = 0; i < qrAdapter.getCount(); i++) {
+                    if (qrAdapter.getItem(i).getQid().equals(newCode.getQid())) {
+                        isNew = false;
+                    }
+                }
+                if (isNew) qrAdapter.add(newCode);
             }
         }
     }

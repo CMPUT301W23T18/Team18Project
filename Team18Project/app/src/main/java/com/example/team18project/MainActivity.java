@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private Player player;
     private FirebaseFirestore db;
     private ActivityMainBinding binding;
-    private boolean isTesting = true;
-    public String testAndroidID = "0efa73fd748e4eba";
+    private boolean isTesting = false;
+    public String testAndroidID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +49,19 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Initializes the frame and navigation bar of the main activity. This needs to be done after
      * the player is logged in, which is why this code is separate from onCreate
-     * @author Michael Schaefer-Pham
+     * Insure the player is in sink with firebase before switching fragments
+     * @author Michael Schaefer-Pham, Dominyk Gallatin
      */
     private void activityInit() {
         replaceFragment(HomeFragment.newInstance(player));
 
         binding.navBar.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.home_icon: replaceFragment(HomeFragment.newInstance(player)); break;
+                case R.id.home_icon:replaceFragment(HomeFragment.newInstance(player)); break;
                 case R.id.all_qr_codes_icon: replaceFragment(new AllQRCodesFragment()); break;
                 case R.id.search_icon: replaceFragment(new SearchFragment().newInstance()); break;
-                case R.id.stats_icon: replaceFragment(new StatsFragment().newInstance(player)); break;
-                case R.id.profile_icon: replaceFragment(new ProfileFragment().newInstance(player)); break;
+                case R.id.stats_icon:replaceFragment(new StatsFragment().newInstance(player)); break;
+                case R.id.profile_icon:replaceFragment(new ProfileFragment().newInstance(player)); break;
             }
             return true;
         });
@@ -113,13 +114,19 @@ public class MainActivity extends AppCompatActivity {
                     codes.add(new QRCode(codeRefs.get(i)));
                 }
 
+                // Generate a new user than start then start the home frame and navigation bar
                 player = new Player(codes,finalId,username,email,phoneNumber,isHidden);
                 activityInit();
             }
         });
     }
 
+    /**
+     * Replace the current fragment viewed by the user
+     * @param fragment An instance of the fragment we want to switch to
+     */
     private void replaceFragment(Fragment fragment) {
+        player.update();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
@@ -137,12 +144,20 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Allows for the onActivityResult method in the HomeFragment to be called. Necessary to
+     * process newly scanned QRCodes.
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // This is important, otherwise the result will not be passed to the fragment
         super.onActivityResult(requestCode, resultCode, data);
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        }
     }
 }

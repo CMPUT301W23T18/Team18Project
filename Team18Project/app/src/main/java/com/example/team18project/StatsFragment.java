@@ -127,9 +127,17 @@ public class StatsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Generate a blank white image to act as fill in for null QR codes visual representation
+     * @param context context of the frame the blank map with be displayed to
+     * @param scaleFactor factor by which to scale the image by
+     * @return
+     */
     private Bitmap blank_bitmap(Context context, int scaleFactor) {
+        // create a blank image bit map from the nothing.png in drawable
         Bitmap blank = BitmapFactory.decodeResource(context.getResources(), R.drawable.imagegen_nothing);
 
+        // set up all scaling variables
         int baseWidth = blank.getWidth();
         int baseHeight = blank.getHeight();
 
@@ -141,7 +149,7 @@ public class StatsFragment extends Fragment {
 
         Bitmap blankMap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888);
 
-        // Draw all the scaled images over each other to create our unique sprite
+        // Draw all the scaled image
         Canvas canvas = new Canvas(blankMap);
 
         Bitmap scaledBody = Bitmap.createBitmap(blank, 0, 0, baseWidth, baseHeight, matrix, true);
