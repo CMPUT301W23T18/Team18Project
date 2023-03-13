@@ -141,8 +141,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // This is important, otherwise the result will not be passed to the fragment
         super.onActivityResult(requestCode, resultCode, data);
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        }
+//        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+//            fragment.onActivityResult(requestCode, resultCode, data);
+//        }
+
     }
 }

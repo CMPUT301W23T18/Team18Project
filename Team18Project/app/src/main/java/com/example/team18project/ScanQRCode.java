@@ -142,6 +142,8 @@ public class ScanQRCode extends AppCompatActivity {
                 double roundedLat = (double) Math.round(latitude * 10000) / 10000;
                 double roundedLong = (double) Math.round(longitude * 10000) / 10000;
                 String id = sha256 + "_" + Double.toString(roundedLat) + "_" + Double.toString(roundedLong);
+                QRCode code = new QRCode(sha256, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
+                code.setQid(id);
                 Log.d("testing", id);
                 CollectionReference qrcodesColl = db.collection("QRCodes");
                 DocumentReference qrcodesReference = qrcodesColl.document(id);
@@ -165,12 +167,12 @@ public class ScanQRCode extends AppCompatActivity {
                         QRCode code = new QRCode(finalSha25, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
                         code.setQid(id);
                         player.addQRCode(code);
-                        data.putExtra("newCode", code);
-                        setResult(HomeFragment.RESULT_OK, data);
 
                     }
                 });
 
+                data.putExtra("newCode", code);
+                setResult(HomeFragment.RESULT_OK, data);
                 finish();
             } else {
                 Toast.makeText(this, "no result", Toast.LENGTH_LONG).show();
