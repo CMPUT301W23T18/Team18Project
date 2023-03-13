@@ -328,13 +328,16 @@ public class Player implements Parcelable, Serializable {
         return sum;
     }
 
+    /**
+     * Update the player to be up to date with the firestore
+     */
     public void update() {
-
+        // Query all relevant information to the player from firebase
         CollectionReference playersColl = FirebaseFirestore.getInstance().collection("Players");
         DocumentReference playerReference = playersColl.document(uid);
         Task readTask = playerReference.get();
 
-        //try to read account from database
+        // Read the data from the Query
         readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -351,6 +354,7 @@ public class Player implements Parcelable, Serializable {
                     updatedCodes.add(new QRCode(codeRefs.get(i)));
                 }
 
+                // Implement the new data into our player variables
                 setCodes(updatedCodes);
                 setEmail(updatedEmail);
                 setUsername(updatedUsername);

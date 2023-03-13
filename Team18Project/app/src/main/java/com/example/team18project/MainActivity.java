@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Initializes the frame and navigation bar of the main activity. This needs to be done after
      * the player is logged in, which is why this code is separate from onCreate
-     * @author Michael Schaefer-Pham
+     * Insure the player is in sink with firebase before switching fragments
+     * @author Michael Schaefer-Pham, Dominyk Gallatin
      */
     private void activityInit() {
         replaceFragment(HomeFragment.newInstance(player));
@@ -113,12 +114,17 @@ public class MainActivity extends AppCompatActivity {
                     codes.add(new QRCode(codeRefs.get(i)));
                 }
 
+                // Generate a new user than start then start the home frame and navigation bar
                 player = new Player(codes,finalId,username,email,phoneNumber,isHidden);
                 activityInit();
             }
         });
     }
 
+    /**
+     * Replace the current fragment viewed by the user
+     * @param fragment An instance of the fragment we want to switch to
+     */
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
