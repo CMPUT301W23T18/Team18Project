@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ActivityMainBinding binding;
     private boolean isTesting = false;
-    public String testAndroidID = null;
+    public String testAndroidID = "05deeeb96ce6239e";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,5 +133,11 @@ public class MainActivity extends AppCompatActivity {
             return this.player;
         }
         return null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // This is important, otherwise the result will not be passed to the fragment
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

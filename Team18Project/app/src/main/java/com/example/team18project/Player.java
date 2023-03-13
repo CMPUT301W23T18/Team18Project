@@ -22,13 +22,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Class for modelling players. Stores scanned QR codes and account information.
  */
-public class Player implements Parcelable {
+public class Player implements Parcelable, Serializable {
     private ArrayList<QRCode> codes;
     private String uid;
     private String username;
@@ -74,8 +75,9 @@ public class Player implements Parcelable {
         CollectionReference QRCodesRef = db.collection("QRCodes");
         CollectionReference PlayersRef = db.collection("Players");
         DocumentReference player = PlayersRef.document(this.getUid());
+        DocumentReference code = QRCodesRef.document(qrCode.getQid());
                 // Append the new QRCode document reference to the player's "codes" array
-        player.update("codes", FieldValue.arrayUnion(qrCode.getQid()))
+        player.update("codes", code)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
