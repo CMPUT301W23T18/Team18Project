@@ -5,15 +5,21 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.pressKey;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.test.espresso.ViewAction;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -109,6 +115,28 @@ public class ProfileTest {
                 String email = documentSnapshot.getString("email");
                 assertTrue(email.equals("gary@hotmail.com"));
                 playerReference.update("email", "test@test.com");
+            }
+        });
+    }
+
+    @Test
+    public void testChangeHidden() throws InterruptedException {
+        Intent intent = new Intent();
+        intent.putExtra("isTesting", true);
+        intent.putExtra("testAndroidID", "DummyAcc");
+        rule.launchActivity(intent);
+        //Test doesn't succeed without a sleep (player is null), I'm guessing it needs time to login
+        Thread.sleep(2000);
+        onView(withId(R.id.profile_icon)).perform(click());
+        onView(withId(R.id.hide_Account_switch)).check(matches(isNotChecked())).perform(click());
+
+        CollectionReference playersColl = FirebaseFirestore.getInstance().collection("Players");
+        DocumentReference playerReference = playersColl.document("DummyAcc");
+        playerReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                boolean isHidden = documentSnapshot.getBoolean("isHidden");
+                assertTrue(isHidden);
             }
         });
     }
