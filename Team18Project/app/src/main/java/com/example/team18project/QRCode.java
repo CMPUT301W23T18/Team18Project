@@ -107,7 +107,7 @@ public class QRCode implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeParcelableList(comments,flags);
+        dest.writeTypedList(comments);
         dest.writeStringList(photoIds);
         dest.writeString(qid);
         dest.writeString(value);

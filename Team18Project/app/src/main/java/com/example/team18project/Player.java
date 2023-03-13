@@ -158,7 +158,7 @@ public class Player implements Parcelable, Serializable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         Log.d("parse", "in");
-        dest.writeParcelableList(codes,flags);
+        dest.writeTypedList(codes);
         dest.writeString(uid);
         dest.writeString(username);
         dest.writeString(email);
