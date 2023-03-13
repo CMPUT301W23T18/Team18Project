@@ -1,5 +1,6 @@
 package com.example.team18project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 
@@ -24,12 +25,19 @@ public class MainActivity extends AppCompatActivity {
     private Player player;
     private FirebaseFirestore db;
     private ActivityMainBinding binding;
+    private boolean isTesting = false;
+    public String testAndroidID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //check if in testing mode
+        Intent intent = getIntent();
+        isTesting = intent.getBooleanExtra("isTesting",false);
+        testAndroidID = intent.getStringExtra("testAndroidID");
 
         db = FirebaseFirestore.getInstance();
         login();
@@ -47,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.home_icon: replaceFragment(HomeFragment.newInstance(player)); break;
                 case R.id.all_qr_codes_icon: replaceFragment(new AllQRCodesFragment()); break;
-                case R.id.search_icon: replaceFragment(new SearchFragment().newInstance()); break;
-                case R.id.stats_icon: replaceFragment(new StatsFragment().newInstance(player.totalQRScore(),player.getHighestQRCode().getScore(),player.getLowestQRCode().getScore())); break;
+                case R.id.search_icon: replaceFragment(new SearchFragment()); break;
+                case R.id.stats_icon: replaceFragment(new StatsFragment().newInstance(player)); break;
                 case R.id.profile_icon: replaceFragment(new ProfileFragment()); break;
             }
             return true;
@@ -62,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private void login() {
         String id = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
+        if (isTesting) {
+            id = this.testAndroidID;
+        }
+        //listener needs variable to be effectively final
+        String finalId = id;
+
         CollectionReference playersColl = db.collection("Players");
         DocumentReference playerReference = playersColl.document(id);
         Task readTask = playerReference.get();
@@ -74,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //user doesn't have an account yet, make new one
                 if (username == null) {
-                    player = new Player(id);
+                    player = new Player(finalId);
                     Map<String, Object> data = new HashMap<>();
                     data.put("codes",new ArrayList<DocumentReference>());
                     data.put("email","");
@@ -96,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     codes.add(new QRCode(codeRefs.get(i)));
                 }
 
-                player = new Player(codes,id,username,email,phoneNumber,isHidden);
+                player = new Player(codes,finalId,username,email,phoneNumber,isHidden);
                 activityInit();
             }
         });
@@ -107,5 +121,16 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.commit();
+    }
+
+    /**
+     * Gets the logged in player. Only available for testing mode.
+     * @return The logged in player if testing mode is on, or null otherwise
+     */
+    public Player getPlayer() {
+        if (isTesting) {
+            return this.player;
+        }
+        return null;
     }
 }

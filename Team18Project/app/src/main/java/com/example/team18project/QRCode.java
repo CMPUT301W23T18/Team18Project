@@ -3,10 +3,12 @@ package com.example.team18project;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -17,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class for modelling QR codes.
+ */
 public class QRCode implements Parcelable {
     private String qid;
     private String value;
@@ -47,10 +52,11 @@ public class QRCode implements Parcelable {
 
     public QRCode(DocumentReference doc) {
         qid = doc.getId();
-        doc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        Task task = doc.get();
+        task.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                qid = doc.getId();
                 photoIds = null; //TODO figure out how photos will be stored
                 value = documentSnapshot.getString("value");
                 longitude = documentSnapshot.getDouble("longitude");
@@ -64,6 +70,9 @@ public class QRCode implements Parcelable {
                 }
             }
         });
+        while (!task.isComplete()) {
+            //wait until document is read
+        }
     }
 
     //Parcelable implementation
@@ -110,60 +119,141 @@ public class QRCode implements Parcelable {
         return ":)";
     }
 
-    public String getName() { //TODO generate name properly
-        return "QRmon";
+    /**
+     * Convert the QR codes hash functions(value) into a unique 4 part name string
+     * @return unique name string
+     */
+    public String getName() {
+        char[] splitHash = value.toCharArray();
+        // convert the hash into 4 key codes which is the sum of all char int values in that quarter
+        int[] keyCodes = new int[4];
+        for (int index = 0; index < 32; index++) {
+            int key = index % 4;
+            keyCodes[key] += (int) splitHash[index];
+        }
+        String[] name = new String[4];
+        // create all string arrays the name can be pulled from
+        // note* do to the way this function is implemented each array can be expanded easily and indefinably by simply adding a new string at the end of an array
+        String[] title = {"Emperor", "Empress", "King", "Queen", "Duke", "Duchess", "Prince", "Princes"};
+        String[] firstName = {"Nolan", "Maximus", "Leo", "Victor", "Katie", "Kiara", "Selena", "Amy"};
+        String[] SurName = {"Smith", "White", "Price", "Harper", "Chambers", "Cohen", "Hoffman", "Freenet"};
+        String[] origin = {"Sinniko", "Sandgate", "Blastmore", "Wastehold", "Grimwall", "Driuru", "Smogmore", "Hookfort"};
+        // select a value from each string array
+        name[0] = title[keyCodes[0] % title.length];
+        name[1] = firstName[keyCodes[1] % firstName.length];
+        name[2] = SurName[keyCodes[2] % SurName.length];
+        name[3] = origin[keyCodes[3] % origin.length];
+        // merge the names characteristics and return it
+        return TextUtils.join(" ", name);
     }
 
-    public int getScore() { //TODO generate score properly
-        return 1863;
+    /**
+     * Compute the score of a QR code as it's sum value of integer byte conversions
+     * @return the score as an integer
+     */
+    public int getScore() {
+        char[] splitHash = value.toCharArray();
+        int score = 0;
+        for (char hash: splitHash) {
+            score += (int) hash;
+        }
+        return  score;
     }
 
     //getters and setters
 
+    /**
+     * Gets the hashed contents of the QR code
+     * @return The hashed contents of the QR code
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * Sets the hashed contents of the QR code
+     * @return The QR code's comments
+     */
     public void setValue(String value) {
         this.value = value;
     }
 
+    /**
+     * Gets the Firestore document IDs of the QR code's photos
+     * @return The Firestore document IDs of the QR code's photos
+     */
     public ArrayList<String> getPhotoIds() {
         return photoIds;
     }
 
+    /**
+     * Sets the Firestore document IDs of the QR code's photos
+     * @param photoIds The Firestore document IDs of the QR code's photos
+     */
     public void setPhotoIds(ArrayList<String> photoIds) {
         this.photoIds = photoIds;
     }
 
+    /**
+     * Gets the comments of the QR code
+     * @return The QR code's comments
+     */
     public ArrayList<Comment> getComments() {
         return comments;
     }
 
+    /**
+     * Sets the comments of the QR code
+     * @param comments The QR code's comments
+     */
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
     }
 
+    /**
+     * Gets the longitude of the location of the QR code
+     * @return The longitude of the QR code's location
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * Sets the longitude of the location of the QR code
+     * @param longitude The longitude of the QR code's location
+     */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
+    /**
+     * Gets the latitude of the location of the QR code
+     * @return The latitude of the QR code's location
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Sets the latitude of the location of the QR code
+     * @param latitude The latitude of the QR code's location
+     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
+    /**
+     * Gets the Firestore document ID the QR code
+     * @return The QR code's Firestore document ID
+     */
     public String getQid() {
         return qid;
     }
 
+    /**
+     * Sets the Firestore document ID of the QR code
+     * @param qid The QR code's Firestore document ID
+     */
     public void setQid(String qid) {
         this.qid = qid;
     }
