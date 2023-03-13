@@ -1,9 +1,13 @@
 package com.example.team18project;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -62,21 +66,62 @@ public class ProfileFragment extends Fragment {
         userNameText.setText(currentPlayer.getUsername());
         emailText.setText(currentPlayer.getEmail());
         userPhoneText.setText(currentPlayer.getPhoneNumber());
+        // updating player username
+        userNameText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                // get current instance of db
+
+                currentPlayer.setUsername(s.toString());
+                Log.d("affterTextChan",currentPlayer.getUsername());
+
+            }
+        });
+        emailText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                currentPlayer.setEmail(s.toString());
+                Log.v("Email",currentPlayer.getEmail());
+
+            }
+        });
+        userPhoneText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                currentPlayer.setPhoneNumber(s.toString());
+                Log.d("Phone", currentPlayer.getPhoneNumber());
+                //Toast.makeText(getContext(), "Invalid Phone number", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        // changing if profile is hidden or not
+        hideSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                currentPlayer.setHidden(isChecked);
+                Log.d("Switch State=", ""+isChecked);
+            }
+        });
+
 
         return view;
     }
-    /*
-    public void onSwitchClick(View view) {
-        if(hideSwitch.isChecked() == true){
-            currentPlayer.setHidden(true);
-            Toast.makeText(getContext(), "hidden", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            currentPlayer.setHidden(false);
-            Toast.makeText(getContext(), "not hidden", Toast.LENGTH_SHORT).show();
-        }
-    }
 
-     */
 
 }
