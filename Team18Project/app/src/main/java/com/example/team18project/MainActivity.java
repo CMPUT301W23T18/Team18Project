@@ -3,6 +3,8 @@ package com.example.team18project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -19,14 +21,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private Player player;
     private FirebaseFirestore db;
     private ActivityMainBinding binding;
-    private boolean isTesting = false;
-    public String testAndroidID = null;
+    private boolean isTesting = true;
+    public String testAndroidID = "0efa73fd748e4eba";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.home_icon: replaceFragment(HomeFragment.newInstance(player)); break;
                 case R.id.all_qr_codes_icon: replaceFragment(new AllQRCodesFragment()); break;
-                case R.id.search_icon: replaceFragment(new SearchFragment()); break;
+                case R.id.search_icon: replaceFragment(new SearchFragment().newInstance()); break;
                 case R.id.stats_icon: replaceFragment(new StatsFragment().newInstance(player)); break;
-                case R.id.profile_icon: replaceFragment(new ProfileFragment()); break;
+                case R.id.profile_icon: replaceFragment(new ProfileFragment().newInstance(player)); break;
             }
             return true;
         });
@@ -132,5 +135,14 @@ public class MainActivity extends AppCompatActivity {
             return this.player;
         }
         return null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // This is important, otherwise the result will not be passed to the fragment
+        super.onActivityResult(requestCode, resultCode, data);
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

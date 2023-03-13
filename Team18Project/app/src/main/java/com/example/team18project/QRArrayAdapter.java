@@ -1,15 +1,20 @@
 package com.example.team18project;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -40,10 +45,11 @@ public class QRArrayAdapter extends ArrayAdapter<QRCode> {
         QRCode code = getItem(position);
         TextView qrName = view.findViewById(R.id.qr_name);
         TextView qrScore = view.findViewById(R.id.qr_score);
-        TextView qrVisual = view.findViewById(R.id.qr_visual);
+        ImageView qrVisual = view.findViewById(R.id.qr_visual);
         qrName.setText(code.getName());
         qrScore.setText("Score: " + Integer.toString(code.getScore()));
-        qrVisual.setText(code.getVisual());
+        qrVisual.setImageBitmap(code.getVisual(getContext(), 4));
+
         return view;
     }
 }
