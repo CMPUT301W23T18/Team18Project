@@ -100,7 +100,10 @@ public class ScanQRCode extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 5, locationListener);
+        //Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        //latitude = lastLocation.getLatitude();
+        //longitude = lastLocation.getLongitude();
 
     }
 
