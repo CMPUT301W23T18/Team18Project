@@ -5,8 +5,9 @@ import static android.content.ContentValues.TAG;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.Settings;
+
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -20,6 +21,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -28,7 +30,7 @@ import java.util.Map;
 /**
  * Class for modelling players. Stores scanned QR codes and account information.
  */
-public class Player implements Parcelable {
+public class Player implements Parcelable, Serializable {
     private ArrayList<QRCode> codes;
     private String uid;
     private String username;
@@ -67,16 +69,19 @@ public class Player implements Parcelable {
         this.isHidden = true;
     }
 
-    //QR Code methods
-
+    /**
+     * Add an instance of a qr code to the the players firebase associated document
+     * @param qrCode
+     */
     public void addQRCode(QRCode qrCode) {
         this.codes.add(qrCode);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference QRCodesRef = db.collection("QRCodes");
         CollectionReference PlayersRef = db.collection("Players");
         DocumentReference player = PlayersRef.document(this.getUid());
-                // Append the new QRCode document reference to the player's "codes" array
-        player.update("codes", FieldValue.arrayUnion(qrCode.getQid()))
+        DocumentReference code = QRCodesRef.document(qrCode.getQid());
+        // Append the new QRCode document reference to the player's "codes" array
+        player.update("codes", FieldValue.arrayUnion(code))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -91,7 +96,10 @@ public class Player implements Parcelable {
                 });
     }
 
-
+    /**
+     * Remove an instance of a QR code from the players associated document
+     * @param qrCode
+     */
     public void removeQRCode(QRCode qrCode) {
         if (this.codes.contains(qrCode)) {
             this.codes.remove(qrCode);
@@ -99,7 +107,9 @@ public class Player implements Parcelable {
             CollectionReference QRCodesRef = db.collection("QRCodes");
             CollectionReference PlayersRef = db.collection("Players");
             DocumentReference player = PlayersRef.document(this.getUid());
-            player.update("codes", FieldValue.arrayRemove(QRCodesRef.document(qrCode.getQid())))
+
+            DocumentReference code = QRCodesRef.document(qrCode.getQid());
+            player.update("codes", FieldValue.arrayRemove(code))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -119,6 +129,7 @@ public class Player implements Parcelable {
     }
 
 
+
     //Parcelable implementation
 
     /**
@@ -126,6 +137,7 @@ public class Player implements Parcelable {
      * @param in The parcel to construct the player from
      */
     protected Player(Parcel in) {
+        Log.d("parse", "out");
         codes = in.createTypedArrayList(QRCode.CREATOR);
         uid = in.readString();
         username = in.readString();
@@ -153,7 +165,8 @@ public class Player implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeParcelableList(codes,flags);
+        Log.d("parse", "in");
+        dest.writeTypedList(codes);
         dest.writeString(uid);
         dest.writeString(username);
         dest.writeString(email);
@@ -303,5 +316,17 @@ public class Player implements Parcelable {
             }
         }
         return lowestQR;
+    }
+
+    /**
+     * Calculate number of QR codes scanned by this player
+     * @return an integer sum
+     */
+    public int totalAmountOfQRCodes() {
+        int sum = 0;
+        for(QRCode code : codes){
+            sum ++;
+        }
+        return sum;
     }
 }

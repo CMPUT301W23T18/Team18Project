@@ -1,17 +1,27 @@
 package com.example.team18project;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Parcelable;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +29,8 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
 
+    private static int request_Code = 3;
+    public static int RESULT_OK = 3;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "player";
@@ -28,13 +40,6 @@ public class HomeFragment extends Fragment {
     private ArrayList<QRCode> qrData;
     private ListView qrList;
     private QRArrayAdapter qrAdapter;
-
-    /**
-     * Required empty public constructor
-     */
-    public HomeFragment() {
-        // Required empty public constructor
-    }
 
     /**
      * Use this factory method to create a new instance of
@@ -63,7 +68,27 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_home, null);
+        FloatingActionButton scanCode = view.findViewById(R.id.add_qr_button);
+        scanCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ScanQRCode.class);
+                Log.d("testing", "values in home fragment");
+                Log.d("testing", player.toString());
+                Log.d("testing", player.getUid());
+                Log.d("testing", player.getCodes().toString());
+                Log.d("testing", player.getEmail());
+                Log.d("testing", player.getUsername());
+                if (player != null) {
+                    intent.putExtra("player", (Serializable) player);
+                    Log.d("testing", "data passed successfully");
+                }
+
+                startActivityForResult(intent, 1);
+            }
+        });
+        return view;
     }
 
     @Override
@@ -83,4 +108,15 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == request_Code) {
+            if (resultCode == RESULT_OK) {
+                QRCode newCode = (QRCode) data.getParcelableExtra("newCode");
+                qrAdapter.add(newCode);
+            }
+        }
+    }
+
 }
