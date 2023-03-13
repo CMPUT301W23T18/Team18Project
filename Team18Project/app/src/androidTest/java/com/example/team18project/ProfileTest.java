@@ -56,6 +56,10 @@ public class ProfileTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
     }
 
+    /**
+     * Test if the user can change their username
+     * @throws InterruptedException
+     */
     @Test
     public void testChangeUsername() throws InterruptedException {
         Intent intent = new Intent();
@@ -82,6 +86,10 @@ public class ProfileTest {
         });
     }
 
+    /**
+     * Test if the user can change their phone number.
+     * @throws InterruptedException
+     */
     @Test
     public void testChangePhoneNumber() throws InterruptedException {
         Intent intent = new Intent();
@@ -106,6 +114,10 @@ public class ProfileTest {
         });
     }
 
+    /**
+     * Test if the user can change their email.
+     * @throws InterruptedException
+     */
     @Test
     public void testChangeEmail() throws InterruptedException {
         Intent intent = new Intent();
@@ -126,6 +138,36 @@ public class ProfileTest {
                 String email = documentSnapshot.getString("email");
                 assertTrue(email.equals("gary@hotmail.com"));
                 playerReference.update("email", "test@test.com");
+            }
+        });
+    }
+
+    /**
+     * Test if the user is stopped from changing to an existing username.
+     * @throws InterruptedException
+     */
+    @Test
+    public void testUsernameUniqueness() throws InterruptedException {
+        Intent intent = new Intent();
+        intent.putExtra("isTesting", true);
+        intent.putExtra("testAndroidID", "DummyAcc");
+        rule.launchActivity(intent);
+        //Test doesn't succeed without a sleep (player is null), I'm guessing it needs time to login
+        Thread.sleep(2000);
+        onView(withId(R.id.profile_icon)).perform(click());
+        //TODO: fix line below
+        onView(withId(R.id.UserName_editText)).perform(clearText(), typeText("Sunfish"));
+        onView(withId(R.id.SubmitchangeUsername)).perform(click());
+
+        CollectionReference playersColl = FirebaseFirestore.getInstance().collection("Players");
+        DocumentReference playerReference = playersColl.document("DummyAcc");
+        playerReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String newUsername = documentSnapshot.getString("username");
+                Log.d("testing", newUsername);
+                assertTrue(newUsername.equals("I"));
+                playerReference.update("username", "I");
             }
         });
     }
