@@ -96,10 +96,10 @@ public class Player implements Parcelable {
         if (this.codes.contains(qrCode)) {
             this.codes.remove(qrCode);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            //CollectionReference QRCodesRef = db.collection("QRCodes");
+            CollectionReference QRCodesRef = db.collection("QRCodes");
             CollectionReference PlayersRef = db.collection("Players");
             DocumentReference player = PlayersRef.document(this.getUid());
-            player.update("codes", FieldValue.arrayRemove(qrCode.getQid()))
+            player.update("codes", FieldValue.arrayRemove(QRCodesRef.document(qrCode.getQid())))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

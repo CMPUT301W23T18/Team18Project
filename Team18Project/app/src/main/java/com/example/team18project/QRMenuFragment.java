@@ -22,9 +22,15 @@ import android.widget.TextView;
  *
  */
 public class QRMenuFragment extends DialogFragment {
+    interface DeleteListener {
+        public void delete(QRCode code);
+    }
+
     private static final String ARG_PARAM1 = "code";
 
+    private QRArrayAdapter adapter;
     private QRCode code;
+    private Player player;
 
     /**
      * Use this factory method to create a new instance of
@@ -48,11 +54,17 @@ public class QRMenuFragment extends DialogFragment {
         // Required empty public constructor
     }
 
+    public QRMenuFragment(Player player, QRCode code, QRArrayAdapter adapter) {
+        this.player = player;
+        this.code = code;
+        this.adapter = adapter;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            code = getArguments().getParcelable(ARG_PARAM1);
+            //code = getArguments().getParcelable(ARG_PARAM1);
         }
     }
 
@@ -61,6 +73,11 @@ public class QRMenuFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_qr_menu, container, false);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
 
     @NonNull
@@ -72,6 +89,13 @@ public class QRMenuFragment extends DialogFragment {
         TextView deleteButton = content.findViewById(R.id.delete_button);
 
         //TODO add listeners for buttons
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                player.removeQRCode(code);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
