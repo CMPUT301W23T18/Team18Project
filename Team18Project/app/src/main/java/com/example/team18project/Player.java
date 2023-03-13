@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -128,10 +129,7 @@ public class Player implements Parcelable, Serializable {
         }
     }
 
-
-
-    //Parcelable implementation
-
+    // parsing implementation
     /**
      * Constructs a Player from a given Parcel
      * @param in The parcel to construct the player from
@@ -328,5 +326,37 @@ public class Player implements Parcelable, Serializable {
             sum ++;
         }
         return sum;
+    }
+
+    public void update() {
+
+        CollectionReference playersColl = FirebaseFirestore.getInstance().collection("Players");
+        DocumentReference playerReference = playersColl.document(uid);
+        Task readTask = playerReference.get();
+
+        //try to read account from database
+        readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String updatedUsername = documentSnapshot.getString("username");
+
+                String updatedEmail = documentSnapshot.getString("email");
+                String updatedPhoneNumber = documentSnapshot.getString("phoneNumber");
+                boolean updatedIsHidden = documentSnapshot.getBoolean("isHidden");
+                ArrayList<DocumentReference> codeRefs = (ArrayList<DocumentReference>) documentSnapshot.get("codes");
+                ArrayList<QRCode> updatedCodes = new ArrayList<QRCode>();
+
+                //convert QR code DocumentReferences to QRCode objects
+                for (int i = 0; i < codeRefs.size(); i++) {
+                    updatedCodes.add(new QRCode(codeRefs.get(i)));
+                }
+
+                setCodes(updatedCodes);
+                setEmail(updatedEmail);
+                setUsername(updatedUsername);
+                setPhoneNumber(updatedPhoneNumber);
+                setHidden(updatedIsHidden);
+            }
+        });
     }
 }
