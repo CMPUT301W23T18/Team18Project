@@ -57,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
         binding.navBar.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.home_icon:player.update(); replaceFragment(HomeFragment.newInstance(player)); break;
+                case R.id.home_icon:replaceFragment(HomeFragment.newInstance(player)); break;
                 case R.id.all_qr_codes_icon: replaceFragment(new AllQRCodesFragment()); break;
                 case R.id.search_icon: replaceFragment(new SearchFragment().newInstance()); break;
-                case R.id.stats_icon: player.update(); replaceFragment(new StatsFragment().newInstance(player)); break;
-                case R.id.profile_icon: player.update(); replaceFragment(new ProfileFragment().newInstance(player)); break;
+                case R.id.stats_icon:replaceFragment(new StatsFragment().newInstance(player)); break;
+                case R.id.profile_icon:replaceFragment(new ProfileFragment().newInstance(player)); break;
             }
             return true;
         });
@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
      * @param fragment An instance of the fragment we want to switch to
      */
     private void replaceFragment(Fragment fragment) {
+        player.update();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
