@@ -16,44 +16,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link QRMenuFragment#newInstance} factory method to
- * create an instance of this fragment.
- *
+ * Fragment for menu that pops up when a QR Code is clicked
  */
 public class QRMenuFragment extends DialogFragment {
-    private static final String ARG_PARAM1 = "code";
-
+    private QRArrayAdapter adapter;
     private QRCode code;
+    private Player player;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param code The QR code that was clicked to open the menu
-     * @return A new instance of fragment QRMenuFragment.
-     */
-    public static QRMenuFragment newInstance(QRCode code) {
-        QRMenuFragment fragment = new QRMenuFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAM1, code);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    /**
-     * Required empty public constructor
-     */
-    public QRMenuFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            code = getArguments().getParcelable(ARG_PARAM1);
-        }
+    public QRMenuFragment(Player player, QRCode code, QRArrayAdapter adapter) {
+        this.player = player;
+        this.code = code;
+        this.adapter = adapter;
     }
 
     @Override
@@ -72,6 +45,13 @@ public class QRMenuFragment extends DialogFragment {
         TextView deleteButton = content.findViewById(R.id.delete_button);
 
         //TODO add listeners for buttons
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                player.removeQRCode(code);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
