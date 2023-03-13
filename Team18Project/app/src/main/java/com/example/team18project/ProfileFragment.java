@@ -109,7 +109,8 @@ public class ProfileFragment extends Fragment {
                                 // There is at least one instance of the data
                                 userNameText.setText(currentPlayer.getUsername());
                                 // implement pop up here
-                               
+                                Toast.makeText(getContext(), "Username already in Use!", Toast.LENGTH_SHORT).show();
+
                             }
                         } else {
                             // Handle any errors
