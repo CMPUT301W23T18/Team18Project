@@ -60,7 +60,7 @@ public class ScanQRCode extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            player = (Player) getIntent().getParcelableExtra("player");
+            player = getIntent().getParcelableExtra("player");
         }
         Log.d("testing", "Data in add qr activity");
         Log.d("testing", player.toString());

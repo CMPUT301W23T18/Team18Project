@@ -130,9 +130,9 @@ public class QRCode implements Parcelable {
         }
 
         // load all of our pngs into arrays so we can select one
-        int[] bodyIds = {R.drawable.imagegen_body_blueslime};
-        int[] faceIds = {R.drawable.imagegen_face_angry};
-        int[] accessoryIds = {R.drawable.imagegen_accessory_horns};
+        int[] bodyIds = {R.drawable.imagegen_body_rock, R.drawable.imagegen_body_slime, R.drawable.imagegen_body_tree};
+        int[] faceIds = {R.drawable.imagegen_face_happy, R.drawable.imagegen_face_mad, R.drawable.imagegen_face_shocked, R.drawable.imagegen_face_mood};
+        int[] accessoryIds = {R.drawable.imagegen_accessory_horns_redblack, R.drawable.imagegen_accessory_bow, R.drawable.imagegen_accessory_crown, R.drawable.imagegen_accessory_feather, R.drawable.imagegen_accessory_leaf};
 
         // select one
         int bodyId = bodyIds[keyCodes[0] % bodyIds.length];
