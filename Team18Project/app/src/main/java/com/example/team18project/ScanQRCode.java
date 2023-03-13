@@ -101,9 +101,9 @@ public class ScanQRCode extends AppCompatActivity {
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 5, locationListener);
-        Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        latitude = lastLocation.getLatitude();
-        longitude = lastLocation.getLongitude();
+        //Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        //latitude = lastLocation.getLatitude();
+        //longitude = lastLocation.getLongitude();
 
     }
 

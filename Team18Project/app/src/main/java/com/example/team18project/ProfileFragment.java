@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -14,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +32,8 @@ public class ProfileFragment extends Fragment {
     private EditText emailText;
     private EditText userPhoneText;
     private Player currentPlayer;
+    private FirebaseFirestore db;
+    DocumentReference playerRef;
 
     private Switch hideSwitch;
 
@@ -51,6 +59,8 @@ public class ProfileFragment extends Fragment {
         if (getArguments() != null) {
             currentPlayer = getArguments().getParcelable("Player");
         }
+        db = FirebaseFirestore.getInstance();
+        playerRef = db.collection("Players").document(currentPlayer.getUid());
 
     }
 
@@ -62,25 +72,22 @@ public class ProfileFragment extends Fragment {
         emailText = view.findViewById(R.id.playerEmail_TextEmailAddress);
         userPhoneText = view.findViewById(R.id.player_phone_number_editTextPhone);
         hideSwitch = view.findViewById(R.id.hide_Account_switch);
+        Button submitUser = view.findViewById(R.id.changeUsername);
 
         userNameText.setText(currentPlayer.getUsername());
         emailText.setText(currentPlayer.getEmail());
         userPhoneText.setText(currentPlayer.getPhoneNumber());
         // updating player username
-        userNameText.addTextChangedListener(new TextWatcher() {
+        submitUser.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-                // get current instance of db
-
-                currentPlayer.setUsername(s.toString());
-                Log.d("affterTextChan",currentPlayer.getUsername());
-
+            public void onClick(View v) {
+                // do something when the button is clicked
+                playerRef.update("username", userNameText.getText().toString());
             }
         });
+
+
+        // updating email
         emailText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

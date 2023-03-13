@@ -26,7 +26,8 @@
         android:text="Username: "
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Account_Info_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/Account_Info_textView"
+        android:imeOptions="actionDone"/>
 
     <Switch
         android:id="@+id/hide_Account_switch"
@@ -102,12 +103,22 @@
 
     <EditText
         android:id="@+id/UserName_editText"
-        android:layout_width="232dp"
-        android:layout_height="51dp"
+        android:layout_width="186dp"
+        android:layout_height="49dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="username"
         app:layout_constraintStart_toEndOf="@+id/user_nameTextView"
         app:layout_constraintTop_toBottomOf="@+id/Account_Info_textView" />
+
+    <Button
+        android:id="@+id/changeUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/UserName_editText"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
