@@ -1,17 +1,19 @@
 package com.example.team18project;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.util.Log;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -20,48 +22,28 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AllQRCodesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class AllQRCodesFragment extends Fragment {
+import java.io.File;
+
+
+
+public class OtherQRCodeFragment extends Fragment {
 
     private ArrayList<QRCode> otherQRCodeList;
     private ListView qrListView;
     private QRArrayAdapter qrAdapter;
 
-    public AllQRCodesFragment() {
-        // Required empty public constructor
-    }
-
-
-    public static AllQRCodesFragment newInstance() {
-        AllQRCodesFragment fragment = new AllQRCodesFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         otherQRCodeList = new ArrayList<QRCode>();
         qrListView = (ListView) getView().findViewById(R.id.other_qrcode_list);
         qrAdapter = new QRArrayAdapter(getContext(), otherQRCodeList);
         qrListView.setAdapter(qrAdapter);
-        getAllQRCode(otherQRCodeList, qrAdapter);
+        getOtherQRCode(otherQRCodeList, qrAdapter);
     }
 
 
-    private void getAllQRCode(ArrayList<QRCode> otherQRCodeList, QRArrayAdapter qrArrayAdapter) {
+    private void getOtherQRCode(ArrayList<QRCode> otherQRCodeList, QRArrayAdapter qrArrayAdapter) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference qrCodesColl = db.collection("QRCodes");
 
@@ -82,12 +64,5 @@ public class AllQRCodesFragment extends Fragment {
             }
         });
 
+        }
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_qr_codes, container, false);
-    }
-}
