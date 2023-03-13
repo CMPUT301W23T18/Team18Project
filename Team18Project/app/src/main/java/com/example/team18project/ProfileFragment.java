@@ -32,6 +32,10 @@ public class ProfileFragment extends Fragment {
     private EditText emailText;
     private EditText userPhoneText;
     private Player currentPlayer;
+
+    private Button submitUser;
+    private Button submitPhone;
+    private Button submitEmail;
     private FirebaseFirestore db;
     DocumentReference playerRef;
 
@@ -72,7 +76,9 @@ public class ProfileFragment extends Fragment {
         emailText = view.findViewById(R.id.playerEmail_TextEmailAddress);
         userPhoneText = view.findViewById(R.id.player_phone_number_editTextPhone);
         hideSwitch = view.findViewById(R.id.hide_Account_switch);
-        Button submitUser = view.findViewById(R.id.changeUsername);
+        submitUser = view.findViewById(R.id.changeUsername);
+        submitEmail = view.findViewById(R.id.submitEmailbutton);
+        submitPhone = view.findViewById(R.id.submitPhoneButton);
 
         userNameText.setText(currentPlayer.getUsername());
         emailText.setText(currentPlayer.getEmail());
@@ -82,47 +88,32 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // do something when the button is clicked
+
                 playerRef.update("username", userNameText.getText().toString());
             }
         });
 
 
         // updating email
-        emailText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+        submitPhone.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                currentPlayer.setEmail(s.toString());
-                Log.v("Email",currentPlayer.getEmail());
-
-            }
-        });
-        userPhoneText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override
-            public void afterTextChanged(Editable s) {
-                currentPlayer.setPhoneNumber(s.toString());
-                Log.d("Phone", currentPlayer.getPhoneNumber());
-                //Toast.makeText(getContext(), "Invalid Phone number", Toast.LENGTH_SHORT).show();
-
+            public void onClick(View v) {
+                playerRef.update("phoneNumber", userPhoneText.getText().toString());
             }
         });
 
+        submitEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playerRef.update("email", emailText.getText().toString());
+            }
+        });
         // changing if profile is hidden or not
         hideSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                currentPlayer.setHidden(isChecked);
-                Log.d("Switch State=", ""+isChecked);
+                playerRef.update("isHidden", isChecked);
             }
         });
 
