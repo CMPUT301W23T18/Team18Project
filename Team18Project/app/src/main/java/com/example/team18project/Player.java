@@ -120,6 +120,7 @@ public class Player implements Parcelable {
      * @param in The parcel to construct the player from
      */
     protected Player(Parcel in) {
+        Log.d("parse", "out");
         codes = in.createTypedArrayList(QRCode.CREATOR);
         uid = in.readString();
         username = in.readString();
@@ -147,6 +148,7 @@ public class Player implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        Log.d("parse", "in");
         dest.writeParcelableList(codes,flags);
         dest.writeString(uid);
         dest.writeString(username);
