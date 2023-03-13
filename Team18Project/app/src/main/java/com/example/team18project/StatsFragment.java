@@ -1,10 +1,11 @@
 package com.example.team18project;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -16,11 +17,22 @@ import androidx.fragment.app.Fragment;
  */
 public class StatsFragment extends Fragment {
 
+    // Fields related to player information and their QR codes
+    private Player player;
+    private QRCode lowestScoredQR;
+    private QRCode highestScoredQR;
+
+    // Fields related to QR score and information
     private int totalScore;
     private int highScore;
     private int lowScore;
-    private int qrCodesScanned;
-    private Player player;
+    private int totalCount;
+
+    // Fields related to QR name and image
+    private String lowName;
+    private String highName;
+    private Bitmap lowImage;
+    private Bitmap highImage;
 
     /**
      * Use this factory method to create a new instance of
@@ -42,19 +54,32 @@ public class StatsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             player = getArguments().getParcelable("player");
+            // retrieve the highest and lowest QR codes
+            highestScoredQR = player.getHighestQRCode();
+            lowestScoredQR = player.getLowestQRCode();
+            // retrieve QR information stored in the player
+            totalCount = player.totalAmountOfQRCodes();
             totalScore = player.totalQRScore();
-
-            if (player.getHighestQRCode() != null) {
-                highScore = player.getHighestQRCode().getScore();
+            // retrieve QR information for the highest Scored QR code or set defaults if no QR are associated with the account
+            if (highestScoredQR != null) {
+                highScore = highestScoredQR.getScore();
+                highName = highestScoredQR.getName();
+                highImage = highestScoredQR.getVisual(getContext(), false, 2);
             } else {
                 highScore = 0;
+                highName = "NO QR CODES WERE FOUND FOR THIS ACCOUNT";
+                highImage = highestScoredQR.getVisual(getContext(), true, 2);
             }
-            if (player.getLowestQRCode() != null) {
-                lowScore = player.getLowestQRCode().getScore();
+            // retrieve QR information for the lowest Scored QR code or set defaults if no QR are associated with the account
+            if (lowestScoredQR != null) {
+                lowScore = lowestScoredQR.getScore();
+                lowName = lowestScoredQR.getName();
+                lowImage = lowestScoredQR.getVisual(getContext(), false, 2);
             } else {
                 lowScore = 0;
+                lowName = "NO QR CODES WERE FOUND FOR THIS ACCOUNT";
+                lowImage = lowestScoredQR.getVisual(getContext(), true, 2);
             }
-            qrCodesScanned = player.totalAmountOfQRCodes();
         }
 
     }
@@ -63,17 +88,36 @@ public class StatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_stats, null);
-        TextView tScore = view.findViewById(R.id.total_score_number_textView);
-        tScore.setText(Integer.toString(totalScore));
+        // display the information that was stored in the player
+        TextView total_count = view.findViewById(R.id.QRTotalCount);
+        total_count.setText(Integer.toString(totalCount));
 
-        TextView high_score = view.findViewById(R.id.High_qr_score_number_textView);
-        high_score.setText(Integer.toString(highScore));
+        TextView total_score = view.findViewById(R.id.QRTotalScore);
+        total_score.setText(Integer.toString(totalScore));
 
-        TextView low_score = view.findViewById(R.id.lowest_qr_score_number_textView);
-        low_score.setText(Integer.toString(lowScore));
+        // display the information related to the highest Scored QR code of the player
+        TextView high_score = view.findViewById(R.id.HighScoreQRscore);
+        high_score.setText("Score: " + Integer.toString(highScore));
 
-        TextView total_qr_codes = view.findViewById(R.id.Codes_scanned_numebr_textView);
-        total_qr_codes.setText(Integer.toString(qrCodesScanned));
+        TextView high_name = view.findViewById(R.id.HighScoreQRname);
+        high_name.setText(highName);
+
+        ImageView high_image = view.findViewById(R.id.HighScoreQRImage);
+        high_image.setImageBitmap(highImage);
+
+        // display the information related to the lowest Scored QR code of the player
+        TextView low_score = view.findViewById(R.id.LowScoreQRscore);
+        low_score.setText("Score: " + Integer.toString(lowScore));
+
+        TextView low_name = view.findViewById(R.id.LowScoreQRname);
+        low_name.setText(lowName);
+
+        ImageView low_image = view.findViewById(R.id.LowScoreQRImage);
+        low_image.setImageBitmap(lowImage);
+
+        // display the information related to the leader board
+        TextView leaderBoard = view.findViewById(R.id.leaderboardRank);
+        leaderBoard.setText("0");
 
         return view;
     }

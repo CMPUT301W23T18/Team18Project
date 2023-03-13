@@ -1,180 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".StatsFragment">
-
-    <TextView
-        android:id="@+id/lowest_qr_score_textView"
-        android:layout_width="88dp"
-        android:layout_height="63dp"
-
-        android:text="Score:"
-        android:textSize="27sp"
-        app:layout_constraintBottom_toTopOf="@+id/LeaderBoard_Ranks_textView"
-        app:layout_constraintStart_toEndOf="@+id/lowestQR_name_textView"
-        app:layout_constraintTop_toBottomOf="@+id/Lowest_textView"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/Low_QR_imgtextView"
-        android:layout_width="82dp"
-        android:layout_height="63dp"
-        android:text="img"
-        app:layout_constraintStart_toEndOf="@+id/lowest_qr_score_number_textView"
-        app:layout_constraintTop_toBottomOf="@+id/Lowest_textView" />
-
-    <TextView
-        android:id="@+id/lowestQR_name_textView"
-        android:layout_width="159dp"
-        android:layout_height="63dp"
-        android:text="qrName"
-        android:textSize="27sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Lowest_textView" />
-
-    <TextView
-        android:id="@+id/Qr_code_scanned_textView"
-        android:layout_width="162dp"
-        android:layout_height="84dp"
-
-        android:text="QrCodes\nScanned:"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/score_textView"
-        android:layout_width="162dp"
-        android:layout_height="85dp"
-        android:text="Total Score:"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Qr_code_scanned_textView" />
-
-    <TextView
-        android:id="@+id/total_score_number_textView"
-        android:layout_width="247dp"
-        android:layout_height="85dp"
-        android:gravity="center"
-        android:text="0"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/score_textView"
-        app:layout_constraintTop_toBottomOf="@+id/Codes_scanned_numebr_textView" />
-
-    <TextView
-        android:id="@+id/Highest_textView"
-        android:layout_width="415dp"
-        android:layout_height="39dp"
-        android:text="Highest Scoring Code:"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/score_textView" />
-
-    <TextView
-        android:id="@+id/High_qr_score_textView"
-        android:layout_width="88dp"
-        android:layout_height="63dp"
-        android:text="Score:"
-
-        android:textSize="27sp"
-        app:layout_constraintStart_toEndOf="@+id/HighestQR_name_textView6"
-        app:layout_constraintTop_toBottomOf="@+id/Highest_textView" />
-
-    <TextView
-        android:id="@+id/HighestQR_name_textView6"
-        android:layout_width="159dp"
-        android:layout_height="63dp"
-        android:text="qrName"
-        android:textSize="27sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Highest_textView" />
-
-    <TextView
-        android:id="@+id/Lowest_textView"
-        android:layout_width="414dp"
-        android:layout_height="39dp"
-        android:layout_marginBottom="73dp"
-        android:text="Lowest ScoringCode:"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/LeaderBoard_Ranks_textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/HighestQR_name_textView6"
-        app:layout_constraintTop_toBottomOf="@+id/HighestQR_name_textView6"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/LeaderBoard_Ranks_textView"
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginBottom="276dp"
-        android:gravity="center"
-        android:text="Leaderboadrd Rank:"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/Codes_scanned_numebr_textView"
-        android:layout_width="248dp"
-        android:layout_height="82dp"
-        android:gravity="center"
-        android:text="0"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/Qr_code_scanned_textView"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/High_qr_score_number_textView"
-        android:layout_width="77dp"
-        android:layout_height="63dp"
+            <TextView
+                android:id="@+id/QRcodeScanCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QrCodes Scanned:"
+                android:textSize="30sp" />
 
-        android:text="0"
+            <TextView
+                android:id="@+id/QRTotalCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="30sp" />
 
-        android:textSize="27sp"
-        app:layout_constraintStart_toEndOf="@+id/High_qr_score_textView"
-        app:layout_constraintTop_toBottomOf="@id/Highest_textView" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/lowest_qr_score_number_textView"
-        android:layout_width="77dp"
-        android:layout_height="63dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        android:text="0"
-        android:textSize="27sp"
+            <TextView
+                android:id="@+id/score_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Score:"
+                android:textSize="30sp" />
 
-        app:layout_constraintStart_toEndOf="@+id/lowest_qr_score_textView"
-        app:layout_constraintTop_toBottomOf="@+id/Lowest_textView" />
+            <TextView
+                android:id="@+id/QRTotalScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="30sp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/highestQrImageTextView"
-        android:layout_width="82dp"
-        android:layout_height="63dp"
-        android:text="img"
-        app:layout_constraintStart_toEndOf="@+id/High_qr_score_number_textView"
-        app:layout_constraintTop_toBottomOf="@+id/Highest_textView" />
+        <TextView
+            android:id="@+id/Highest_textView"
+            android:layout_width="415dp"
+            android:layout_height="wrap_content"
+            android:text="Highest Scoring Code:"
+            android:textSize="25sp" />
 
-    <TextView
-        android:id="@+id/LeaderBoard_Rank_number_textView"
-        android:layout_width="60dp"
-        android:layout_height="36dp"
-        android:gravity="center"
-        android:text="0"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LeaderBoard_Ranks_textView"
-        app:layout_constraintVertical_bias="0.079" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/HighScoreQRImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/HighScoreQRname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="qrName"
+                    android:textSize="27sp" />
+
+                <TextView
+                    android:id="@+id/HighScoreQRscore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="0"
+
+                    android:textSize="27sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/Lowest_textView"
+            android:layout_width="414dp"
+            android:layout_height="39dp"
+            android:text="Lowest ScoringCode:"
+            android:textSize="25sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/LowScoreQRImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/LowScoreQRname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="qrName"
+                    android:textSize="27sp" />
+
+                <TextView
+                    android:id="@+id/LowScoreQRscore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="0"
+                    android:textSize="27sp"
+
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/LeaderBoard_Ranks_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Leaderboard Rank:"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/leaderboardRank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="25sp" />
+
+</LinearLayout>
