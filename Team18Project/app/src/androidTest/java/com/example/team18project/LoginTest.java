@@ -38,12 +38,12 @@ public class LoginTest {
     public void testExistingAccount() { //TODO account has been modified, use different one
         Intent intent = new Intent();
         intent.putExtra("isTesting", true);
-        intent.putExtra("testAndroidID", "05deeeb96ce6239e");
+        intent.putExtra("testAndroidID", "LoginTest");
         rule.launchActivity(intent);
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
         Player player = rule.getActivity().getPlayer();
 
-        assertTrue(player.getUsername().equals("TestUser1"));
+        assertTrue(player.getUsername().equals("Sunfish"));
         assertTrue(solo.waitForText("Score:",2,3000));
     }
 
