@@ -68,7 +68,10 @@ public class Player implements Parcelable {
     }
 
     //QR Code methods
-
+    /**
+     This method adds a QRCode object to the list of codes and Firestore database.
+     @param qrCode the QRCode object to be added.
+     */
     public void addQRCode(QRCode qrCode) {
         this.codes.add(qrCode);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -91,7 +94,10 @@ public class Player implements Parcelable {
                 });
     }
 
-
+    /**
+     This method removes a QRCode object from the list of codes and Firestore database.
+     @param qrCode the QRCode object to be removed
+     */
     public void removeQRCode(QRCode qrCode) {
         if (this.codes.contains(qrCode)) {
             this.codes.remove(qrCode);
