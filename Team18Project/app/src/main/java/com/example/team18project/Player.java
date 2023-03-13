@@ -22,13 +22,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Class for modelling players. Stores scanned QR codes and account information.
  */
-public class Player implements Parcelable {
+public class Player implements Parcelable, Serializable {
     private ArrayList<QRCode> codes;
     private String uid;
     private String username;
@@ -67,15 +68,19 @@ public class Player implements Parcelable {
         this.isHidden = true;
     }
 
-    //QR Code methods
+    /**
+     * Add an instance of a qr code to the the players firebase associated document
+     * @param qrCode
+     */
     public void addQRCode(QRCode qrCode) {
         this.codes.add(qrCode);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference QRCodesRef = db.collection("QRCodes");
         CollectionReference PlayersRef = db.collection("Players");
         DocumentReference player = PlayersRef.document(this.getUid());
-                // Append the new QRCode document reference to the player's "codes" array
-        player.update("codes", FieldValue.arrayUnion(qrCode.getQid()))
+        DocumentReference code = QRCodesRef.document(qrCode.getQid());
+        // Append the new QRCode document reference to the player's "codes" array
+        player.update("codes", FieldValue.arrayUnion(code))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -90,7 +95,10 @@ public class Player implements Parcelable {
                 });
     }
 
-
+    /**
+     * Remove an instance of a QR code from the players associated document
+     * @param qrCode
+     */
     public void removeQRCode(QRCode qrCode) {
         if (this.codes.contains(qrCode)) {
             this.codes.remove(qrCode);

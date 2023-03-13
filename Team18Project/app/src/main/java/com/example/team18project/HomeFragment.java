@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -19,6 +21,7 @@ import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -76,10 +79,17 @@ public class HomeFragment extends Fragment {
                 Log.d("testing", player.getEmail());
                 Log.d("testing", player.getUsername());
                 if (player != null) {
-                    intent.putExtra("player", player);
+                    intent.putExtra("player", (Serializable) player);
                     Log.d("testing", "data passed successfully");
                 }
+
                 startActivity(intent);
+
+//                Log.d("result", intent.getStringExtra("qid"));
+//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.frame, new ScanQRCodeFragment().newInstance(player));
+//                fragmentTransaction.commit();
             }
         });
         return view;
