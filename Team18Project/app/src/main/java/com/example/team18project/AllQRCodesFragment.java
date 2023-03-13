@@ -63,7 +63,11 @@ public class AllQRCodesFragment extends Fragment {
         getAllQRCode(otherQRCodeList, qrAdapter);
     }
 
-
+    /**
+     This method retrieves all QR codes from the Firestore database and updates the provided QRArrayAdapter.
+     @param otherQRCodeList an ArrayList of QRCode objects to store the retrieved QR codes.
+     @param qrArrayAdapter the QRArrayAdapter to be updated with the retrieved QR codes.
+     */
     private void getAllQRCode(ArrayList<QRCode> otherQRCodeList, QRArrayAdapter qrArrayAdapter) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference qrCodesColl = db.collection("QRCodes");
