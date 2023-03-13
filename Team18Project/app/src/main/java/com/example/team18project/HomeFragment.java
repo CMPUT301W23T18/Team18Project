@@ -121,8 +121,13 @@ public class HomeFragment extends Fragment {
         if (requestCode == request_Code) {
             if (resultCode == RESULT_OK) {
                 QRCode newCode = (QRCode) data.getParcelableExtra("newCode");
-                qrAdapter.add(newCode);
-                Log.d("testing", "made it here");
+                boolean isNew = true;
+                for (int i = 0; i < qrAdapter.getCount(); i++) {
+                    if (qrAdapter.getItem(i).getQid().equals(newCode.getQid())) {
+                        isNew = false;
+                    }
+                }
+                if (isNew) qrAdapter.add(newCode);
             }
         }
     }
