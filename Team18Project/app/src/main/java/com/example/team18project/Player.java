@@ -107,6 +107,7 @@ public class Player implements Parcelable, Serializable {
             CollectionReference QRCodesRef = db.collection("QRCodes");
             CollectionReference PlayersRef = db.collection("Players");
             DocumentReference player = PlayersRef.document(this.getUid());
+
             DocumentReference code = QRCodesRef.document(qrCode.getQid());
             player.update("codes", FieldValue.arrayRemove(code))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
