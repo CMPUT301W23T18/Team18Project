@@ -1,9 +1,14 @@
 package com.example.team18project;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -12,10 +17,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -54,6 +59,7 @@ public class QRCode implements Parcelable {
     public QRCode(DocumentReference doc) {
         qid = doc.getId();
         Task task = doc.get();
+
         task.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -78,10 +84,10 @@ public class QRCode implements Parcelable {
     //Parcelable implementation
 
     protected QRCode(Parcel in) {
+        comments = in.createTypedArrayList(Comment.CREATOR);
+        photoIds = in.createStringArrayList();
         qid = in.readString();
         value = in.readString();
-        photoIds = in.createStringArrayList();
-        comments = in.createTypedArrayList(Comment.CREATOR);
         longitude = in.readDouble();
         latitude = in.readDouble();
     }
@@ -105,7 +111,7 @@ public class QRCode implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeParcelableList(comments,flags);
+        dest.writeTypedList(comments);
         dest.writeStringList(photoIds);
         dest.writeString(qid);
         dest.writeString(value);
@@ -113,10 +119,59 @@ public class QRCode implements Parcelable {
         dest.writeDouble(latitude);
     }
 
-    //generate information based on hash value
+    /**
+     * Transform the QR codes unique value into a unique sprite that is represented as a bitmap
+     * @param context
+     * @return a bitmap
+     */
+    public Bitmap getVisual(Context context, int scaleFactor) {
+        Bitmap combinedSprite;
+        //start by splitting the value into three distinct keys
+        char[] splitHash = value.toCharArray();
+        int[] keyCodes = new int[3];
+        for (int index = 0; index < 32; index++) {
+            int key = index % 3;
+            keyCodes[key] += (int) splitHash[index];
+        }
 
-    public String getVisual() { //TODO implement proper representation, maybe change return type
-        return ":)";
+        // load all of our pngs into arrays so we can select one
+        int[] bodyIds = {R.drawable.imagegen_body_rock, R.drawable.imagegen_body_slime, R.drawable.imagegen_body_tree};
+        int[] faceIds = {R.drawable.imagegen_face_happy, R.drawable.imagegen_face_mad, R.drawable.imagegen_face_shocked, R.drawable.imagegen_face_mood};
+        int[] accessoryIds = {R.drawable.imagegen_accessory_horns_redblack, R.drawable.imagegen_accessory_bow, R.drawable.imagegen_accessory_crown, R.drawable.imagegen_accessory_feather, R.drawable.imagegen_accessory_leaf};
+        // select one
+        int bodyId = bodyIds[keyCodes[0] % bodyIds.length];
+        int faceId = faceIds[keyCodes[1] % faceIds.length];
+        int accessoryId = accessoryIds[keyCodes[2] % accessoryIds.length];
+        // load the resources
+        Bitmap bodyBitmap = BitmapFactory.decodeResource(context.getResources(), bodyId);
+        Bitmap faceBitmap = BitmapFactory.decodeResource(context.getResources(), faceId);
+        Bitmap accessoryBitmap = BitmapFactory.decodeResource(context.getResources(), accessoryId);
+        // Create all variables needed to scale the image by the scale factor
+        // *note all pngs are the same size so we just based the width and height off of an arbitrary one
+        int baseWidth = bodyBitmap.getWidth();
+        int baseHeight = bodyBitmap.getHeight();
+
+        int newWidth = baseWidth * scaleFactor;
+        int newHeight = baseHeight * scaleFactor;
+
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleFactor, scaleFactor);
+
+        combinedSprite = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888);
+
+        // Draw all the scaled images over each other to create our unique sprite
+        Canvas canvas = new Canvas(combinedSprite);
+
+        Bitmap scaledBody = Bitmap.createBitmap(bodyBitmap, 0, 0, baseWidth, baseHeight, matrix, true);
+        canvas.drawBitmap(scaledBody, 0, 0, null);
+
+        Bitmap scaledFace = Bitmap.createBitmap(faceBitmap, 0, 0, baseWidth, baseHeight, matrix, true);
+        canvas.drawBitmap(scaledFace, 0, 0, null);
+
+        Bitmap scaledAccessory = Bitmap.createBitmap(accessoryBitmap, 0, 0, baseWidth, baseHeight, matrix, true);
+        canvas.drawBitmap(scaledAccessory, 0, 0, null);
+        // Return the sprite
+        return combinedSprite;
     }
 
     /**
@@ -124,10 +179,11 @@ public class QRCode implements Parcelable {
      * @return unique name string
      */
     public String getName() {
-        char[] splitHash = value.toCharArray();
+        char[] splitHash = new char[64];
+        splitHash = value.toCharArray();
         // convert the hash into 4 key codes which is the sum of all char int values in that quarter
         int[] keyCodes = new int[4];
-        for (int index = 0; index < 32; index++) {
+        for (int index = 0; index < splitHash.length; index++) {
             int key = index % 4;
             keyCodes[key] += (int) splitHash[index];
         }
@@ -142,7 +198,7 @@ public class QRCode implements Parcelable {
         name[0] = title[keyCodes[0] % title.length];
         name[1] = firstName[keyCodes[1] % firstName.length];
         name[2] = SurName[keyCodes[2] % SurName.length];
-        name[3] = origin[keyCodes[3] % origin.length];
+        name[3] = "of " + origin[keyCodes[3] % origin.length];
         // merge the names characteristics and return it
         return TextUtils.join(" ", name);
     }
@@ -157,7 +213,7 @@ public class QRCode implements Parcelable {
         for (char hash: splitHash) {
             score += (int) hash;
         }
-        return  score;
+        return score;
     }
 
     //getters and setters

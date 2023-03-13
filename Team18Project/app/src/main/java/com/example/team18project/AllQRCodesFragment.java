@@ -31,11 +31,10 @@ public class AllQRCodesFragment extends Fragment {
     private ListView qrListView;
     private QRArrayAdapter qrAdapter;
 
-    public AllQRCodesFragment() {
-        // Required empty public constructor
-    }
-
-
+    /**
+     * Create a new instance of the AllQRCodesFragment and bundle any passed parameters
+     * @return the instance of our new fragment
+     */
     public static AllQRCodesFragment newInstance() {
         AllQRCodesFragment fragment = new AllQRCodesFragment();
         Bundle args = new Bundle();
@@ -43,6 +42,10 @@ public class AllQRCodesFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Unbundled any parameters passed and add them to the native variables of the Fragment
+     * @param savedInstanceState A bundle of all passed parameters to the AllQRCodesFragment
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
