@@ -44,6 +44,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class used for scanning new QRCodes.
+ *
+ * Citations:
+ *
+ * (Used this library to implement the QRCode scanner)
+ * ZXing Android Embedded
+ * https://github.com/journeyapps/zxing-android-embedded
+ * Authors: JourneyApps (https://journeyapps.com),
+ *      https://github.com/journeyapps/zxing-android-embedded/graphs/contributors
+ * Apache License 2.0
+ */
 public class ScanQRCode extends AppCompatActivity {
 
     private Button scanButton;
@@ -61,15 +73,14 @@ public class ScanQRCode extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            //player = (Player) getIntent().getParcelableExtra("player");
             player = (Player) getIntent().getSerializableExtra("player");
         }
-        Log.d("testing", "Data in add qr activity");
-        Log.d("testing", player.toString());
-        if (player.getUid() == null) Log.d("testing", "no uid");
-        if (player.getUsername() == null) Log.d("testing", "no username");
-        if (player.getUid() == null) Log.d("testing", "no uid");
-        if (player.getPhoneNumber() == null) Log.d("testing", "no number");
+//        Log.d("testing", "Data in add qr activity");
+//        Log.d("testing", player.toString());
+//        if (player.getUid() == null) Log.d("testing", "no uid");
+//        if (player.getUsername() == null) Log.d("testing", "no username");
+//        if (player.getUid() == null) Log.d("testing", "no uid");
+//        if (player.getPhoneNumber() == null) Log.d("testing", "no number");
         db = FirebaseFirestore.getInstance();
 
         scanButton = findViewById(R.id.scan_button);
@@ -102,12 +113,16 @@ public class ScanQRCode extends AppCompatActivity {
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 5, locationListener);
+        //TODO: figure out why it doesn't work on Dom's computer.
         //Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         //latitude = lastLocation.getLatitude();
         //longitude = lastLocation.getLongitude();
 
     }
 
+    /**
+     * Creates a new capture activity and initiates the scan.
+     */
     public void scanCode() {
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setCaptureActivity(QrCodeCaptureActivity.class);
@@ -117,6 +132,23 @@ public class ScanQRCode extends AppCompatActivity {
         integrator.initiateScan();
     }
 
+    /**
+     * Processes the results from the scan activity. We first use the SHA256 algorithm to compute
+     * the hash for the scanned QRCode. The id of the QRCode is determined by its hash value,
+     * alongside its latitude and longitude. If the scanned QRCode is new, it is added to the
+     * database. Finally, the we add our newly created QRCode object into the result Intent object.
+     *
+     * If the user checks the checks the take_photo_switch, an additional ACTION_IMAGE_CAPTURE
+     * activity is started after the user scans the QR code, but processing the results of this
+     * activity have not yet been implemented.
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -182,6 +214,16 @@ public class ScanQRCode extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handles the results of a permission request initiated by the system.
+     * @param requestCode The request code passed in {@link #requestPermissions(
+     * android.app.Activity, String[], int)}
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
+     *     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
+     *
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_LONG).show();
