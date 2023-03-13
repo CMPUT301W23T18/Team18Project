@@ -1,6 +1,7 @@
 package com.example.team18project;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,11 @@ import android.widget.Switch;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +34,7 @@ public class ProfileFragment extends Fragment {
     private Button submitPhone;
     private Button submitEmail;
     private FirebaseFirestore db;
+    CollectionReference usersRef;
     DocumentReference playerRef;
 
     private Switch hideSwitch;
@@ -57,7 +62,8 @@ public class ProfileFragment extends Fragment {
             currentPlayer = getArguments().getParcelable("Player");
         }
         db = FirebaseFirestore.getInstance();
-        playerRef = db.collection("Players").document(currentPlayer.getUid());
+        usersRef = db.collection("Players");
+        playerRef = usersRef.document(currentPlayer.getUid());
 
     }
 
@@ -81,7 +87,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // do something when the button is clicked
-
+                usersRef.whereIn("username", Collections.singletonList(userNameText.getText().toString()));
                 playerRef.update("username", userNameText.getText().toString());
             }
         });
