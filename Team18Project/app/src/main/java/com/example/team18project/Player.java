@@ -2,13 +2,10 @@ package com.example.team18project;
 
 import static android.content.ContentValues.TAG;
 
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -20,13 +17,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Class for modelling players. Stores scanned QR codes and account information.
@@ -331,7 +324,7 @@ public class Player implements Parcelable, Serializable {
     /**
      * Update the player to be up to date with the firestore
      */
-    public void update() {
+    public void sync() {
         // Query all relevant information to the player from firebase
         CollectionReference playersColl = FirebaseFirestore.getInstance().collection("Players");
         DocumentReference playerReference = playersColl.document(uid);
