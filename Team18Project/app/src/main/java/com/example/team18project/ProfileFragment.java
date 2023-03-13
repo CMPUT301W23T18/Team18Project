@@ -1,25 +1,29 @@
 package com.example.team18project;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +41,7 @@ public class ProfileFragment extends Fragment {
     private Button submitPhone;
     private Button submitEmail;
     private FirebaseFirestore db;
+    CollectionReference usersRef;
     DocumentReference playerRef;
 
     private Switch hideSwitch;
@@ -64,7 +69,8 @@ public class ProfileFragment extends Fragment {
             currentPlayer = getArguments().getParcelable("Player");
         }
         db = FirebaseFirestore.getInstance();
-        playerRef = db.collection("Players").document(currentPlayer.getUid());
+        usersRef = db.collection("Players");
+        playerRef = usersRef.document(currentPlayer.getUid());
 
     }
 
@@ -76,7 +82,7 @@ public class ProfileFragment extends Fragment {
         emailText = view.findViewById(R.id.playerEmail_TextEmailAddress);
         userPhoneText = view.findViewById(R.id.player_phone_number_editTextPhone);
         hideSwitch = view.findViewById(R.id.hide_Account_switch);
-        submitUser = view.findViewById(R.id.changeUsername);
+        submitUser = view.findViewById(R.id.SubmitchangeUsername);
         submitEmail = view.findViewById(R.id.submitEmailbutton);
         submitPhone = view.findViewById(R.id.submitPhoneButton);
 
@@ -88,8 +94,29 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // do something when the button is clicked
+                String newUsername = userNameText.getText().toString();
+                Query query = usersRef.whereIn("username", Arrays.asList(newUsername));
 
-                playerRef.update("username", userNameText.getText().toString());
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot.isEmpty()) {
+                                // There are no instances of the data
+                                playerRef.update("username", newUsername);
+                            } else {
+                                // There is at least one instance of the data
+                                userNameText.setText(currentPlayer.getUsername());
+                                // implement pop up here
+                                Toast.makeText(getContext(), "Username already in Use!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            // Handle any errors
+                        }
+                    }
+                });
+
             }
         });
 
