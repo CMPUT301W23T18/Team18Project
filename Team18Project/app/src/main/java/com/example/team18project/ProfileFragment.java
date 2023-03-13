@@ -26,9 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A fragment used to represent the profile screen, where account information is displayed
  */
 public class ProfileFragment extends Fragment {
 
@@ -47,13 +45,6 @@ public class ProfileFragment extends Fragment {
     private Switch hideSwitch;
 
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param player An instance of the player class
-     * @return A new instance of fragment ProfileFragment.
-     */
     public static ProfileFragment newInstance(Player player) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
