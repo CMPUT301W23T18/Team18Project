@@ -113,6 +113,7 @@ public class Player implements Parcelable {
                     });
         }
     }
+
     //Parcelable implementation
 
     /**
