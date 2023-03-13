@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -54,6 +55,7 @@ public class QRCode implements Parcelable {
     public QRCode(DocumentReference doc) {
         qid = doc.getId();
         Task task = doc.get();
+
         task.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -78,10 +80,10 @@ public class QRCode implements Parcelable {
     //Parcelable implementation
 
     protected QRCode(Parcel in) {
+        comments = in.createTypedArrayList(Comment.CREATOR);
+        photoIds = in.createStringArrayList();
         qid = in.readString();
         value = in.readString();
-        photoIds = in.createStringArrayList();
-        comments = in.createTypedArrayList(Comment.CREATOR);
         longitude = in.readDouble();
         latitude = in.readDouble();
     }
@@ -118,7 +120,8 @@ public class QRCode implements Parcelable {
      * @param context
      * @return a bitmap
      */
-    public Bitmap getVisual(Context context) {
+    public Bitmap getVisual(Context context, int scaleFactor) {
+        Bitmap combinedSprite;
         //start by splitting the value into three distinct keys
         char[] splitHash = value.toCharArray();
         int[] keyCodes = new int[3];
@@ -128,24 +131,19 @@ public class QRCode implements Parcelable {
         }
 
         // load all of our pngs into arrays so we can select one
-        int[] bodyIds = {R.drawable.imagegen_body_blueslime};
-        int[] faceIds = {R.drawable.imagegen_face_angry};
-        int[] accessoryIds = {R.drawable.imagegen_accessory_horns};
-
+        int[] bodyIds = {R.drawable.imagegen_body_rock, R.drawable.imagegen_body_slime, R.drawable.imagegen_body_tree};
+        int[] faceIds = {R.drawable.imagegen_face_happy, R.drawable.imagegen_face_mad, R.drawable.imagegen_face_shocked, R.drawable.imagegen_face_mood};
+        int[] accessoryIds = {R.drawable.imagegen_accessory_horns_redblack, R.drawable.imagegen_accessory_bow, R.drawable.imagegen_accessory_crown, R.drawable.imagegen_accessory_feather, R.drawable.imagegen_accessory_leaf};
         // select one
         int bodyId = bodyIds[keyCodes[0] % bodyIds.length];
         int faceId = faceIds[keyCodes[1] % faceIds.length];
         int accessoryId = accessoryIds[keyCodes[2] % accessoryIds.length];
-
         // load the resources
         Bitmap bodyBitmap = BitmapFactory.decodeResource(context.getResources(), bodyId);
         Bitmap faceBitmap = BitmapFactory.decodeResource(context.getResources(), faceId);
         Bitmap accessoryBitmap = BitmapFactory.decodeResource(context.getResources(), accessoryId);
-
         // Create all variables needed to scale the image by the scale factor
         // *note all pngs are the same size so we just based the width and height off of an arbitrary one
-        int scaleFactor = 4;
-
         int baseWidth = bodyBitmap.getWidth();
         int baseHeight = bodyBitmap.getHeight();
 
@@ -155,7 +153,7 @@ public class QRCode implements Parcelable {
         Matrix matrix = new Matrix();
         matrix.postScale(scaleFactor, scaleFactor);
 
-        Bitmap combinedSprite = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888);
+        combinedSprite = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888);
 
         // Draw all the scaled images over each other to create our unique sprite
         Canvas canvas = new Canvas(combinedSprite);
@@ -168,7 +166,6 @@ public class QRCode implements Parcelable {
 
         Bitmap scaledAccessory = Bitmap.createBitmap(accessoryBitmap, 0, 0, baseWidth, baseHeight, matrix, true);
         canvas.drawBitmap(scaledAccessory, 0, 0, null);
-
         // Return the sprite
         return combinedSprite;
     }
@@ -178,10 +175,11 @@ public class QRCode implements Parcelable {
      * @return unique name string
      */
     public String getName() {
-        char[] splitHash = value.toCharArray();
+        char[] splitHash = new char[64];
+        splitHash = value.toCharArray();
         // convert the hash into 4 key codes which is the sum of all char int values in that quarter
         int[] keyCodes = new int[4];
-        for (int index = 0; index < 32; index++) {
+        for (int index = 0; index < splitHash.length; index++) {
             int key = index % 4;
             keyCodes[key] += (int) splitHash[index];
         }
@@ -211,55 +209,103 @@ public class QRCode implements Parcelable {
         for (char hash: splitHash) {
             score += (int) hash;
         }
-        return  score;
+        return score;
     }
 
     //getters and setters
 
+    /**
+     * Gets the hashed contents of the QR code
+     * @return The hashed contents of the QR code
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * Sets the hashed contents of the QR code
+     * @return The QR code's comments
+     */
     public void setValue(String value) {
         this.value = value;
     }
 
+    /**
+     * Gets the Firestore document IDs of the QR code's photos
+     * @return The Firestore document IDs of the QR code's photos
+     */
     public ArrayList<String> getPhotoIds() {
         return photoIds;
     }
 
+    /**
+     * Sets the Firestore document IDs of the QR code's photos
+     * @param photoIds The Firestore document IDs of the QR code's photos
+     */
     public void setPhotoIds(ArrayList<String> photoIds) {
         this.photoIds = photoIds;
     }
 
+    /**
+     * Gets the comments of the QR code
+     * @return The QR code's comments
+     */
     public ArrayList<Comment> getComments() {
         return comments;
     }
 
+    /**
+     * Sets the comments of the QR code
+     * @param comments The QR code's comments
+     */
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
     }
 
+    /**
+     * Gets the longitude of the location of the QR code
+     * @return The longitude of the QR code's location
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * Sets the longitude of the location of the QR code
+     * @param longitude The longitude of the QR code's location
+     */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
+    /**
+     * Gets the latitude of the location of the QR code
+     * @return The latitude of the QR code's location
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Sets the latitude of the location of the QR code
+     * @param latitude The latitude of the QR code's location
+     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
+    /**
+     * Gets the Firestore document ID the QR code
+     * @return The QR code's Firestore document ID
+     */
     public String getQid() {
         return qid;
     }
 
+    /**
+     * Sets the Firestore document ID of the QR code
+     * @param qid The QR code's Firestore document ID
+     */
     public void setQid(String qid) {
         this.qid = qid;
     }
