@@ -1,20 +1,13 @@
 package com.example.team18project;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -76,7 +69,7 @@ public class ProfileFragment extends Fragment {
         emailText = view.findViewById(R.id.playerEmail_TextEmailAddress);
         userPhoneText = view.findViewById(R.id.player_phone_number_editTextPhone);
         hideSwitch = view.findViewById(R.id.hide_Account_switch);
-        submitUser = view.findViewById(R.id.changeUsername);
+        submitUser = view.findViewById(R.id.SubmitchangeUsername);
         submitEmail = view.findViewById(R.id.submitEmailbutton);
         submitPhone = view.findViewById(R.id.submitPhoneButton);
 
