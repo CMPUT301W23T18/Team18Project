@@ -29,6 +29,8 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
 
+    private static int request_Code = 3;
+    public static int RESULT_OK = 3;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "player";
@@ -83,13 +85,7 @@ public class HomeFragment extends Fragment {
                     Log.d("testing", "data passed successfully");
                 }
 
-                startActivity(intent);
-
-//                Log.d("result", intent.getStringExtra("qid"));
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.frame, new ScanQRCodeFragment().newInstance(player));
-//                fragmentTransaction.commit();
+                startActivityForResult(intent, 1);
             }
         });
         return view;
@@ -112,4 +108,15 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == request_Code) {
+            if (resultCode == RESULT_OK) {
+                QRCode newCode = (QRCode) data.getParcelableExtra("newCode");
+                qrAdapter.add(newCode);
+            }
+        }
+    }
+
 }

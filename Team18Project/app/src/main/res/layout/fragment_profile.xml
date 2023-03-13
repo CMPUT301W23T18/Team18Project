@@ -25,6 +25,7 @@
         android:layout_marginStart="4dp"
         android:text="Username: "
         android:textSize="25sp"
+        android:imeOptions="actionDone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Account_Info_textView" />
 

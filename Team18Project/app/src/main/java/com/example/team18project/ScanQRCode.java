@@ -52,6 +52,7 @@ public class ScanQRCode extends AppCompatActivity {
     private double longitude;
     private Player player;
     private FirebaseFirestore db;
+    Intent data = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +165,8 @@ public class ScanQRCode extends AppCompatActivity {
                         QRCode code = new QRCode(finalSha25, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
                         code.setQid(id);
                         player.addQRCode(code);
+                        data.putExtra("newCode", code);
+                        setResult(HomeFragment.RESULT_OK, data);
 
                     }
                 });
@@ -179,6 +182,7 @@ public class ScanQRCode extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_LONG).show();
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
