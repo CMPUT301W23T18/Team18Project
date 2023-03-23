@@ -2,7 +2,9 @@ package com.example.team18project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -122,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
      * Replace the current fragment viewed by the user
      * @param fragment An instance of the fragment we want to switch to
      */
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
+        Log.d("TEST","4");
         player.sync();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
