@@ -4,4 +4,6 @@
     <string name="comment">Comment</string>
     <string name="delete">Delete</string>
     <string name="view">View</string>
+    <string name="location">Location</string>
+    <string name="comments">Comments</string>
 </resources>

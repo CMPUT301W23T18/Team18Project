@@ -216,6 +216,14 @@ public class QRCode implements Parcelable {
         return score;
     }
 
+    /**
+     * Adds a comment to this QR code
+     * @param comment the comment to be added
+     */
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
     //getters and setters
 
     /**

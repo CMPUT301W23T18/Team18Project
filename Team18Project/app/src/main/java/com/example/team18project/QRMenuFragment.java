@@ -40,21 +40,30 @@ public class QRMenuFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View content = LayoutInflater.from(getContext()).inflate(R.layout.fragment_qr_menu, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog dialog = builder.setView(content).create();
+
         TextView viewButton = content.findViewById(R.id.view_button);
-        TextView commentButton = content.findViewById(R.id.comment_button);
         TextView deleteButton = content.findViewById(R.id.delete_button);
 
-        //TODO add listeners for buttons
+
+        viewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(QRViewFragment.newInstance(player,code));
+                dialog.cancel();
+            }
+        });
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 player.removeQRCode(code);
                 adapter.notifyDataSetChanged();
+                dialog.cancel();
             }
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        return builder.setView(content).create();
+        return dialog;
     }
 }
