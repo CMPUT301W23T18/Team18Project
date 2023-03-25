@@ -123,7 +123,8 @@ public class Player implements Parcelable, Serializable {
         }
     }
 
-    // parsing implementation
+    // parcelable implementation
+
     /**
      * Constructs a Player from a given Parcel
      * @param in The parcel to construct the player from

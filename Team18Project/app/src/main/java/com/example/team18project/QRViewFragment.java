@@ -95,32 +95,17 @@ public class QRViewFragment extends Fragment {
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CollectionReference commentColl = FirebaseFirestore.getInstance().collection("Comments");
-                DocumentReference commentDoc = commentColl.document();
-
-                String cid = commentDoc.getId();
                 String posterId = player.getUid();
                 String posterUsername = player.getUsername();
                 String text = commentEditText.getText().toString();
 
-                //upload new comment to Firebase
-                Map<String, String> data = new HashMap<>();
-                data.put("posterId",posterId);
-                data.put("posterUsername",posterUsername);
-                data.put("text",text);
-                commentDoc.set(data);
-
-                Comment comment = new Comment(cid,posterId,posterUsername,text);
+                Comment comment = new Comment(null,posterId,posterUsername,text);
+                FirebaseWriter.getInstance().addComment(comment,code.getQid());
                 code.addComment(comment);
                 //TODO only adds to this instance of the code right now
                 //  since parcelables only pass copies, fix by either
                 //  adding sync method to QRCode or refactoring code to
                 //  have singleton session class to hold logged in player
-
-                //update QR code in Firebase to contain new comment
-                CollectionReference qrColl = FirebaseFirestore.getInstance().collection("QRCodes");
-                DocumentReference qrDoc = qrColl.document(code.getQid());
-                qrDoc.update("comments", FieldValue.arrayUnion(commentDoc));
 
                 //update views
                 commentAdapter.notifyDataSetChanged();

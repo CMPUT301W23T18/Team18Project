@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ActivityMainBinding binding;
     private boolean isTesting = false;
-    public String testAndroidID = "";
+    public String testAndroidID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +36,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //check if in testing mode
-        Intent intent = getIntent();
-        isTesting = intent.getBooleanExtra("isTesting",false);
-        testAndroidID = intent.getStringExtra("testAndroidID");
+        //check if being run by test class and update values appropriately
+        if (!isTesting) {
+            Intent intent = getIntent();
+            isTesting = intent.getBooleanExtra("isTesting",false);
+            testAndroidID = intent.getStringExtra("testAndroidID");
+        }
 
         db = FirebaseFirestore.getInstance();
         login();
@@ -92,13 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 //user doesn't have an account yet, make new one
                 if (username == null) {
                     player = new Player(finalId);
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("codes",new ArrayList<DocumentReference>());
-                    data.put("email","");
-                    data.put("isHidden",true);
-                    data.put("phoneNumber","");
-                    data.put("username","");
-                    playerReference.set(data);
+                    activityInit();
                     return;
                 }
                 //user account was found
@@ -118,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
                 activityInit();
             }
         });
+
+        //If the Player is new, a new account will be added to Firebase
+        FirebaseWriter.getInstance().addPlayer(finalId);
     }
 
     /**
@@ -125,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
      * @param fragment An instance of the fragment we want to switch to
      */
     public void replaceFragment(Fragment fragment) {
-        Log.d("TEST","4");
         player.sync();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

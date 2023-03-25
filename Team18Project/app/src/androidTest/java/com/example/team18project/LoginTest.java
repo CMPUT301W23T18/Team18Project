@@ -35,7 +35,7 @@ public class LoginTest {
     }
 
     @Test
-    public void testExistingAccount() { //TODO account has been modified, use different one
+    public void testExistingAccount() {
         Intent intent = new Intent();
         intent.putExtra("isTesting", true);
         intent.putExtra("testAndroidID", "LoginTest");
