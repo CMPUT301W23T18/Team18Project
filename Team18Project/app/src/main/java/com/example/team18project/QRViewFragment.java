@@ -1,7 +1,5 @@
 package com.example.team18project;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,21 +9,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,6 +43,9 @@ public class QRViewFragment extends Fragment {
     private Player player;
     private QRCode code;
     private CommentArrayAdapter commentAdapter;
+    private ArrayAdapter<String> otherPlayerAdaptor;
+
+    private ArrayList<String> otherPlayerList;
 
     public QRViewFragment() {
         // Required empty public constructor
@@ -82,6 +87,7 @@ public class QRViewFragment extends Fragment {
         TextView location = view.findViewById(R.id.qrcode_location);
         TextView numScans = view.findViewById(R.id.qrcode_num_scans);
         ListView commentList = view.findViewById(R.id.comment_list);
+        ListView otherPlayerList = view.findViewById(R.id.other_player_list);
         Button commentButton = view.findViewById(R.id.post_comment_button);
         EditText commentEditText = view.findViewById(R.id.edit_text_comment);
 
@@ -92,6 +98,11 @@ public class QRViewFragment extends Fragment {
         numScans.setText("TODO");
         commentAdapter = new CommentArrayAdapter(getContext(),code.getComments());
         commentList.setAdapter(commentAdapter);
+        getOtherPlayer(code);
+        otherPlayerAdaptor = new ArrayAdapter<String>(getContext(), 0, (List<String>) otherPlayerList);
+        otherPlayerList.setAdapter(otherPlayerAdaptor);
+
+
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,4 +140,26 @@ public class QRViewFragment extends Fragment {
         });
         return view;
     }
+
+    private void getOtherPlayer(QRCode code) {
+        otherPlayerList = new ArrayList<String>();
+        FirebaseFirestore.getInstance().collection("Players")
+                .whereEqualTo("isHidden", false)
+                .whereArrayContains("codes", code.getQid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String newUser = document.get("username").toString();
+                                otherPlayerList.add(newUser);
+                            }
+                        } else {
+                            Log.d("SearchError:", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
 }
