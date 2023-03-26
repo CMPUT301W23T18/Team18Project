@@ -31,6 +31,7 @@ import java.util.Objects;
  * Class for modelling QR codes.
  */
 public class QRCode implements Parcelable {
+    public static final int NULL_LOCATION = -1000;
     private String qid;
     private String value;
     private ArrayList<String> photoIds; //TODO different data type might be better, look into it
@@ -146,6 +147,16 @@ public class QRCode implements Parcelable {
         while (!readTask.isComplete()) {
             //wait until document is read
         }
+    }
+
+    public static String computeQid(double latitude, double longitude, String hash) {
+        if (latitude == QRCode.NULL_LOCATION) {
+            return hash + "_" + "null_location";
+        }
+
+        double roundedLat = (double) Math.round(latitude * 10000) / 10000;
+        double roundedLong = (double) Math.round(longitude * 10000) / 10000;
+        return hash + "_" + Double.toString(roundedLat) + "_" + Double.toString(roundedLong);
     }
 
     /**
