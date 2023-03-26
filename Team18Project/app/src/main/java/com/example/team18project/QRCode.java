@@ -14,8 +14,10 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -117,6 +119,33 @@ public class QRCode implements Parcelable {
         dest.writeString(value);
         dest.writeDouble(longitude);
         dest.writeDouble(latitude);
+    }
+
+    public static void uploadQRCode(QRCode code) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference codesCollection = db.collection("QRCodes");
+        DocumentReference reference = codesCollection.document(code.getQid());
+        Task readTask = reference.get();
+
+        readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String hash = documentSnapshot.getString("value");
+                if (hash == null) { // this is a newly scanned qr code
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("comments",new ArrayList<DocumentReference>());
+                    data.put("latitude",code.getLatitude());
+                    data.put("longitude",code.getLongitude());
+                    data.put("photo", null);
+                    data.put("value", code.getValue());
+                    reference.set(data);
+                }
+            }
+        });
+
+        while (!readTask.isComplete()) {
+            //wait until document is read
+        }
     }
 
     /**

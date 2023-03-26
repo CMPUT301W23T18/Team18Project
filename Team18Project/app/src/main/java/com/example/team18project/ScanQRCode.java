@@ -1,5 +1,7 @@
 package com.example.team18project;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -9,11 +11,13 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -36,6 +40,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,33 +63,17 @@ import java.util.Map;
  * Apache License 2.0
  */
 public class ScanQRCode extends AppCompatActivity {
-
-    private Button scanButton;
     private boolean takePhoto;
     private double latitude;
     private double longitude;
-    private Player player;
-    private FirebaseFirestore db;
-    Intent data = new Intent();
+    private Intent data = new Intent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qrcode);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            player = (Player) getIntent().getSerializableExtra("player");
-        }
-//        Log.d("testing", "Data in add qr activity");
-//        Log.d("testing", player.toString());
-//        if (player.getUid() == null) Log.d("testing", "no uid");
-//        if (player.getUsername() == null) Log.d("testing", "no username");
-//        if (player.getUid() == null) Log.d("testing", "no uid");
-//        if (player.getPhoneNumber() == null) Log.d("testing", "no number");
-        db = FirebaseFirestore.getInstance();
-
-        scanButton = findViewById(R.id.scan_button);
+        Button scanButton = findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,95 +114,46 @@ public class ScanQRCode extends AppCompatActivity {
      * Creates a new capture activity and initiates the scan.
      */
     public void scanCode() {
-        IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setCaptureActivity(QrCodeCaptureActivity.class);
-        integrator.setOrientationLocked(false);
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-        integrator.setPrompt("Scanning Codes");
-        integrator.initiateScan();
+        ScanOptions options = new ScanOptions();
+        options.setPrompt("Scanning Codes");
+        options.setBeepEnabled(true);
+        options.setOrientationLocked(true);
+        options.setCaptureActivity(QrCodeCaptureActivity.class);
+        barScanner.launch(options);
     }
 
-    /**
-     * Processes the results from the scan activity. We first use the SHA256 algorithm to compute
-     * the hash for the scanned QRCode. The id of the QRCode is determined by its hash value,
-     * alongside its latitude and longitude. If the scanned QRCode is new, it is added to the
-     * database. Finally, the we add our newly created QRCode object into the result Intent object.
-     *
-     * If the user checks the checks the take_photo_switch, an additional ACTION_IMAGE_CAPTURE
-     * activity is started after the user scans the QR code, but processing the results of this
-     * activity have not yet been implemented.
-     * @param requestCode The integer request code originally supplied to
-     *                    startActivityForResult(), allowing you to identify who this
-     *                    result came from.
-     * @param resultCode The integer result code returned by the child activity
-     *                   through its setResult().
-     * @param data An Intent, which can return result data to the caller
-     *               (various data can be attached to Intent "extras").
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() != null) {
-                if (takePhoto) {
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        try {
-                            startActivityForResult(takePictureIntent, 1);
-                        } catch (ActivityNotFoundException e) {
-                            Log.d("ERROR", "Activity not found");
-                        }
-                }
-
-                String sha256 = null;
-                try {
-                    sha256 = QRCode.getSHA256(result.getContents());
-                } catch (NoSuchAlgorithmException e) {
-                    Toast.makeText(getApplicationContext(), "ERROR: could not hash value", Toast.LENGTH_LONG).show();
-                    finish();
-                }
-
-                double roundedLat = (double) Math.round(latitude * 10000) / 10000;
-                double roundedLong = (double) Math.round(longitude * 10000) / 10000;
-                String id = sha256 + "_" + Double.toString(roundedLat) + "_" + Double.toString(roundedLong);
-                QRCode code = new QRCode(sha256, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
-                code.setQid(id);
-                Log.d("testing", id);
-                CollectionReference qrcodesColl = db.collection("QRCodes");
-                DocumentReference qrcodesReference = qrcodesColl.document(id);
-                Task readTask = qrcodesReference.get();
-
-                String finalSha25 = sha256;
-                readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String hash = documentSnapshot.getString("value");
-                        if (hash == null) { // this is a newly scanned qr code
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("comments",new ArrayList<DocumentReference>());
-                            data.put("latitude",latitude);
-                            data.put("longitude",longitude);
-                            data.put("photo", null);
-                            data.put("value", finalSha25);
-                            qrcodesReference.set(data);
-                        }
-
-                        QRCode code = new QRCode(finalSha25, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
-                        code.setQid(id);
-                        player.addQRCode(code);
-
-                    }
-                });
-
-                data.putExtra("newCode", code);
-                setResult(HomeFragment.RESULT_OK, data);
+    ActivityResultLauncher<Intent> takePicture = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
                 finish();
-            } else {
-                Toast.makeText(this, "no result", Toast.LENGTH_LONG).show();
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
+    );
+
+    ActivityResultLauncher<ScanOptions> barScanner = registerForActivityResult(new ScanContract(), result -> {
+        if (result.getContents() != null) {
+            String sha256 = null;
+            try {
+                sha256 = QRCode.getSHA256(result.getContents());
+            } catch (NoSuchAlgorithmException e) {
+                Toast.makeText(getApplicationContext(), "ERROR: could not hash value", Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+            double roundedLat = (double) Math.round(latitude * 10000) / 10000;
+            double roundedLong = (double) Math.round(longitude * 10000) / 10000;
+            QRCode code = new QRCode(sha256, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
+            String id = sha256 + "_" + Double.toString(roundedLat) + "_" + Double.toString(roundedLong);
+            code.setQid(id);
+            data.putExtra("newCode", code);
+            setResult(Activity.RESULT_OK, data);
+            if (takePhoto) {
+                Intent takePicIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                takePicture.launch(takePicIntent);
+            } else {
+                finish();
+            }
         }
-    }
+    });
 
     /**
      * Handles the results of a permission request initiated by the system.
