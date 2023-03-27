@@ -87,7 +87,7 @@ public class QRViewFragment extends Fragment {
         TextView location = view.findViewById(R.id.qrcode_location);
         TextView numScans = view.findViewById(R.id.qrcode_num_scans);
         ListView commentList = view.findViewById(R.id.comment_list);
-        ListView otherPlayerList = view.findViewById(R.id.other_player_list);
+        ListView otherPlayerListView = view.findViewById(R.id.other_player_list);
         Button commentButton = view.findViewById(R.id.post_comment_button);
         EditText commentEditText = view.findViewById(R.id.edit_text_comment);
 
@@ -100,7 +100,7 @@ public class QRViewFragment extends Fragment {
         commentList.setAdapter(commentAdapter);
         getOtherPlayer(code);
         otherPlayerAdaptor = new ArrayAdapter<String>(getContext(), 0, (List<String>) otherPlayerList);
-        otherPlayerList.setAdapter(otherPlayerAdaptor);
+        otherPlayerListView.setAdapter(otherPlayerAdaptor);
 
 
         commentButton.setOnClickListener(new View.OnClickListener() {
