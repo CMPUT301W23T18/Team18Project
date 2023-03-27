@@ -1,5 +1,6 @@
-package com.example.team18project;
+package com.example.team18project.controller;
 
+import com.example.team18project.model.Player;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 

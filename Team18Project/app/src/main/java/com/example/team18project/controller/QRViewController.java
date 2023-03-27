@@ -1,4 +1,7 @@
-package com.example.team18project;
+package com.example.team18project.controller;
+
+import com.example.team18project.model.Comment;
+import com.example.team18project.model.QRCode;
 
 public class QRViewController {
     private QRCode code;

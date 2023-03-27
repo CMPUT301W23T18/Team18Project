@@ -1,16 +1,19 @@
-package com.example.team18project;
+package com.example.team18project.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.team18project.model.QRArrayAdapter;
+import com.example.team18project.R;
+import com.example.team18project.model.Comment;
+import com.example.team18project.model.QRCode;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;

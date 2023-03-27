@@ -1,13 +1,9 @@
-package com.example.team18project;
-
-import static android.content.ContentValues.TAG;
+package com.example.team18project.view;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +13,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import com.example.team18project.model.CommentArrayAdapter;
+import com.example.team18project.R;
+import com.example.team18project.controller.QRViewController;
+import com.example.team18project.model.Comment;
+import com.example.team18project.model.Player;
+import com.example.team18project.model.QRCode;
 
 /**
  * A simple {@link Fragment} subclass.

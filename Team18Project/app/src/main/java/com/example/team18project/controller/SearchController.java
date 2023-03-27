@@ -1,10 +1,11 @@
-package com.example.team18project;
+package com.example.team18project.controller;
 
 import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
+import com.example.team18project.view.SearchFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;

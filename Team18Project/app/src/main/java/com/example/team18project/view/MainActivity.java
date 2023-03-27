@@ -1,17 +1,19 @@
-package com.example.team18project;
+package com.example.team18project.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Debug;
 import android.provider.Settings;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.team18project.controller.FirebaseWriter;
+import com.example.team18project.R;
 import com.example.team18project.databinding.ActivityMainBinding;
+import com.example.team18project.model.Player;
+import com.example.team18project.model.QRCode;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -20,8 +22,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private Player player;

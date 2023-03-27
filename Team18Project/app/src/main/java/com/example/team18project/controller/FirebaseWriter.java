@@ -1,9 +1,11 @@
-package com.example.team18project;
+package com.example.team18project.controller;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.team18project.model.Comment;
+import com.example.team18project.model.Player;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseWriter {
-    interface OnWrittenListener {
+    public interface OnWrittenListener {
         public void onWritten(boolean isSuccessful);
     }
 
