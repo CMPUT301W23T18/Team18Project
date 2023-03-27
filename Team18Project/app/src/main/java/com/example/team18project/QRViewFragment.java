@@ -90,6 +90,7 @@ public class QRViewFragment extends Fragment {
         score.setText("Score: " + Integer.toString(code.getScore()));
         location.setText("Latitude: " + Double.toString(code.getLatitude()) + "\nLongitude: " + Double.toString(code.getLongitude()));
         numScans.setText("TODO");
+
         commentAdapter = new CommentArrayAdapter(getContext(),code.getComments());
         commentList.setAdapter(commentAdapter);
         commentButton.setOnClickListener(new View.OnClickListener() {
@@ -100,12 +101,7 @@ public class QRViewFragment extends Fragment {
                 String text = commentEditText.getText().toString();
 
                 Comment comment = new Comment(null,posterId,posterUsername,text);
-                FirebaseWriter.getInstance().addComment(comment,code.getQid());
-                code.addComment(comment);
-                //TODO only adds to this instance of the code right now
-                //  since parcelables only pass copies, fix by either
-                //  adding sync method to QRCode or refactoring code to
-                //  have singleton session class to hold logged in player
+                new QRViewController(code).postComment(comment);
 
                 //update views
                 commentAdapter.notifyDataSetChanged();

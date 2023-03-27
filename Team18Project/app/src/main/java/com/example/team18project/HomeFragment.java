@@ -33,15 +33,10 @@ public class HomeFragment extends Fragment {
 
     public static int request_Code = 1;
     public static int RESULT_OK = 0;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "player";
 
-    // TODO: Rename and change types of parameters
     private Player player;
-    private ArrayList<QRCode> qrData;
-    private ListView qrList;
-    private QRArrayAdapter qrAdapter;
+    QRArrayAdapter qrAdapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -96,9 +91,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        qrData = player.getCodes();
+
         //make ListView
-        qrList = (ListView) getView().findViewById(R.id.qr_list);
+        ArrayList<QRCode> qrData = player.getCodes();
+        ListView qrList = (ListView) getView().findViewById(R.id.qr_list);
         qrAdapter = new QRArrayAdapter(getContext(), qrData);
         qrList.setAdapter(qrAdapter);
 

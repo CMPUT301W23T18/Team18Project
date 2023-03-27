@@ -2,6 +2,9 @@ package com.example.team18project;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -9,12 +12,19 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseWriter {
+    interface OnWrittenListener {
+        public void onWritten(boolean isSuccessful);
+    }
+
     private static FirebaseWriter instance = null;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -93,5 +103,34 @@ public class FirebaseWriter {
         CollectionReference qrColl = db.collection("QRCodes");
         DocumentReference qrDoc = qrColl.document(qid);
         qrDoc.update("comments", FieldValue.arrayUnion(commentDoc));
+    }
+
+
+    public void updateUsername(Player player, String newUsername, OnWrittenListener listener) {
+        CollectionReference usersRef = db.collection("Players");
+        DocumentReference playerRef = usersRef.document(player.getUid());
+        Query query = usersRef.whereIn("username", Arrays.asList(newUsername));
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot.isEmpty()) {
+                        // There are no instances of the data
+                        playerRef.update("username", newUsername);
+                        listener.onWritten(true);
+                    } else {
+                        listener.onWritten(false);
+                        // There is at least one instance of the data
+                        //userNameText.setText(currentPlayer.getUsername());
+                        // implement pop up here
+                        //Toast.makeText(getContext(), "Username already in Use!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Handle any errors
+                }
+            }
+        });
     }
 }
