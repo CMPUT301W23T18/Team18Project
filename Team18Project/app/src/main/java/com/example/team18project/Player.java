@@ -1,4 +1,4 @@
-package com.example.team18project.model;
+package com.example.team18project;
 
 import static android.content.ContentValues.TAG;
 
@@ -123,8 +123,7 @@ public class Player implements Parcelable, Serializable {
         }
     }
 
-    // parcelable implementation
-
+    // parsing implementation
     /**
      * Constructs a Player from a given Parcel
      * @param in The parcel to construct the player from

@@ -1,4 +1,4 @@
-package com.example.team18project.view;
+package com.example.team18project;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,10 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-
-import com.example.team18project.R;
-import com.example.team18project.model.Player;
-import com.example.team18project.model.QRCode;
 
 /**
  * A simple {@link Fragment} subclass.

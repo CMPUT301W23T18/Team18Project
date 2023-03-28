@@ -4,12 +4,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
+import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.team18project.model.Player;
-import com.example.team18project.view.MainActivity;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,7 +35,7 @@ public class LoginTest {
     }
 
     @Test
-    public void testExistingAccount() {
+    public void testExistingAccount() { //TODO account has been modified, use different one
         Intent intent = new Intent();
         intent.putExtra("isTesting", true);
         intent.putExtra("testAndroidID", "LoginTest");

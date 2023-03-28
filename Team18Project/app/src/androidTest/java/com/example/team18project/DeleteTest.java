@@ -8,9 +8,6 @@ import android.content.Intent;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.team18project.model.Player;
-import com.example.team18project.model.QRCode;
-import com.example.team18project.view.MainActivity;
 import com.robotium.solo.Solo;
 
 import org.junit.After;

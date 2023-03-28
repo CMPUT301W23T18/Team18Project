@@ -5,7 +5,8 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ProfileFragment">
+    android:background="@color/purple_200"
+    tools:context=".ProfileFragment">
 
     <TextView
         android:id="@+id/Account_Info_textView"

@@ -1,21 +1,19 @@
-package com.example.team18project.view;
+package com.example.team18project;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-
-import com.example.team18project.model.QRArrayAdapter;
-import com.example.team18project.R;
-import com.example.team18project.model.Player;
-import com.example.team18project.model.QRCode;
+import androidx.fragment.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * Fragment for menu that pops up when a QR Code is clicked

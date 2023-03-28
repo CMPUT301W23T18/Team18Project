@@ -1,24 +1,27 @@
-package com.example.team18project.view;
+package com.example.team18project;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.example.team18project.model.QRArrayAdapter;
-import com.example.team18project.R;
-import com.example.team18project.model.Player;
-import com.example.team18project.model.QRCode;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,10 +33,15 @@ public class HomeFragment extends Fragment {
 
     public static int request_Code = 1;
     public static int RESULT_OK = 0;
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "player";
 
+    // TODO: Rename and change types of parameters
     private Player player;
-    QRArrayAdapter qrAdapter;
+    private ArrayList<QRCode> qrData;
+    private ListView qrList;
+    private QRArrayAdapter qrAdapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -88,10 +96,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        qrData = player.getCodes();
         //make ListView
-        ArrayList<QRCode> qrData = player.getCodes();
-        ListView qrList = (ListView) getView().findViewById(R.id.qr_list);
+        qrList = (ListView) getView().findViewById(R.id.qr_list);
         qrAdapter = new QRArrayAdapter(getContext(), qrData);
         qrList.setAdapter(qrAdapter);
 

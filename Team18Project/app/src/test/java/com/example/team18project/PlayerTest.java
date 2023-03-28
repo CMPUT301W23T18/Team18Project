@@ -1,8 +1,4 @@
 package com.example.team18project;
-import com.example.team18project.model.Comment;
-import com.example.team18project.model.Player;
-import com.example.team18project.model.QRCode;
-
 import java.util.ArrayList;
 
 public class PlayerTest {
