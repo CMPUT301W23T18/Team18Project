@@ -25,6 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,7 +87,6 @@ public class QRViewFragment extends Fragment {
         TextView name = view.findViewById(R.id.qrcode_name);
         TextView score = view.findViewById(R.id.qrcode_score);
         TextView location = view.findViewById(R.id.qrcode_location);
-        TextView numScans = view.findViewById(R.id.qrcode_num_scans);
         ListView commentList = view.findViewById(R.id.comment_list);
         ListView otherPlayerListView = view.findViewById(R.id.other_player_list);
         Button commentButton = view.findViewById(R.id.post_comment_button);
@@ -95,13 +96,13 @@ public class QRViewFragment extends Fragment {
         name.setText(code.getName());
         score.setText("Score: " + Integer.toString(code.getScore()));
         location.setText("Latitude: " + Double.toString(code.getLatitude()) + "\nLongitude: " + Double.toString(code.getLongitude()));
-        numScans.setText("TODO");
         commentAdapter = new CommentArrayAdapter(getContext(),code.getComments());
         commentList.setAdapter(commentAdapter);
-        getOtherPlayer(code);
-        otherPlayerAdaptor = new ArrayAdapter<String>(getContext(), 0, (List<String>) otherPlayerList);
-        otherPlayerListView.setAdapter(otherPlayerAdaptor);
 
+        getOtherPlayer(code);
+        otherPlayerList = new ArrayList<>();
+        otherPlayerAdaptor = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, otherPlayerList);
+        otherPlayerListView.setAdapter(otherPlayerAdaptor);
 
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +143,6 @@ public class QRViewFragment extends Fragment {
     }
 
     private void getOtherPlayer(QRCode code) {
-        otherPlayerList = new ArrayList<String>();
         CollectionReference qrColl = FirebaseFirestore.getInstance().collection("QRCodes");
         FirebaseFirestore.getInstance().collection("Players")
                 .whereEqualTo("isHidden", false)
@@ -156,11 +156,11 @@ public class QRViewFragment extends Fragment {
                                 String newUser = document.get("username").toString();
                                 otherPlayerList.add(newUser);
                             }
+                            otherPlayerAdaptor.notifyDataSetChanged();
                         } else {
                             Log.d("SearchError:", "Error getting documents: ", task.getException());
                         }
                     }
                 });
     }
-
 }
