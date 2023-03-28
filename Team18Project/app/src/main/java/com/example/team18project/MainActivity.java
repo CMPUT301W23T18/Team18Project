@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
      * Replace the current fragment viewed by the user
      * @param fragment An instance of the fragment we want to switch to
      */
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         player.sync();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
