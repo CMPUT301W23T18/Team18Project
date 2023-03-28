@@ -1,4 +1,4 @@
-package com.example.team18project;
+package com.example.team18project.model;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.team18project.R;
+import com.example.team18project.model.QRCode;
 
 import java.util.ArrayList;
 

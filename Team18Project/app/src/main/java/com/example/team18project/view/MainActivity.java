@@ -1,17 +1,19 @@
-package com.example.team18project;
+package com.example.team18project.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Debug;
 import android.provider.Settings;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.team18project.controller.FirebaseWriter;
+import com.example.team18project.R;
 import com.example.team18project.databinding.ActivityMainBinding;
+import com.example.team18project.model.Player;
+import com.example.team18project.model.QRCode;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -20,15 +22,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private Player player;
     private FirebaseFirestore db;
     private ActivityMainBinding binding;
     private boolean isTesting = false;
-    public String testAndroidID = "";
+    public String testAndroidID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +36,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //check if in testing mode
-        Intent intent = getIntent();
-        isTesting = intent.getBooleanExtra("isTesting",false);
-        testAndroidID = intent.getStringExtra("testAndroidID");
+        //check if being run by test class and update values appropriately
+        if (!isTesting) {
+            Intent intent = getIntent();
+            isTesting = intent.getBooleanExtra("isTesting",false);
+            testAndroidID = intent.getStringExtra("testAndroidID");
+        }
 
         db = FirebaseFirestore.getInstance();
         login();
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         binding.navBar.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home_icon:replaceFragment(HomeFragment.newInstance(player)); break;
-                case R.id.all_qr_codes_icon: replaceFragment(new AllQRCodesFragment()); break;
+                case R.id.all_qr_codes_icon: replaceFragment(AllQRCodesFragment.newInstance(player)); break;
                 case R.id.search_icon: replaceFragment(new SearchFragment().newInstance()); break;
                 case R.id.stats_icon:replaceFragment(new StatsFragment().newInstance(player)); break;
                 case R.id.profile_icon:replaceFragment(new ProfileFragment().newInstance(player)); break;
@@ -92,13 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 //user doesn't have an account yet, make new one
                 if (username == null) {
                     player = new Player(finalId);
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("codes",new ArrayList<DocumentReference>());
-                    data.put("email","");
-                    data.put("isHidden",true);
-                    data.put("phoneNumber","");
-                    data.put("username","");
-                    playerReference.set(data);
+                    activityInit();
                     return;
                 }
                 //user account was found
@@ -118,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
                 activityInit();
             }
         });
+
+        //If the Player is new, a new account will be added to Firebase
+        FirebaseWriter.getInstance().addPlayer(finalId);
     }
 
     /**
@@ -125,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
      * @param fragment An instance of the fragment we want to switch to
      */
     public void replaceFragment(Fragment fragment) {
-        Log.d("TEST","4");
         player.sync();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
