@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <ImageView
@@ -23,16 +23,15 @@
             android:id="@+id/qrcode_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:text="Name"
             android:textAlignment="center"
-            android:textSize="24sp" />
+            android:textSize="34sp" />
 
         <TextView
             android:id="@+id/qrcode_score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="10dp"
             android:text="Score"
             android:textAlignment="center"
             android:textSize="24sp" />
@@ -55,26 +54,10 @@
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/qrcode_num_scans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
-            android:padding="5dp"
-            android:text="Players who have scanned this QR code"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/other_player_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:nestedScrollingEnabled="true" />
-        </LinearLayout>
+            android:text="qrcode_num_scans" />
 
         <TextView
             android:id="@+id/comments"
@@ -109,12 +92,31 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="274dp"
             android:orientation="vertical">
 
             <ListView
                 android:id="@+id/comment_list"
+                android:layout_width="match_parent"
+                android:layout_height="253dp"
+                android:dividerHeight="10sp"
+                android:nestedScrollingEnabled="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/light_gray"
+                android:text="Other players who scanned the same QRCode"
+                android:textSize="20sp"
+                android:textStyle="bold"  />
+
+            <ListView
+                android:id="@+id/other_player_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:dividerHeight="10sp"
