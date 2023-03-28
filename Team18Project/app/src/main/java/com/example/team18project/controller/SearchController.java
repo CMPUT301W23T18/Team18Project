@@ -19,20 +19,22 @@ public class SearchController {
         
     }
 
-    public void generateUserList(final SearchFragment.UserListCallback callback) {
+    public void generateUserList(String searchText, final SearchFragment.UserListCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Players").whereEqualTo("isHidden", false)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        ArrayList<Pair<String, String>> userList = new ArrayList<>();
+                        ArrayList<String> usernameFilteredUserList = new ArrayList<>();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Pair<String, String> newUser = new Pair<>(document.getId(), document.get("username").toString());
-                                userList.add(newUser);
+                                String newUser = document.get("username").toString();
+                                if (newUser.toLowerCase().contains(searchText.toLowerCase())) {
+                                    usernameFilteredUserList.add(newUser);
+                                }
                             }
-                            callback.onUserListGenerated(userList);
+                            callback.onUserListGenerated(usernameFilteredUserList);
                         } else {
                             Log.d("SearchError:", "Error getting documents: ", task.getException());
                         }
