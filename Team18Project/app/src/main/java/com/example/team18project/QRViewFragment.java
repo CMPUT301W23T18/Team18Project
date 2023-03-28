@@ -143,9 +143,10 @@ public class QRViewFragment extends Fragment {
 
     private void getOtherPlayer(QRCode code) {
         otherPlayerList = new ArrayList<String>();
+        CollectionReference qrColl = FirebaseFirestore.getInstance().collection("QRCodes");
         FirebaseFirestore.getInstance().collection("Players")
                 .whereEqualTo("isHidden", false)
-                .whereArrayContains("codes", code.getQid())
+                .whereArrayContains("codes", qrColl.document(code.getQid()))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
