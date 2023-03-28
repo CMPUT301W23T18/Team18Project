@@ -1,16 +1,22 @@
 package com.example.team18project.controller;
 
 import com.example.team18project.model.Comment;
+import com.example.team18project.model.Player;
 import com.example.team18project.model.QRCode;
 
 public class QRViewController {
+    private Player player;
     private QRCode code;
 
-    public QRViewController(QRCode code) {
+    public QRViewController(Player player, QRCode code) {
+        this.player = player;
         this.code = code;
     }
 
-    public void postComment(Comment comment) {
+    public void postComment(String text) {
+        String posterId = player.getUid();
+        String posterUsername = player.getUsername();
+        Comment comment = new Comment(null,posterId,posterUsername,text);
         FirebaseWriter.getInstance().addComment(comment,code.getQid());
         code.addComment(comment);
         //TODO only adds to this instance of the code right now

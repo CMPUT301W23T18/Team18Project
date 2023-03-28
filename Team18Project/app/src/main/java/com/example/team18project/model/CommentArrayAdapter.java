@@ -1,6 +1,7 @@
 package com.example.team18project.model;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class CommentArrayAdapter extends ArrayAdapter<Comment> {
         } else {
             view = convertView;
         }
+        Log.d("Michael",Integer.toString(position));
         Comment comment = getItem(position);
         TextView usernameText = view.findViewById(R.id.username);
         TextView contentText = view.findViewById(R.id.content);

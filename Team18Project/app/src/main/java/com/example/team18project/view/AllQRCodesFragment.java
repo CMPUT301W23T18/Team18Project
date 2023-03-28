@@ -1,15 +1,19 @@
 package com.example.team18project.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.team18project.controller.AllQRCodesController;
+import com.example.team18project.model.Player;
 import com.example.team18project.model.QRArrayAdapter;
 import com.example.team18project.R;
 import com.example.team18project.model.Comment;
@@ -29,19 +33,24 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class AllQRCodesFragment extends Fragment {
+    private static final String ARG_PARAM1 = "player";
 
+    private AllQRCodesController controller;
     private ArrayList<QRCode> otherQRCodeList;
     private ListView qrListView;
     private QRArrayAdapter qrAdapter;
+    private Player player;
 
     /**
      * Create a new instance of the AllQRCodesFragment and bundle any passed parameters
      * @return the instance of our new fragment
      */
-    public static AllQRCodesFragment newInstance() {
+    public static AllQRCodesFragment newInstance(Player player) {
         AllQRCodesFragment fragment = new AllQRCodesFragment();
         Bundle args = new Bundle();
+        args.putParcelable(ARG_PARAM1,player);
         fragment.setArguments(args);
+        fragment.controller = new AllQRCodesController();
         return fragment;
     }
 
@@ -52,7 +61,9 @@ public class AllQRCodesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (getArguments() != null) {
+            player = getArguments().getParcelable(ARG_PARAM1);
+        }
     }
 
     @Override
@@ -63,6 +74,15 @@ public class AllQRCodesFragment extends Fragment {
         qrListView = (ListView) getView().findViewById(R.id.other_qrcode_list);
         qrAdapter = new QRArrayAdapter(getContext(), otherQRCodeList);
         qrListView.setAdapter(qrAdapter);
+        qrListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                QRCode clicked = (QRCode) qrListView.getItemAtPosition(position);
+                Log.d("Michael",Boolean.toString(clicked == null));
+                ((MainActivity) getActivity()).replaceFragment(QRViewFragment.newInstance(player,clicked));
+            }
+        });
+
         getAllQRCode(otherQRCodeList, qrAdapter);
     }
 
@@ -78,16 +98,7 @@ public class AllQRCodesFragment extends Fragment {
         qrCodesColl.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-                otherQRCodeList.clear();
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    //Log.d(TAG, String.valueOf(doc.getData().get("Province Name")));
-                    Double longitude = doc.getDouble("longitude");
-                    Double latitude = doc.getDouble("latitude");
-                    String value = doc.getString("value");
-                    ArrayList<Comment> comments = (ArrayList<Comment>) doc.get("comments");
-                    ArrayList<String> photoIds = (ArrayList<String>) doc.get("photo");
-                    otherQRCodeList.add(new QRCode(value, photoIds, comments, longitude, latitude)); // Adding the cities and provinces from FireStore
-                }
+                controller.updateQRCodes(otherQRCodeList,queryDocumentSnapshots);
                 qrArrayAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched from the cloud
             }
         });

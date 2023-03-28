@@ -33,6 +33,7 @@ public class QRViewFragment extends Fragment {
     private Player player;
     private QRCode code;
     private CommentArrayAdapter commentAdapter;
+    private QRViewController controller;
 
     public QRViewFragment() {
         // Required empty public constructor
@@ -61,6 +62,7 @@ public class QRViewFragment extends Fragment {
         if (getArguments() != null) {
             player = getArguments().getParcelable(ARG_PARAM1);
             code = getArguments().getParcelable(ARG_PARAM2);
+            controller = new QRViewController(player,code);
         }
     }
 
@@ -88,12 +90,8 @@ public class QRViewFragment extends Fragment {
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String posterId = player.getUid();
-                String posterUsername = player.getUsername();
                 String text = commentEditText.getText().toString();
-
-                Comment comment = new Comment(null,posterId,posterUsername,text);
-                new QRViewController(code).postComment(comment);
+                controller.postComment(text);
 
                 //update views
                 commentAdapter.notifyDataSetChanged();
