@@ -146,9 +146,9 @@ public class QRCode implements Parcelable {
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference mountainsRef = storageRef.child(path);
+        StorageReference imageRef = storageRef.child(path);
 
-        UploadTask uploadTask = mountainsRef.putBytes(data);
+        UploadTask uploadTask = imageRef.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
