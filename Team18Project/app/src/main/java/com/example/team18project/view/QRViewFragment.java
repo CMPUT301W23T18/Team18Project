@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,6 +20,8 @@ import com.example.team18project.controller.QRViewController;
 import com.example.team18project.model.Comment;
 import com.example.team18project.model.Player;
 import com.example.team18project.model.QRCode;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +37,8 @@ public class QRViewFragment extends Fragment {
     private QRCode code;
     private CommentArrayAdapter commentAdapter;
     private QRViewController controller;
+    private ArrayAdapter<String> otherPlayerAdapter;
+    private ArrayList<String> otherPlayerList;
 
     public QRViewFragment() {
         // Required empty public constructor
@@ -74,8 +79,8 @@ public class QRViewFragment extends Fragment {
         TextView name = view.findViewById(R.id.qrcode_name);
         TextView score = view.findViewById(R.id.qrcode_score);
         TextView location = view.findViewById(R.id.qrcode_location);
-        TextView numScans = view.findViewById(R.id.qrcode_num_scans);
         ListView commentList = view.findViewById(R.id.comment_list);
+        ListView otherPlayerListView = view.findViewById(R.id.other_player_list);
         Button commentButton = view.findViewById(R.id.post_comment_button);
         EditText commentEditText = view.findViewById(R.id.edit_text_comment);
 
@@ -83,7 +88,11 @@ public class QRViewFragment extends Fragment {
         name.setText(code.getName());
         score.setText("Score: " + Integer.toString(code.getScore()));
         location.setText("Latitude: " + Double.toString(code.getLatitude()) + "\nLongitude: " + Double.toString(code.getLongitude()));
-        numScans.setText("TODO");
+
+        otherPlayerList = new ArrayList<>();
+        otherPlayerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, otherPlayerList);
+        otherPlayerListView.setAdapter(otherPlayerAdapter);
+        controller.getOtherPlayers(code,otherPlayerList,otherPlayerAdapter);
 
         commentAdapter = new CommentArrayAdapter(getContext(),code.getComments());
         commentList.setAdapter(commentAdapter);
