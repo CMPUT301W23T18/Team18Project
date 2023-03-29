@@ -1,7 +1,6 @@
-package com.example.team18project;
+package com.example.team18project.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,24 +10,18 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.Arrays;
-import java.util.Collections;
+import com.example.team18project.controller.FirebaseWriter;
+import com.example.team18project.R;
+import com.example.team18project.controller.ProfileController;
+import com.example.team18project.model.Player;
 
 /**
  * A fragment used to represent the profile screen, where account information is displayed
  */
 public class ProfileFragment extends Fragment {
+    private ProfileController controller;
 
     private EditText userNameText;
     private EditText emailText;
@@ -38,10 +31,6 @@ public class ProfileFragment extends Fragment {
     private Button submitUser;
     private Button submitPhone;
     private Button submitEmail;
-    private FirebaseFirestore db;
-    CollectionReference usersRef;
-    DocumentReference playerRef;
-
     private Switch hideSwitch;
 
 
@@ -50,6 +39,7 @@ public class ProfileFragment extends Fragment {
         Bundle args = new Bundle();
         args.putParcelable("Player", player);
         fragment.setArguments(args);
+        fragment.controller = new ProfileController(player);
         return fragment;
     }
 
@@ -59,10 +49,6 @@ public class ProfileFragment extends Fragment {
         if (getArguments() != null) {
             currentPlayer = getArguments().getParcelable("Player");
         }
-        db = FirebaseFirestore.getInstance();
-        usersRef = db.collection("Players");
-        playerRef = usersRef.document(currentPlayer.getUid());
-
     }
 
     @Override
@@ -80,65 +66,48 @@ public class ProfileFragment extends Fragment {
         userNameText.setText(currentPlayer.getUsername());
         emailText.setText(currentPlayer.getEmail());
         userPhoneText.setText(currentPlayer.getPhoneNumber());
+
         // updating player username
         submitUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // do something when the button is clicked
                 String newUsername = userNameText.getText().toString();
-                Query query = usersRef.whereIn("username", Arrays.asList(newUsername));
-
-                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                controller.updateUsername(newUsername, new FirebaseWriter.OnWrittenListener() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            QuerySnapshot querySnapshot = task.getResult();
-                            if (querySnapshot.isEmpty()) {
-                                // There are no instances of the data
-                                playerRef.update("username", newUsername);
-                            } else {
-                                // There is at least one instance of the data
-                                userNameText.setText(currentPlayer.getUsername());
-                                // implement pop up here
-                                Toast.makeText(getContext(), "Username already in Use!", Toast.LENGTH_SHORT).show();
-
-                            }
-                        } else {
-                            // Handle any errors
+                    public void onWritten(boolean isSuccessful) {
+                        if (!isSuccessful) {
+                            // There is at least one instance of the data
+                            userNameText.setText(currentPlayer.getUsername());
+                            // implement pop up here
+                            Toast.makeText(getContext(), "Username already in Use!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-
             }
         });
-
-
-        // updating email
 
         submitPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerRef.update("phoneNumber", userPhoneText.getText().toString());
+                controller.updatePhoneNumber(userPhoneText.getText().toString());
             }
         });
 
         submitEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerRef.update("email", emailText.getText().toString());
+                controller.updateEmail(emailText.getText().toString());
             }
         });
         // changing if profile is hidden or not
         hideSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                playerRef.update("isHidden", isChecked);
+                controller.updateIsHidden(isChecked);
             }
         });
 
-
         return view;
     }
-
-
 }

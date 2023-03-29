@@ -1,4 +1,4 @@
-package com.example.team18project;
+package com.example.team18project.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -16,6 +16,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 public class Comment implements Parcelable {
     private String cid;
     private String posterId;
+    private String posterUsername;
     private String text;
 
     /**
@@ -24,9 +25,10 @@ public class Comment implements Parcelable {
      * @param posterId The Firestore document ID of the player who posted the comment
      * @param text The text of the comment
      */
-    public Comment(String cid, String posterId, String text) {
+    public Comment(String cid, String posterId, String posterUsername, String text) {
         this.cid = cid;
         this.posterId = posterId;
+        this.posterUsername = posterUsername;
         this.text = text;
     }
 
@@ -41,6 +43,7 @@ public class Comment implements Parcelable {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 cid = documentSnapshot.getId();
                 posterId = documentSnapshot.getString("posterId");
+                posterUsername = documentSnapshot.getString("posterUsername");
                 text = documentSnapshot.getString("text");
             }
         });
@@ -58,6 +61,7 @@ public class Comment implements Parcelable {
     protected Comment(Parcel in) {
         cid = in.readString();
         posterId = in.readString();
+        posterUsername = in.readString();
         text = in.readString();
     }
 
@@ -82,6 +86,7 @@ public class Comment implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(cid);
         dest.writeString(posterId);
+        dest.writeString(posterUsername);
         dest.writeString(text);
     }
 
@@ -101,6 +106,22 @@ public class Comment implements Parcelable {
      */
     public void setPosterId(String posterId) {
         this.posterId = posterId;
+    }
+
+    /**
+     * Gets the username of the player who posted the comment
+     * @return The comment poster's username
+     */
+    public String getPosterUsername() {
+        return posterUsername;
+    }
+
+    /**
+     * Sets the username of the comment's poster
+     * @param posterUsername The comment's poster's username
+     */
+    public void setPosterUsername(String posterUsername) {
+        this.posterUsername = posterUsername;
     }
 
     /**

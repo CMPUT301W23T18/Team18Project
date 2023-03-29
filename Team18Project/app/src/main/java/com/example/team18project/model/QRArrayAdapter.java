@@ -1,9 +1,6 @@
-package com.example.team18project;
+package com.example.team18project.model;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.io.Serializable;
+import com.example.team18project.R;
+import com.example.team18project.model.QRCode;
+
 import java.util.ArrayList;
 
 /**
@@ -26,8 +25,8 @@ import java.util.ArrayList;
  * @see QRCode
  */
 public class QRArrayAdapter extends ArrayAdapter<QRCode> {
-    public QRArrayAdapter(Context context, ArrayList<QRCode> cities) {
-        super(context, 0, cities);
+    public QRArrayAdapter(Context context, ArrayList<QRCode> codes) {
+        super(context, 0, codes);
     }
 
     @NonNull

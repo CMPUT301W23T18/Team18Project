@@ -14,29 +14,26 @@ import android.content.Intent;
 
 
 import static android.text.Selection.setSelection;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.pressKey;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isChecked;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import android.content.Intent;
 import android.util.Log;
 
+<<<<<<< HEAD
 import androidx.test.espresso.ViewAction;
 
+=======
+>>>>>>> 476678399841b76c290745485ef700772b00aaa2
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
+
+import com.example.team18project.view.MainActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
+<<<<<<< HEAD
 
 
 import com.google.android.gms.tasks.Task;
@@ -44,12 +41,15 @@ import com.google.android.gms.tasks.Task;
 
 import com.google.android.gms.tasks.Task;
 
+=======
+>>>>>>> 476678399841b76c290745485ef700772b00aaa2
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
+<<<<<<< HEAD
 
 
 import junit.framework.AssertionFailedError;
@@ -58,6 +58,8 @@ import junit.framework.AssertionFailedError;
 
 import junit.framework.AssertionFailedError;
 
+=======
+>>>>>>> 476678399841b76c290745485ef700772b00aaa2
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

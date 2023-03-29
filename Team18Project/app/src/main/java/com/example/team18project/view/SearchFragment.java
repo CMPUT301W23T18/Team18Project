@@ -1,4 +1,4 @@
-package com.example.team18project;
+package com.example.team18project.view;
 
 import static android.content.ContentValues.TAG;
 
@@ -20,10 +20,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+
+import com.example.team18project.model.Player;
+import com.example.team18project.model.QRCode;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+
+import com.example.team18project.R;
+import com.example.team18project.controller.SearchController;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -41,9 +48,13 @@ public class SearchFragment extends Fragment {
         void onUserListGenerated(ArrayList<Pair<String, String>> userList);
     }
     private FirebaseFirestore db;
+
     private Player clickedPlayer;
 
     CollectionReference playerColRef;
+
+    private SearchController controller;
+
 
     /**
      * Use this factory method to create a new instance of
@@ -56,6 +67,7 @@ public class SearchFragment extends Fragment {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        fragment.controller = new SearchController();
         return fragment;
     }
 
@@ -80,7 +92,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String searchText = usernameSearchEditText.getText().toString();
-                generateUserList(new UserListCallback() {
+                controller.generateUserList(new UserListCallback() {
                     @Override
                     public void onUserListGenerated(ArrayList<Pair<String, String>> userList) {
                         ArrayList<String> idFilteredUserList = new ArrayList<>();
@@ -145,26 +157,5 @@ public class SearchFragment extends Fragment {
         });
 
         return view;
-    }
-
-    public void generateUserList(final UserListCallback callback) {
-        db = FirebaseFirestore.getInstance();
-        db.collection("Players").whereEqualTo("isHidden", false)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        ArrayList<Pair<String, String>> userList = new ArrayList<>();
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Pair<String, String> newUser = new Pair<>(document.getId(), document.get("username").toString());
-                                userList.add(newUser);
-                            }
-                            callback.onUserListGenerated(userList);
-                        } else {
-                            Log.d("SearchError:", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
     }
 }
