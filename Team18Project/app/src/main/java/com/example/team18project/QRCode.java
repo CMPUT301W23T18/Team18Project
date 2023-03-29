@@ -189,7 +189,8 @@ public class QRCode implements Parcelable {
         });
 
         if (image != null) {
-            imagePath = "images/test.jpg";
+            imagePath = "images/img" + System.currentTimeMillis() + ".jpg";
+            ;
             uploadImage(image, imagePath);
             reference.update("photo", FieldValue.arrayUnion(imagePath))
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
