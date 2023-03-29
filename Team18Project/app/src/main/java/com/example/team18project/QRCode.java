@@ -1,5 +1,7 @@
 package com.example.team18project;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -152,12 +155,12 @@ public class QRCode implements Parcelable {
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                Log.d("message", "ERROR: upload failed");
+                Log.d(TAG, "ERROR: upload failed");
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d("message", "upload succeeded :)");
+                Log.d(TAG, "upload succeeded :)");
             }
         });
     }
@@ -169,12 +172,6 @@ public class QRCode implements Parcelable {
         Task readTask = reference.get();
         String imagePath = null;
 
-        if (image != null) {
-            imagePath = "images/test.jpg";
-            uploadImage(image, imagePath);
-        }
-
-        String finalImagePath = imagePath;
         readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -184,16 +181,31 @@ public class QRCode implements Parcelable {
                     data.put("comments",new ArrayList<DocumentReference>());
                     data.put("latitude",code.getLatitude());
                     data.put("longitude",code.getLongitude());
-                    data.put("photo", finalImagePath);
+                    data.put("photo", new ArrayList<String>());
                     data.put("value", code.getValue());
                     reference.set(data);
                 }
             }
         });
 
-        while (!readTask.isComplete()) {
-            //wait until document is read
+        if (image != null) {
+            imagePath = "images/test.jpg";
+            uploadImage(image, imagePath);
+            reference.update("photo", FieldValue.arrayUnion(imagePath))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Image successfully added!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error adding image", e);
+                        }
+                    });
         }
+
     }
 
     public static String computeQid(double latitude, double longitude, String hash) {
