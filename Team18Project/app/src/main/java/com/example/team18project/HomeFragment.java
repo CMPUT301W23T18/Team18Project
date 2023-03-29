@@ -3,6 +3,7 @@ package com.example.team18project;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -106,7 +107,8 @@ public class HomeFragment extends Fragment {
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     QRCode scannedCode = (QRCode) result.getData().getParcelableExtra("newCode");
-                    QRCode.uploadQRCode(scannedCode);
+                    Bitmap image = (Bitmap) result.getData().getParcelableExtra("image");
+                    QRCode.uploadQRCode(scannedCode, image);
                     player.addQRCode(scannedCode);
                     boolean isNew = true;
                     for (int i = 0; i < qrAdapter.getCount(); i++) {

@@ -12,13 +12,18 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -122,12 +127,54 @@ public class QRCode implements Parcelable {
         dest.writeDouble(latitude);
     }
 
-    public static void uploadQRCode(QRCode code) {
+    private static Bitmap cropImage(Bitmap image) {
+        int width  = image.getWidth();
+        int height = image.getHeight();
+        int newWidth = (height > width) ? width : height;
+        int newHeight = (height > width) ? width : height;
+        int cropW = (width - height) / 2;
+        cropW = (cropW < 0) ? 0: cropW;
+        int cropH = (height - width) / 2;
+        cropH = (cropH < 0) ? 0: cropH;
+        Bitmap cropImg = Bitmap.createBitmap(image, cropW, cropH, newWidth, newHeight);
+        return cropImg;
+    }
+
+    private static void uploadImage(Bitmap image, String path) {
+        image = cropImage(image);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference mountainsRef = storageRef.child(path);
+
+        UploadTask uploadTask = mountainsRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.d("message", "ERROR: upload failed");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d("message", "upload succeeded :)");
+            }
+        });
+    }
+
+    public static void uploadQRCode(QRCode code, Bitmap image) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference codesCollection = db.collection("QRCodes");
         DocumentReference reference = codesCollection.document(code.getQid());
         Task readTask = reference.get();
+        String imagePath = null;
 
+        if (image != null) {
+            imagePath = "images/test.jpg";
+            uploadImage(image, imagePath);
+        }
+
+        String finalImagePath = imagePath;
         readTask.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -137,7 +184,7 @@ public class QRCode implements Parcelable {
                     data.put("comments",new ArrayList<DocumentReference>());
                     data.put("latitude",code.getLatitude());
                     data.put("longitude",code.getLongitude());
-                    data.put("photo", null);
+                    data.put("photo", finalImagePath);
                     data.put("value", code.getValue());
                     reference.set(data);
                 }

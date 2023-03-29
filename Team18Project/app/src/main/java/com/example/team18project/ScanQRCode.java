@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -92,8 +93,13 @@ public class ScanQRCode extends AppCompatActivity {
         } else {
             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            latitude = lastLocation.getLatitude();
-            longitude = lastLocation.getLongitude();
+            if(lastLocation !=null){
+                latitude = lastLocation.getLatitude();
+                longitude = lastLocation.getLongitude();
+            } else {
+                latitude = QRCode.NULL_LOCATION;
+                longitude = QRCode.NULL_LOCATION;
+            }
         }
     }
 
@@ -112,6 +118,9 @@ public class ScanQRCode extends AppCompatActivity {
     ActivityResultLauncher<Intent> takePicture = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
+                Bundle bundle = result.getData().getExtras();
+                Bitmap scannedImage = (Bitmap) bundle.get("data");
+                data.putExtra("image", scannedImage);
                 setResult(Activity.RESULT_OK, data);
                 finish();
             }
@@ -165,8 +174,13 @@ public class ScanQRCode extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 @SuppressLint("MissingPermission") Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                latitude = lastLocation.getLatitude();
-                longitude = lastLocation.getLongitude();
+                if(lastLocation !=null){
+                    latitude = lastLocation.getLatitude();
+                    longitude = lastLocation.getLongitude();
+                } else {
+                    latitude = QRCode.NULL_LOCATION;
+                    longitude = QRCode.NULL_LOCATION;
+                }
             } else {
                 Toast.makeText(this, "Please enable location services", Toast.LENGTH_LONG).show();
                 finish();
