@@ -9,6 +9,7 @@ import com.example.team18project.model.Comment;
 import com.example.team18project.model.Player;
 import com.example.team18project.model.QRCode;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,5 +59,10 @@ public class QRViewUnitTest {
         assertTrue(code.getComments().get(0).getText().equals("This is a test"));
         assertTrue(code.getComments().get(0).getPosterId().equals("COMMENTTESTPLAYER"));
         assertTrue(code.getComments().get(0).getPosterUsername().equals("Commenter"));
+    }
+
+    @After
+    public void tearDown() {
+        TestSettings.resetSettings();
     }
 }
