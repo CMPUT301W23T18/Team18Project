@@ -42,6 +42,7 @@ public class QRViewUnitTest {
     @Before
     public void setUp() throws Exception {
         TestSettings.getInstance().setTesting(true);
+        TestSettings.getInstance().setFirebaseEnabled(false);
         TestSettings.getInstance().setTestAndroidID("COMMENTTESTPLAYER");
         player = getMockPlayer();
         code = player.getCodes().get(0);

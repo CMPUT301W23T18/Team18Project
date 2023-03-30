@@ -8,10 +8,12 @@ package com.example.team18project;
 public class TestSettings {
     private static TestSettings instance;
     private boolean isTesting;
+    private boolean firebaseEnabled;
     private String testAndroidID;
 
     private TestSettings() {
-
+        isTesting = false;
+        firebaseEnabled = true;
     }
 
     public static TestSettings getInstance() {
@@ -43,5 +45,13 @@ public class TestSettings {
 
     public void setTestAndroidID(String testAndroidID) {
         this.testAndroidID = testAndroidID;
+    }
+
+    public boolean isFirebaseEnabled() {
+        return firebaseEnabled;
+    }
+
+    public void setFirebaseEnabled(boolean firebaseEnabled) {
+        this.firebaseEnabled = firebaseEnabled;
     }
 }

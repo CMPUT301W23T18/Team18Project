@@ -20,13 +20,16 @@ public class ProfileController {
 
     public void updateEmail(String newEmail) {
         playerRef.update("email", newEmail);
+        player.setEmail(newEmail);
     }
 
     public void updatePhoneNumber(String newPhoneNumber) {
         playerRef.update("phoneNumber", newPhoneNumber);
+        player.setPhoneNumber(newPhoneNumber);
     }
 
     public void updateIsHidden(boolean newIsHidden) {
         playerRef.update("isHidden", newIsHidden);
+        player.setHidden(newIsHidden);
     }
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.team18project.TestSettings;
 import com.example.team18project.model.Comment;
 import com.example.team18project.model.Player;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,12 +29,15 @@ public class FirebaseWriter {
     }
 
     private static FirebaseWriter instance = null;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db;
 
     /**
      * Private empty constructor
      */
     private FirebaseWriter() {
+        if (TestSettings.getInstance().isFirebaseEnabled()) {
+            db = FirebaseFirestore.getInstance();
+        }
     }
 
     /**
@@ -53,6 +57,10 @@ public class FirebaseWriter {
      * @param ID the ID of the new document
      */
     public void addPlayer(String ID) {
+        if (!TestSettings.getInstance().isFirebaseEnabled()) {
+            return;
+        }
+
         CollectionReference playersColl = db.collection("Players");
         DocumentReference playerReference = playersColl.document(ID);
         Task readTask = playerReference.get();
@@ -87,6 +95,10 @@ public class FirebaseWriter {
      * @param qid
      */
     public void addComment(Comment comment, String qid) {
+        if (!TestSettings.getInstance().isFirebaseEnabled()) {
+            return;
+        }
+
         if (comment.getCid() != null) {
             return;
         }
@@ -109,6 +121,11 @@ public class FirebaseWriter {
 
 
     public void updateUsername(Player player, String newUsername, OnWrittenListener listener) {
+        if (!TestSettings.getInstance().isFirebaseEnabled()) {
+            listener.onWritten(true);
+            return;
+        }
+
         CollectionReference usersRef = db.collection("Players");
         DocumentReference playerRef = usersRef.document(player.getUid());
         Query query = usersRef.whereIn("username", Arrays.asList(newUsername));

@@ -30,10 +30,9 @@ public class QRViewController {
     public void postComment(String text) {
         String posterId = player.getUid();
         String posterUsername = player.getUsername();
+
         Comment comment = new Comment(null,posterId,posterUsername,text);
-        if (!TestSettings.getInstance().isTesting()) {
-            FirebaseWriter.getInstance().addComment(comment,code.getQid());
-        }
+        FirebaseWriter.getInstance().addComment(comment,code.getQid());
         code.addComment(comment);
         //TODO only adds to this instance of the code right now
         //  since parcelables only pass copies, fix by either
