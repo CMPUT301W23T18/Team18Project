@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
+import com.example.team18project.TestSettings;
 import com.example.team18project.model.Comment;
 import com.example.team18project.model.Player;
 import com.example.team18project.model.QRCode;
@@ -30,7 +31,9 @@ public class QRViewController {
         String posterId = player.getUid();
         String posterUsername = player.getUsername();
         Comment comment = new Comment(null,posterId,posterUsername,text);
-        FirebaseWriter.getInstance().addComment(comment,code.getQid());
+        if (!TestSettings.getInstance().isTesting()) {
+            FirebaseWriter.getInstance().addComment(comment,code.getQid());
+        }
         code.addComment(comment);
         //TODO only adds to this instance of the code right now
         //  since parcelables only pass copies, fix by either

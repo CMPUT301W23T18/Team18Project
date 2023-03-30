@@ -60,5 +60,6 @@ public class DeleteTest {
     @After
     public void tearDown() throws Exception{
         solo.finishOpenedActivities();
+        TestSettings.resetSettings();
     }
 }

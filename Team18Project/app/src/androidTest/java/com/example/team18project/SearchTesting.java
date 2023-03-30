@@ -67,5 +67,6 @@ public class SearchTesting {
 
     @After
     public void tearDown() {
+        TestSettings.resetSettings();
     }
 }

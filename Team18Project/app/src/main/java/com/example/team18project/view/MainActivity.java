@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.team18project.TestSettings;
 import com.example.team18project.controller.FirebaseWriter;
 import com.example.team18project.R;
 import com.example.team18project.databinding.ActivityMainBinding;
@@ -27,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private Player player;
     private FirebaseFirestore db;
     private ActivityMainBinding binding;
-    private boolean isTesting = false;
-    public String testAndroidID = null;
+    TestSettings settings;
+    //private boolean isTesting = true;
+    //public String testAndroidID = "COMMENTTESTPLAYER";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +38,21 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //check if being run by test class and update values appropriately
-        if (!isTesting) {
+        //we previously implemented test settings by having tests classes pass the settings as
+        //an intent, without the TestSettings class, which is why this done in a weird way here;
+        //getting rid of the intent would break our old tests
+
+        //if test settings weren't set, either our old intent-based settings are being used
+        //or this isn't a test
+        if (TestSettings.instanceIsNull()) {
             Intent intent = getIntent();
-            isTesting = intent.getBooleanExtra("isTesting",false);
-            testAndroidID = intent.getStringExtra("testAndroidID");
+            settings = TestSettings.getInstance();
+            settings.setTesting(intent.getBooleanExtra("isTesting",false));
+            settings.setTestAndroidID(intent.getStringExtra("testAndroidID"));
         }
+
+        //make sure the TestSettings instance isn't null to avoid null pointer exception
+        settings = TestSettings.getInstance();
 
         db = FirebaseFirestore.getInstance();
         login();
@@ -75,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void login() {
         String id = Settings.Secure.getString(getContentResolver(),Settings.Secure.ANDROID_ID);
-        if (isTesting) {
-            id = this.testAndroidID;
+        if (settings.isTesting()) {
+            id = settings.getTestAndroidID();
         }
         //listener needs variable to be effectively final
         String finalId = id;
@@ -136,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
      * @return The logged in player if testing mode is on, or null otherwise
      */
     public Player getPlayer() {
-        if (isTesting) {
+        if (settings.isTesting()) {
             return this.player;
         }
         return null;
