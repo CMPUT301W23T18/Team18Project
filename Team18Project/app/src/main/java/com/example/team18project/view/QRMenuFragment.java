@@ -21,14 +21,19 @@ import com.example.team18project.model.QRCode;
  * Fragment for menu that pops up when a QR Code is clicked
  */
 public class QRMenuFragment extends DialogFragment {
+    interface OnDeleteListener {
+        public void onDelete();
+    }
+
     private QRArrayAdapter adapter;
     private QRCode code;
     private Player player;
+    private OnDeleteListener listener;
 
-    public QRMenuFragment(Player player, QRCode code, QRArrayAdapter adapter) {
+    public QRMenuFragment(Player player, QRCode code, OnDeleteListener listener) {
         this.player = player;
         this.code = code;
-        this.adapter = adapter;
+        this.listener = listener;
     }
 
     @Override
@@ -60,8 +65,7 @@ public class QRMenuFragment extends DialogFragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                player.removeQRCode(code);
-                adapter.notifyDataSetChanged();
+                listener.onDelete();
                 dialog.cancel();
             }
         });

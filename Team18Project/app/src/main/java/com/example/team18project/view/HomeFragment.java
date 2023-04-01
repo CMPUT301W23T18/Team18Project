@@ -33,7 +33,8 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "player";
 
     private Player player;
-    QRArrayAdapter qrAdapter;
+    private QRArrayAdapter qrAdapter;
+    private ListView qrList;
 
     /**
      * Use this factory method to create a new instance of
@@ -91,7 +92,7 @@ public class HomeFragment extends Fragment {
 
         //make ListView
         ArrayList<QRCode> qrData = player.getCodes();
-        ListView qrList = (ListView) getView().findViewById(R.id.qr_list);
+        qrList = (ListView) getView().findViewById(R.id.qr_list);
         qrAdapter = new QRArrayAdapter(getContext(), qrData);
         qrList.setAdapter(qrAdapter);
 
@@ -99,7 +100,16 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 QRCode clicked = (QRCode) qrList.getItemAtPosition(position);
-                new QRMenuFragment(player,clicked,qrAdapter).show(getParentFragmentManager(),"Menu");
+                new QRMenuFragment(player, clicked, new QRMenuFragment.OnDeleteListener() {
+                    @Override
+                    public void onDelete() {
+                        //I'm sorry for this horrible mess, but it's the only way I could get deleting
+                        //to update properly
+                        HomeFragment.this.player.removeQRCode(clicked);
+                        HomeFragment.this.qrAdapter = new QRArrayAdapter(getContext(), HomeFragment.this.player.getCodes());
+                        HomeFragment.this.qrList.setAdapter(HomeFragment.this.qrAdapter);
+                    }
+                }).show(getParentFragmentManager(),"Menu");
             }
         });
     }
