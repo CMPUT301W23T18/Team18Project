@@ -112,7 +112,7 @@ public class SearchFragment extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 String username = adapter.getItem(position).toString();
-                                Toast.makeText(getContext(), username, Toast.LENGTH_SHORT).show();
+
 
                                 //FragmentTransaction transaction = getFragmentManager().beginTransaction();
                                 //transaction.replace(R.id.f);
