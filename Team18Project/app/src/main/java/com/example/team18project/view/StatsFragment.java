@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -127,6 +128,16 @@ public class StatsFragment extends Fragment {
         // display the information related to the leader board
         TextView leaderBoard = view.findViewById(R.id.leaderboardRank);
         leaderBoard.setText("0");
+
+        Button leaderboards = view.findViewById(R.id.leaderboards_btn);
+
+        leaderboards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity activity = (MainActivity) getActivity();
+                activity.replaceFragment(new LeaderboardFragment().newInstance());
+            }
+        });
 
         return view;
     }
