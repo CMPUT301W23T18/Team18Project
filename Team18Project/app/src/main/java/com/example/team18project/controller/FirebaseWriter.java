@@ -91,8 +91,8 @@ public class FirebaseWriter {
      * Adds a comment to Firebase and sets its cid field to the ID of the
      * new document. If the comment's cid field already has a value,
      * then nothing happens.
-     * @param comment
-     * @param qid
+     * @param comment The comment to be added
+     * @param qid The Firebase document ID of the QR code the comment is posted under
      */
     public void addComment(Comment comment, String qid) {
         if (!TestSettings.getInstance().isFirebaseEnabled()) {
@@ -119,7 +119,35 @@ public class FirebaseWriter {
         qrDoc.update("comments", FieldValue.arrayUnion(commentDoc));
     }
 
+    /**
+     * Removes a comment from Firebase
+     * @param comment The comment to be deleted
+     * @param qid The Firebase document ID of the QR code the comment is posted under
+     */
+    public void deleteComment(Comment comment, String qid) {
+        if (!TestSettings.getInstance().isFirebaseEnabled()) {
+            return;
+        }
 
+        CollectionReference commentColl = db.collection("Comments");
+        DocumentReference commentDoc = commentColl.document(comment.getCid());
+
+        //remove comment document from firebase
+        commentDoc.delete();
+
+        //update QR code in Firebase to contain new comment
+        CollectionReference qrColl = db.collection("QRCodes");
+        DocumentReference qrDoc = qrColl.document(qid);
+        qrDoc.update("comments", FieldValue.arrayRemove(commentDoc));
+    }
+
+    /**
+     * Changes a players username in Firebase to a given value, provided that the new username
+     * isn't already taken
+     * @param player The player whose username will be updated
+     * @param newUsername The new username
+     * @param listener A listener that is called when the username is changed (or fails to change)
+     */
     public void updateUsername(Player player, String newUsername, OnWrittenListener listener) {
         if (!TestSettings.getInstance().isFirebaseEnabled()) {
             listener.onWritten(true);

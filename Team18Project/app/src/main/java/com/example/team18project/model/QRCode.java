@@ -28,11 +28,10 @@ public class QRCode implements Parcelable {
     private String qid;
     private String value;
     private ArrayList<String> photoIds; //TODO different data type might be better, look into it
-    private ArrayList<Comment> comments; //TODO tree might be better if comments can be replied to
+    private ArrayList<Comment> comments;
     private double longitude;
     private double latitude;
 
-    //TODO temporary method, copy paste this code to whereever you need it
     public static String getSHA256(String s) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hashBytes = digest.digest(s.getBytes());
@@ -218,6 +217,14 @@ public class QRCode implements Parcelable {
      */
     public void addComment(Comment comment) {
         comments.add(comment);
+    }
+
+    /**
+     * Removes a comment to this QR code
+     * @param comment the comment to be removed
+     */
+    public void removeComment(Comment comment) {
+        comments.remove(comment);
     }
 
     //getters and setters

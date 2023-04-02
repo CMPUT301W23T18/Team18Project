@@ -45,10 +45,13 @@ public class MainActivity extends AppCompatActivity {
         //if test settings weren't set, either our old intent-based settings are being used
         //or this isn't a test
         if (TestSettings.instanceIsNull()) {
-            Intent intent = getIntent();
             settings = TestSettings.getInstance();
-            settings.setTesting(intent.getBooleanExtra("isTesting",false));
-            settings.setTestAndroidID(intent.getStringExtra("testAndroidID"));
+            Intent intent = getIntent();
+            //if test settings haven't been manually set (outside of test classes)
+            if (!settings.isTesting()) {
+                settings.setTesting(intent.getBooleanExtra("isTesting",false));
+                settings.setTestAndroidID(intent.getStringExtra("testAndroidID"));
+            }
         }
 
         //make sure the TestSettings instance isn't null to avoid null pointer exception
