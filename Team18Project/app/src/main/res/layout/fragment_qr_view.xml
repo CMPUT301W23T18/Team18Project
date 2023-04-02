@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
@@ -23,15 +23,16 @@
             android:id="@+id/qrcode_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:text="Name"
             android:textAlignment="center"
-            android:textSize="34sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/qrcode_score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="Score"
             android:textAlignment="center"
             android:textSize="24sp" />
@@ -54,10 +55,26 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/qrcode_num_scans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="qrcode_num_scans" />
+            android:background="@color/light_gray"
+            android:padding="5dp"
+            android:text="Players who have scanned this QR code"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/other_player_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="true" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/comments"
@@ -93,6 +110,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <ListView

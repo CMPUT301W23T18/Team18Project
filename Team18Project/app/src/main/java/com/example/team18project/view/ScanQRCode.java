@@ -1,4 +1,4 @@
-package com.example.team18project;
+package com.example.team18project.view;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -25,6 +25,11 @@ import android.widget.Toast;
 
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+
+import com.example.team18project.QrCodeCaptureActivity;
+import com.example.team18project.R;
+import com.example.team18project.model.Comment;
+import com.example.team18project.model.QRCode;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;

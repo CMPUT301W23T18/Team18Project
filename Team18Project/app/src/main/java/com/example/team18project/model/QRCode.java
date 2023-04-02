@@ -1,4 +1,4 @@
-package com.example.team18project;
+package com.example.team18project.model;
 
 import static android.content.ContentValues.TAG;
 
@@ -26,6 +26,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import com.example.team18project.R;
+
 import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -33,7 +35,6 @@ import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Class for modelling QR codes.

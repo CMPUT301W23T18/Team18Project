@@ -1,32 +1,27 @@
-package com.example.team18project;
-
-import static android.content.ContentValues.TAG;
+package com.example.team18project.view;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.team18project.model.CommentArrayAdapter;
+import com.example.team18project.R;
+import com.example.team18project.controller.QRViewController;
+import com.example.team18project.model.Comment;
+import com.example.team18project.model.Player;
+import com.example.team18project.model.QRCode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +36,9 @@ public class QRViewFragment extends Fragment {
     private Player player;
     private QRCode code;
     private CommentArrayAdapter commentAdapter;
+    private QRViewController controller;
+    private ArrayAdapter<String> otherPlayerAdapter;
+    private ArrayList<String> otherPlayerList;
 
     public QRViewFragment() {
         // Required empty public constructor
@@ -69,6 +67,7 @@ public class QRViewFragment extends Fragment {
         if (getArguments() != null) {
             player = getArguments().getParcelable(ARG_PARAM1);
             code = getArguments().getParcelable(ARG_PARAM2);
+            controller = new QRViewController(player,code);
         }
     }
 
@@ -80,8 +79,8 @@ public class QRViewFragment extends Fragment {
         TextView name = view.findViewById(R.id.qrcode_name);
         TextView score = view.findViewById(R.id.qrcode_score);
         TextView location = view.findViewById(R.id.qrcode_location);
-        TextView numScans = view.findViewById(R.id.qrcode_num_scans);
         ListView commentList = view.findViewById(R.id.comment_list);
+        ListView otherPlayerListView = view.findViewById(R.id.other_player_list);
         Button commentButton = view.findViewById(R.id.post_comment_button);
         EditText commentEditText = view.findViewById(R.id.edit_text_comment);
 
@@ -89,38 +88,19 @@ public class QRViewFragment extends Fragment {
         name.setText(code.getName());
         score.setText("Score: " + Integer.toString(code.getScore()));
         location.setText("Latitude: " + Double.toString(code.getLatitude()) + "\nLongitude: " + Double.toString(code.getLongitude()));
-        numScans.setText("TODO");
+
+        otherPlayerList = new ArrayList<>();
+        otherPlayerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, otherPlayerList);
+        otherPlayerListView.setAdapter(otherPlayerAdapter);
+        controller.getOtherPlayers(code,otherPlayerList,otherPlayerAdapter);
+
         commentAdapter = new CommentArrayAdapter(getContext(),code.getComments());
         commentList.setAdapter(commentAdapter);
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CollectionReference commentColl = FirebaseFirestore.getInstance().collection("Comments");
-                DocumentReference commentDoc = commentColl.document();
-
-                String cid = commentDoc.getId();
-                String posterId = player.getUid();
-                String posterUsername = player.getUsername();
                 String text = commentEditText.getText().toString();
-
-                //upload new comment to Firebase
-                Map<String, String> data = new HashMap<>();
-                data.put("posterId",posterId);
-                data.put("posterUsername",posterUsername);
-                data.put("text",text);
-                commentDoc.set(data);
-
-                Comment comment = new Comment(cid,posterId,posterUsername,text);
-                code.addComment(comment);
-                //TODO only adds to this instance of the code right now
-                //  since parcelables only pass copies, fix by either
-                //  adding sync method to QRCode or refactoring code to
-                //  have singleton session class to hold logged in player
-
-                //update QR code in Firebase to contain new comment
-                CollectionReference qrColl = FirebaseFirestore.getInstance().collection("QRCodes");
-                DocumentReference qrDoc = qrColl.document(code.getQid());
-                qrDoc.update("comments", FieldValue.arrayUnion(commentDoc));
+                controller.postComment(text);
 
                 //update views
                 commentAdapter.notifyDataSetChanged();

@@ -1,14 +1,20 @@
 package com.example.team18project;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
-import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.example.team18project.model.Player;
+import com.example.team18project.view.MainActivity;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,16 +41,16 @@ public class LoginTest {
     }
 
     @Test
-    public void testExistingAccount() { //TODO account has been modified, use different one
+    public void testExistingAccount() {
         Intent intent = new Intent();
         intent.putExtra("isTesting", true);
         intent.putExtra("testAndroidID", "LoginTest");
         rule.launchActivity(intent);
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
-        Player player = rule.getActivity().getPlayer();
 
-        assertTrue(player.getUsername().equals("Sunfish"));
         assertTrue(solo.waitForText("Score:",2,3000));
+        onView(withId(R.id.profile_icon)).perform(click());
+        onView(withId(R.id.UserName_editText)).check(matches(withText("Sunfish")));
     }
 
     @Test
@@ -57,11 +63,10 @@ public class LoginTest {
         Thread.sleep(2000);
 
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
-        System.out.println(rule.getActivity().getPlayer().getUid());
-        Player player = rule.getActivity().getPlayer();
 
-        assertTrue(player.getCodes().size() == 0);
-        assertFalse(solo.waitForText("Score",1,2000));
+        assertFalse(solo.waitForText("Score",1,3000));
+        onView(withId(R.id.profile_icon)).perform(click());
+        onView(withId(R.id.UserName_editText)).check(matches(withText("")));
 
         CollectionReference playersColl = FirebaseFirestore.getInstance().collection("Players");
         DocumentReference playerReference = playersColl.document("NEW");
@@ -71,5 +76,6 @@ public class LoginTest {
     @After
     public void tearDown() {
         solo.finishOpenedActivities();
+        TestSettings.resetSettings();
     }
 }
