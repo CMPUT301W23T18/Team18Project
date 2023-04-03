@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.team18project.R;
+import com.example.team18project.controller.MapController;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,6 +24,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class MapFragment extends Fragment {
 
+    MapController controller;
+
     public MapFragment() {
         // Required empty public constructor
     }
@@ -31,6 +34,7 @@ public class MapFragment extends Fragment {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        fragment.controller = new MapController();
         return fragment;
     }
 
