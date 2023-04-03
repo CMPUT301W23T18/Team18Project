@@ -22,6 +22,13 @@ import java.util.Arrays;
 
 public class MapController {
 
+    /**
+     * finds all the qr codes within 50 meters
+     * @param qrCodes list of the qr codes
+     * @param currentLongitude current location
+     * @param currentLatitude current location
+     * @param qrAdapter adapter for the QR codes
+     */
     public void findCloseCodes(ArrayList<QRCode> qrCodes, double currentLongitude, double currentLatitude, QRArrayAdapter qrAdapter) {
 
         CollectionReference qrCodesColl = FirebaseFirestore.getInstance().collection("QRCodes");
@@ -61,6 +68,11 @@ public class MapController {
         });
     }
 
+    /**
+     * display qr codes on a google map
+     * @param googleMap pulling google maps
+     * @param currentLocation current position in the world
+     */
     public void writeCodesToMap(GoogleMap googleMap, LatLng currentLocation) {
         googleMap.clear();
 
