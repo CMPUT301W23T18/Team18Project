@@ -2,6 +2,7 @@ package com.example.team18project.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,8 @@ public class ImageArrayAdapter extends ArrayAdapter<Bitmap> {
         }
 
         Bitmap image = getItem(position);
-        ImageView visual = view.findViewById(R.id.qr_visual);
+        Log.d("testing", "image exists " + image.toString());
+        ImageView visual = view.findViewById(R.id.imageContainer);
         visual.setImageBitmap(image);
 
         return view;

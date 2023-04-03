@@ -26,6 +26,7 @@ public class ViewImagesController {
             imageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
+                    Log.d("testing", "made it here");
                     Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     images.add(image);
                 }

@@ -16,6 +16,7 @@ import com.example.team18project.controller.HomeController;
 import com.example.team18project.controller.ViewImagesController;
 import com.example.team18project.model.ImageArrayAdapter;
 import com.example.team18project.model.Player;
+import com.example.team18project.model.QRArrayAdapter;
 import com.example.team18project.model.QRCode;
 
 import java.util.ArrayList;
@@ -71,7 +72,9 @@ public class ViewImagesFragment extends Fragment {
         ListView imagesList = view.findViewById(R.id.image_list);
         ArrayList<Bitmap> images = new ArrayList<Bitmap>();
         imagesAdapter = new ImageArrayAdapter(getContext(), images);
+        imagesList.setAdapter(imagesAdapter);
         controller.getImages(code, imagesAdapter);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
