@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-04-03T19:22:40.074Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="wp9npMOv8Yg9u_IZeSo3" version="21.1.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-03T19:36:45.978Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="dtYPnhtqRFk3XID89qcp" version="21.1.2" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="2240" dy="1384" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="10000" pageHeight="10000" math="0" shadow="0">
+    <mxGraphModel dx="4928" dy="3044" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="10000" pageHeight="10000" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -733,6 +733,43 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="IKtvqDH2Fo_aiEpw-NRR-74" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="IKtvqDH2Fo_aiEpw-NRR-71">
+          <mxGeometry x="0.9705" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IKtvqDH2Fo_aiEpw-NRR-75" value="MapFragment" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="7080" y="840" width="570" height="290" as="geometry">
+            <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IKtvqDH2Fo_aiEpw-NRR-76" value="-controller: MapController&#xa;-courseLocation: LatLng&#xa;-map: GoogleMap&#xa;-locationResult: LocationResult&#xa;-locationCallback: LocationCallback&#xa;-fusedLocationClient: FusedLocationProvidedClient" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" vertex="1" parent="IKtvqDH2Fo_aiEpw-NRR-75">
+          <mxGeometry y="26" width="570" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="IKtvqDH2Fo_aiEpw-NRR-77" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="IKtvqDH2Fo_aiEpw-NRR-75">
+          <mxGeometry y="130" width="570" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="IKtvqDH2Fo_aiEpw-NRR-78" value="+MapFragment()&#xa;+newInstance(): MapFragment&#xa;+onCreate(saveInstanceState: Bundle)&#xa;+onCreateView(inflator: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): VIew&#xa;-addMarkers()&#xa;-startLocationUpdate()&#xa;-getLastLocation()&#xa;+onRequestPermissionResult(requestCode: int, permissions: String[], grantResults: int[])" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="IKtvqDH2Fo_aiEpw-NRR-75">
+          <mxGeometry y="138" width="570" height="152" as="geometry" />
+        </mxCell>
+        <mxCell id="IKtvqDH2Fo_aiEpw-NRR-79" value="name" style="endArrow=block;endFill=1;html=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=top;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="gKGMy8UniHXnq5ynhLHt-0" target="IKtvqDH2Fo_aiEpw-NRR-75">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="6565" y="2705" as="sourcePoint" />
+            <mxPoint x="6195" y="1050" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="7348" y="1530" />
+              <mxPoint x="7348" y="1530" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IKtvqDH2Fo_aiEpw-NRR-80" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="IKtvqDH2Fo_aiEpw-NRR-79">
+          <mxGeometry x="-1" relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="IKtvqDH2Fo_aiEpw-NRR-81" value="control" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="IKtvqDH2Fo_aiEpw-NRR-79">
+          <mxGeometry x="-0.6174" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="IKtvqDH2Fo_aiEpw-NRR-82" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="IKtvqDH2Fo_aiEpw-NRR-79">
           <mxGeometry x="0.9705" y="2" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
