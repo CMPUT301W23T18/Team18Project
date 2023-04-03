@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.team18project.controller.HomeController;
+import com.example.team18project.controller.LeaderBoardInformationController;
 import com.example.team18project.controller.ProfileController;
 import com.example.team18project.model.QRArrayAdapter;
 import com.example.team18project.R;
@@ -102,6 +103,8 @@ public class HomeFragment extends Fragment {
                         HomeFragment.this.player.removeQRCode(clicked);
                         HomeFragment.this.qrAdapter = new QRArrayAdapter(getContext(), HomeFragment.this.player.getCodes());
                         HomeFragment.this.qrList.setAdapter(HomeFragment.this.qrAdapter);
+                        LeaderBoardInformationController updater = new LeaderBoardInformationController();
+                        updater.updatePlayer(player);
                     }
                 }).show(getParentFragmentManager(),"Menu");
             }
@@ -116,7 +119,8 @@ public class HomeFragment extends Fragment {
                     Bitmap image = (Bitmap) result.getData().getParcelableExtra("image");
                     controller.addScannedQRCode(scannedCode, image);
                     player.addQRCode(scannedCode);
-
+                    LeaderBoardInformationController updater = new LeaderBoardInformationController();
+                    updater.updatePlayer(player);
                     boolean isNew = true;
                     for (int i = 0; i < qrAdapter.getCount(); i++) {
                         if (qrAdapter.getItem(i).getQid().equals(scannedCode.getQid())) {

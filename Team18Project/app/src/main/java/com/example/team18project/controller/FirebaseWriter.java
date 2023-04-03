@@ -90,6 +90,9 @@ public class FirebaseWriter {
                     data.put("isHidden",true);
                     data.put("phoneNumber","");
                     data.put("username","");
+                    data.put("highscore",0);
+                    data.put("QRCount",0);
+                    data.put("BestQRScore",0);
                     playerReference.set(data);
                     Log.d("TEST","WRITTEN");
                 }
@@ -135,6 +138,7 @@ public class FirebaseWriter {
                     data.put("longitude",code.getLongitude());
                     data.put("photo", new ArrayList<String>());
                     data.put("value", code.getValue());
+                    data.put("Score", code.getScore());
                     codesRef.set(data);
                 }
 
