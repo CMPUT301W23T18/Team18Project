@@ -25,10 +25,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/username_search"
                     android:layout_width="248dp"
-                    android:maxLines="1"
+                    android:layout_height="50dp"
+                    android:hint="Username"
                     android:inputType="text"
-                    android:layout_height="match_parent"
-                    android:hint="Username" />
+                    android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,6 +43,7 @@
         <ListView
             android:id="@+id/user_list"
             android:layout_width="match_parent"
+            android:textColor="@color/white"
             android:layout_height="match_parent">
 
         </ListView>
