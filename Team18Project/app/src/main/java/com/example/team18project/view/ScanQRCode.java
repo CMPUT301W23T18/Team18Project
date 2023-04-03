@@ -196,7 +196,7 @@ public class ScanQRCode extends AppCompatActivity {
                         QRCode code = new QRCode(finalSha25, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
                         code.setQid(id);
                         player.addQRCode(code);
-
+                        // please work
                     }
                 });
 
