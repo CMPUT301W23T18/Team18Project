@@ -74,17 +74,17 @@ public class QRCode implements Parcelable {
         task.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                photoIds = null; //TODO figure out how photos will be stored
                 value = documentSnapshot.getString("value");
                 longitude = documentSnapshot.getDouble("longitude");
                 latitude = documentSnapshot.getDouble("latitude");
                 ArrayList<DocumentReference> commentRefs = (ArrayList<DocumentReference>) documentSnapshot.get("comments");
+                photoIds = (ArrayList<String>) documentSnapshot.get("photo");
                 comments = new ArrayList<Comment>();
-
                 //fill comments ArrayList
                 for (int i = 0; i < commentRefs.size(); i++) {
                     comments.add(new Comment(commentRefs.get(i)));
                 }
+
             }
         });
         while (!task.isComplete()) {
