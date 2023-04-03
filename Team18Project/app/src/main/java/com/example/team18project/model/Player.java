@@ -9,6 +9,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.team18project.TestSettings;
 import com.example.team18project.controller.LeaderBoardInformationController;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -71,6 +72,10 @@ public class Player implements Parcelable, Serializable {
      */
     public void addQRCode(QRCode qrCode) {
         this.codes.add(qrCode);
+        if (!TestSettings.getInstance().isFirebaseEnabled()) {
+            return;
+        }
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference QRCodesRef = db.collection("QRCodes");
         CollectionReference PlayersRef = db.collection("Players");
@@ -99,6 +104,10 @@ public class Player implements Parcelable, Serializable {
     public void removeQRCode(QRCode qrCode) {
         if (this.codes.contains(qrCode)) {
             this.codes.remove(qrCode);
+            if (!TestSettings.getInstance().isFirebaseEnabled()) {
+                return;
+            }
+
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             CollectionReference QRCodesRef = db.collection("QRCodes");
             CollectionReference PlayersRef = db.collection("Players");

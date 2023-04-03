@@ -78,14 +78,4 @@ public class LeaderBoardInformationController {
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Player best QR score updated successfully"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error updating player best QR score", e));
     }
-
-
-    /**
-     * Find a QR codes rank
-     * @param QR
-     * @return the rank of a QR code
-     */
-    public int FindQRRank(QRCode QR) {
-        return 0;
-    }
 }
