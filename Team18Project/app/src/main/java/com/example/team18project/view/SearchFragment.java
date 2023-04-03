@@ -104,9 +104,6 @@ public class SearchFragment extends Fragment {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 String username = adapter.getItem(position).toString();
 
-
-                                //FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                                //transaction.replace(R.id.f);
                                 // qureys fire base then returns a doucment that contaoins  all the player info to be passed to the stats Fragment
                                 playerColRef.whereEqualTo("username", username)
                                         .get()
@@ -137,8 +134,7 @@ public class SearchFragment extends Fragment {
                                                 }
                                             }
                                         });
-                                //MainActivity activity = (MainActivity) getActivity();
-                                //activity.replaceFragment(new StatsFragment().newInstance(clickedPlayer));
+
                             }
                         });
 
