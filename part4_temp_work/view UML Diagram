@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-04-03T08:00:20.375Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="X_aq2iOEg94DBF93T3lx" version="21.1.2" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-03T08:40:29.322Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36" etag="sDyNV7wP39YV4GX4dio3" version="21.1.2" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="2069" dy="1174" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="10000" pageHeight="10000" math="0" shadow="0">
       <root>
@@ -33,18 +33,18 @@
           <mxGeometry y="118" width="490" height="72" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-7" value="LeaderBoardFragment" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1320" y="200" width="490" height="180" as="geometry">
+          <mxGeometry x="1320" y="200" width="490" height="200" as="geometry">
             <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Rxjch3xxAt8xjpJPrTWE-8" value="+UserListCallback (interface)&#xa;-db: FirebaseFirestore&#xa;-userRef: CollectionReference&#xa;-playerRef: DocumentReference&#xa;-controller: LeaderBoardController" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-7">
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-8" value="&#xa;-db: FirebaseFirestore&#xa;-userRef: CollectionReference&#xa;-controller: LeaderBoardController" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-7">
           <mxGeometry y="26" width="490" height="84" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-9" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-7">
           <mxGeometry y="110" width="490" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="Rxjch3xxAt8xjpJPrTWE-10" value="+newInstance(player:Player): LeaderboardFragment (static)&#xa;+onCreate(savedInstanceState:Bundle)&#xa;+onCreateView(inflater:LayoutInflater, container:ViewGroup, savedInstanceState: Bundle)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-7">
-          <mxGeometry y="118" width="490" height="62" as="geometry" />
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-10" value="+UserListCallback (interface)&#xa;+newInstance(player:Player): LeaderboardFragment (static)&#xa;+onCreate(savedInstanceState:Bundle)&#xa;+onCreateView(inflater:LayoutInflater, container:ViewGroup, savedInstanceState: Bundle)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-7">
+          <mxGeometry y="118" width="490" height="82" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-12" value="MainActivity" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="60" y="1020" width="490" height="210" as="geometry">
@@ -75,18 +75,18 @@
           <mxGeometry y="178" width="490" height="62" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-20" value="QRMenuFragment" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="100" y="510" width="490" height="180" as="geometry">
+          <mxGeometry x="100" y="510" width="490" height="190" as="geometry">
             <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Rxjch3xxAt8xjpJPrTWE-21" value="-OnDeleteListener (interface)&#xa;-adapter: QRArrayAdapter &#xa;-code: QRcode&#xa;-player: Player&#xa;-listener: OnDeleteListener&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-20">
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-21" value="-adapter: QRArrayAdapter &#xa;-code: QRcode&#xa;-player: Player&#xa;-listener: OnDeleteListener&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-20">
           <mxGeometry y="26" width="490" height="84" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-22" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-20">
           <mxGeometry y="110" width="490" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="Rxjch3xxAt8xjpJPrTWE-23" value="+QRMenuFragment(player: Player, code: QRCode, listener: OnDeleteListener)&#xa;+onCreateDialog(savedInstanceState:Bundle)&#xa;+onCreateView(inflater:LayoutInflater, container:ViewGroup, savedInstanceState: Bundle)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-20">
-          <mxGeometry y="118" width="490" height="62" as="geometry" />
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-23" value="-OnDeleteListener (interface)&#xa;+QRMenuFragment(player: Player, code: QRCode, listener: OnDeleteListener)&#xa;+onCreateDialog(savedInstanceState:Bundle)&#xa;+onCreateView(inflater:LayoutInflater, container:ViewGroup, savedInstanceState: Bundle)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-20">
+          <mxGeometry y="118" width="490" height="72" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-24" value="QRViewFragment" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="710" y="510" width="490" height="270" as="geometry">
@@ -117,18 +117,18 @@
           <mxGeometry y="188" width="530" height="112" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-33" value="SearchFragment" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="60" y="750" width="490" height="150" as="geometry">
+          <mxGeometry x="60" y="750" width="490" height="160" as="geometry">
             <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Rxjch3xxAt8xjpJPrTWE-34" value="+UserListCallback (interface) &#xa;-db FirebaseFirestore&#xa;-controller: SearchController" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-33">
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-34" value="-db FirebaseFirestore&#xa;-controller: SearchController" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-33">
           <mxGeometry y="26" width="490" height="54" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-35" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-33">
           <mxGeometry y="80" width="490" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="Rxjch3xxAt8xjpJPrTWE-36" value="+newInstance(player:Player): SearchFragment (static)&#xa;+onCreate(savedInstanceState:Bundle)&#xa;+onCreateView(inflater:LayoutInflater, container:ViewGroup, savedInstanceState: Bundle)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-33">
-          <mxGeometry y="88" width="490" height="62" as="geometry" />
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-36" value="+UserListCallback (interface) &#xa;+newInstance(player:Player): SearchFragment (static)&#xa;+onCreate(savedInstanceState:Bundle)&#xa;+onCreateView(inflater:LayoutInflater, container:ViewGroup, savedInstanceState: Bundle)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-33">
+          <mxGeometry y="88" width="490" height="72" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-37" value="StatsFragment" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="1290" y="820" width="490" height="300" as="geometry">
@@ -243,21 +243,21 @@
           <mxGeometry y="148" width="680" height="132" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-85" value="AllQRCodesController" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="80" y="1530" width="520" height="190" as="geometry">
+          <mxGeometry x="205" y="2050" width="520" height="120" as="geometry">
             <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Rxjch3xxAt8xjpJPrTWE-86" value="-player: Player&#xa;-code: QRCode&#xa;-CommentArrayAdapter: commentAdapter&#xa;-controller: QRViewController&#xa;-otherPlayerAdaptor: String[]&#xa;-otherPlayerList: String[]" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-85">
-          <mxGeometry y="26" width="520" height="94" as="geometry" />
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-86" value="-player: Player" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-85">
+          <mxGeometry y="26" width="520" height="24" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-87" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-85">
-          <mxGeometry y="120" width="520" height="20" as="geometry" />
+          <mxGeometry y="50" width="520" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="Rxjch3xxAt8xjpJPrTWE-88" value="+onCreate(savedInstanceState:Bundle)&#xa;onCreateView(inflater:LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): VIew&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-85">
-          <mxGeometry y="140" width="520" height="50" as="geometry" />
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-88" value="+AllQRCodesController()&#xa;+updateQRCodes(qrList: ArrayList&lt;QRCode&gt;, queryDocumentSnapshots: QuerySnapchot)" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-85">
+          <mxGeometry y="70" width="520" height="50" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-89" value="ProfileController" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="720" y="1520" width="520" height="150" as="geometry">
+          <mxGeometry x="845" y="2040" width="520" height="160" as="geometry">
             <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -267,11 +267,11 @@
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-91" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-89">
           <mxGeometry y="70" width="520" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="Rxjch3xxAt8xjpJPrTWE-92" value="+updateUsername(newUsername: String, listener: OnWrittenLister)&#xa;+updateEmail(newEmail: String)&#xa;+updatePhoneNumber(newPhoneNumber: String)&#xa;+updateIsHidden(newIsHidden: Boolean)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-89">
-          <mxGeometry y="78" width="520" height="72" as="geometry" />
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-92" value="+ProfileController(player:Player)&#xa;+updateUsername(newUsername: String, listener: OnWrittenLister)&#xa;+updateEmail(newEmail: String)&#xa;+updatePhoneNumber(newPhoneNumber: String)&#xa;+updateIsHidden(newIsHidden: Boolean)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-89">
+          <mxGeometry y="78" width="520" height="82" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-93" value="SearchController" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="1330" y="1530" width="530" height="86" as="geometry">
+          <mxGeometry x="1455" y="2050" width="530" height="86" as="geometry">
             <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -282,7 +282,7 @@
           <mxGeometry y="34" width="530" height="52" as="geometry" />
         </mxCell>
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-96" value="QRViewController" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="70" y="1920" width="570" height="120" as="geometry">
+          <mxGeometry x="795" y="2250" width="570" height="140" as="geometry">
             <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -292,8 +292,72 @@
         <mxCell id="Rxjch3xxAt8xjpJPrTWE-98" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-96">
           <mxGeometry y="70" width="570" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="Rxjch3xxAt8xjpJPrTWE-99" value="+postComment(text: String)&#xa;+getOtherPlayers(code: QRCode, otherPlayerList: String[], otherPlayerAdaptor: ArrayAdaptor&lt;String&gt;)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-96">
-          <mxGeometry y="78" width="570" height="42" as="geometry" />
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-99" value="+QRViewController(player: Player, code: QRCode)&#xa;+postComment(text: String)&#xa;+getOtherPlayers(code: QRCode, otherPlayerList: String[], otherPlayerAdaptor: ArrayAdaptor&lt;String&gt;)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-96">
+          <mxGeometry y="78" width="570" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-100" value="FirebaseWriter" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="205" y="2210" width="520" height="210" as="geometry">
+            <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-101" value="-instance: FirebaseWrite (static)&#xa;-db: FirebaseFireStore&#xa;-storage: FirebaseStorage" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-100">
+          <mxGeometry y="26" width="520" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-102" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-100">
+          <mxGeometry y="80" width="520" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-103" value="-FirebaseWriter()&#xa;-getInstance(): FirebaseWriter (static) &#xa;-addPlayer(ID: String) &#xa;+addQRCode(code:QRCode, imagePath: String)&#xa;+addImage(image: Bitmap): String&#xa;+addComment(comment:Comment, qid:String)&#xa;+updateUsername(player: Player, newUsername: String, listener:OnWrittenListener)&#xa;&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-100">
+          <mxGeometry y="100" width="520" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-104" value="HomeController" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1415" y="2255" width="570" height="180" as="geometry">
+            <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-105" value="-player: Player&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-104">
+          <mxGeometry y="26" width="570" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-106" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-104">
+          <mxGeometry y="70" width="570" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-107" value="+HomeController(player: Player)&#xa;+addScannedQRCode(code:QRCode, image: Bitmap)&#xa;-cropImage(image: Bitmap)&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-104">
+          <mxGeometry y="78" width="570" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-108" value="LeaderBoardController" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="820" y="2530" width="570" height="120" as="geometry">
+            <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-110" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-108">
+          <mxGeometry y="26" width="570" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-111" value="+LeaderBoardController()&#xa;+generateUserListHighScore(callback: LeaderboardFragment.UserListCallback (final))&#xa;+generateUserListScans(callback: LeaderboardFragment.UserListCallback (final))&#xa;+generateUserBestQR(callback: LeaderboardFragment.UserListCallback (final))" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-108">
+          <mxGeometry y="34" width="570" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-115" value="LeaderBoardInformationController" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="170" y="2510" width="520" height="210" as="geometry">
+            <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-116" value="-db: FirebaseFireStore" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-115">
+          <mxGeometry y="26" width="520" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-117" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-115">
+          <mxGeometry y="60" width="520" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-118" value="+LeaderBoardInformationController()&#xa;+updatePlayer(player:Player)&#xa;+FindQRRank(QR:QRCode)" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-115">
+          <mxGeometry y="80" width="520" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-119" value="StatsController" style="swimlane;fontStyle=2;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="1455" y="2530" width="570" height="80" as="geometry">
+            <mxRectangle x="220" y="120" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-120" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-119">
+          <mxGeometry y="26" width="570" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Rxjch3xxAt8xjpJPrTWE-121" value="+StatsController()&#xa;+getRank(qid: String, callback: StatsFragment.UserRankCallback (final))" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontStyle=0" vertex="1" parent="Rxjch3xxAt8xjpJPrTWE-119">
+          <mxGeometry y="34" width="570" height="46" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
