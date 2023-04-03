@@ -51,8 +51,28 @@
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
                 <map>
+                  <entry key="617aa3e3" value="120" />
                   <entry key="Duration" value="90" />
+                  <entry key="OnePlus&#10; AC2001" value="120" />
                   <entry key="Pixel_2_API_TiramisuPrivacySandbox" value="120" />
+                  <entry key="Pixel_6_API_33" value="120" />
+                  <entry key="Status" value="80" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-624311012">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="617aa3e3" value="120" />
+                  <entry key="Duration" value="90" />
+                  <entry key="OnePlus&#10; AC2001" value="120" />
+                  <entry key="Pixel_6_API_33" value="120" />
+                  <entry key="Status" value="80" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
@@ -79,6 +99,22 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_3a_API_33" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="195299831">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="617aa3e3" value="120" />
+                  <entry key="Duration" value="90" />
+                  <entry key="OnePlus&#10; AC2001" value="120" />
+                  <entry key="Pixel_6_API_33" value="120" />
+                  <entry key="Status" value="80" />
                   <entry key="Tests" value="360" />
                 </map>
               </option>
