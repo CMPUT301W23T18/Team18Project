@@ -30,14 +30,16 @@ public class LeaderBoardController {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         int count = 1;
                         ArrayList<String> usernameFilteredUserList = new ArrayList<>();
+                        ArrayList<String> Usernames = new ArrayList<>();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String newUser = document.get("username").toString();
-                                newUser = count + ": " + newUser + " " + document.get("highscore").toString();
-                                usernameFilteredUserList.add(newUser);
+                                String FormatedNewUser = count + ": " + newUser + " " + document.get("highscore").toString();
+                                usernameFilteredUserList.add(FormatedNewUser);
+                                Usernames.add(newUser);
                                 count++;
                             }
-                            callback.onUserListGenerated(usernameFilteredUserList);
+                            callback.onUserListGenerated(usernameFilteredUserList, Usernames);
                         } else {
                             Log.d("SearchError:", "Error getting documents: ", task.getException());
                         }
@@ -54,14 +56,16 @@ public class LeaderBoardController {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         int count = 1;
                         ArrayList<String> usernameFilteredUserList = new ArrayList<>();
+                        ArrayList<String> Usernames = new ArrayList<>();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String newUser = document.get("username").toString();
-                                newUser = count + ": " + newUser + " " + document.get("QRCount").toString();
-                                usernameFilteredUserList.add(newUser);
+                                String FormatednewUser = count + ": " + newUser + " " + document.get("QRCount").toString();
+                                usernameFilteredUserList.add(FormatednewUser);
+                                Usernames.add(newUser);
                                 count++;
                             }
-                            callback.onUserListGenerated(usernameFilteredUserList);
+                            callback.onUserListGenerated(usernameFilteredUserList, Usernames);
                         } else {
                             Log.d("SearchError:", "Error getting documents: ", task.getException());
                         }
@@ -78,14 +82,16 @@ public class LeaderBoardController {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         int count = 1;
                         ArrayList<String> usernameFilteredUserList = new ArrayList<>();
+                        ArrayList<String> Usernames = new ArrayList<>();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String newUser = document.get("username").toString();
-                                newUser = count + ": " + newUser + " " + document.get("BestQRScore").toString();
-                                usernameFilteredUserList.add(newUser);
+                                String FormatnewUser = count + ": " + newUser + " " + document.get("BestQRScore").toString();
+                                usernameFilteredUserList.add(FormatnewUser);
+                                Usernames.add(newUser);
                                 count++;
                             }
-                            callback.onUserListGenerated(usernameFilteredUserList);
+                            callback.onUserListGenerated(usernameFilteredUserList, Usernames);
                         } else {
                             Log.d("SearchError:", "Error getting documents: ", task.getException());
                         }

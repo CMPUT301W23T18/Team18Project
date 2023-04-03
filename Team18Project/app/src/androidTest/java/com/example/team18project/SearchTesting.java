@@ -69,12 +69,12 @@ public class SearchTesting {
     public void testSearchChangeView() throws InterruptedException{
         Intent intent = new Intent();
         intent.putExtra("isTesting", true);
-        intent.putExtra("testAndroidID", "tOTGhDf8tNjzO8W1UpSU");
+        intent.putExtra("testAndroidID", "LoginTest");
         rule.launchActivity(intent);
         //Test doesn't succeed without a sleep (player is null), I'm guessing it needs time to login
         Thread.sleep(2000);
         onView(withId(R.id.search_icon)).perform(click());
-        onView(withId(R.id.username_search)).perform(typeText("nox"));
+        onView(withId(R.id.username_search)).perform(typeText("dom"));
         solo.clickOnButton("Search");
         solo.clickInList(0);
         solo.assertCurrentActivity("right activity", MainActivity.class);

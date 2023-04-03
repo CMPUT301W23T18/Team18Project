@@ -136,14 +136,17 @@ public class StatsFragment extends Fragment {
 
         // display the information related to the leader board
         TextView leaderBoard = view.findViewById(R.id.leaderboardRank);
-        controller.getRank(highestScoredQR.getQid(), new StatsFragment.UserRankCallback() {
-            @Override
-            public void onUserRankGenerated(int Rank) {
-                String finalString = String.valueOf(Rank);
-                leaderBoard.setText(finalString);
-            }
-        });
-
+        try {
+            controller.getRank(highestScoredQR.getQid(), new StatsFragment.UserRankCallback() {
+                @Override
+                public void onUserRankGenerated(int Rank) {
+                    String finalString = String.valueOf(Rank);
+                    leaderBoard.setText(finalString);
+                }
+            });
+        } catch (Exception e) {
+            leaderBoard.setText("UnRanked");
+        }
         Button leaderboards = view.findViewById(R.id.leaderboards_btn);
 
         leaderboards.setOnClickListener(new View.OnClickListener() {
