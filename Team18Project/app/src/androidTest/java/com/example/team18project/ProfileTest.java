@@ -7,29 +7,26 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static android.text.Selection.setSelection;
+
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import android.content.Intent;
-
-import static android.text.Selection.setSelection;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.pressKey;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import android.util.Log;
 
+import androidx.test.espresso.ViewAction;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.team18project.view.MainActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -38,6 +35,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 public class ProfileTest {
+
     private Solo solo;
 
     @Rule
@@ -48,10 +46,13 @@ public class ProfileTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
     }
 
+
+
     /**
      * Test if the user can change their username
      * @throws InterruptedException
      */
+
     @Test
     public void testChangeUsername() throws InterruptedException {
         Intent intent = new Intent();
