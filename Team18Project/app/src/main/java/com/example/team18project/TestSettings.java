@@ -3,7 +3,10 @@ package com.example.team18project;
 /**
  * Singleton class that holds data relevant to testing. For personal use, directly modify
  * the values of the fields. For use in unit and intent tests, use
- * setTesting() and setTestAndroidID in the test code
+ * setTesting() and setTestAndroidID() in the test code
+ * Note: setting firebaseEnabled to false only turns off writing, not reading. It only needs
+ * to be set to false for unit tests though, and I don't think any of the functionality tested
+ * in those involves reading, so it should be fine
  */
 public class TestSettings {
     private static TestSettings instance;
