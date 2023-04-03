@@ -5,14 +5,17 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_gray"
     tools:context=".view.ProfileFragment">
 
     <TextView
         android:id="@+id/Account_Info_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
+        android:layout_width="411dp"
+        android:layout_height="38dp"
+        android:background="@color/dark_gray"
         android:text="Account Information:"
+        android:textColor="@color/white"
+
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,44 +23,54 @@
     <TextView
         android:id="@+id/user_nameTextView"
         android:layout_width="wrap_content"
-        android:layout_height="51dp"
-        android:layout_marginStart="4dp"
-        android:text="Username: "
-        android:textSize="25sp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/dark_gray"
         android:imeOptions="actionDone"
+        android:text="Username: "
+        android:textColor="@color/white"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Account_Info_textView" />
 
     <Switch
         android:id="@+id/hide_Account_switch"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="61dp"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="5dp"
 
+        android:background="@color/dark_gray"
         android:text="Hide Account "
+        android:textColor="@color/white"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.729" />
 
     <TextView
         android:id="@+id/Contact_Information_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
+        android:layout_width="409dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="250dp"
+        android:background="@color/dark_gray"
         android:text="Contact Information"
+        android:textColor="@color/white"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_nameTextView" />
+        app:layout_constraintTop_toTopOf="@+id/Account_Info_textView" />
 
     <TextView
         android:id="@+id/Email_textView"
-        android:layout_width="110dp"
-        android:layout_height="57dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:background="@color/dark_gray"
         android:text="Email: "
+        android:textColor="@color/white"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Contact_Information_textView" />
@@ -65,59 +78,78 @@
     <TextView
         android:id="@+id/phone_textView"
         android:layout_width="110dp"
-        android:layout_height="57dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@color/dark_gray"
         android:text="Phone#: "
+        android:textColor="@color/white"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Email_textView" />
 
     <TextView
         android:id="@+id/privacy_info_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="405dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
+        android:background="@color/dark_gray"
         android:text="Privacy Information: "
+        android:textColor="@color/white"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/hide_Account_switch"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/playerEmail_TextEmailAddress"
-        android:layout_width="210dp"
-        android:layout_height="57dp"
+        android:layout_width="213dp"
+        android:layout_height="48dp"
+        android:background="@color/dark_gray"
         android:ems="10"
         android:inputType="textEmailAddress"
         android:text="yourEmail@email.com"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@+id/Email_textView"
         app:layout_constraintTop_toBottomOf="@+id/Contact_Information_textView" />
 
     <EditText
         android:id="@+id/player_phone_number_editTextPhone"
-        android:layout_width="210dp"
-        android:layout_height="57dp"
+        android:layout_width="152dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="28dp"
+        android:background="@color/dark_gray"
         android:ems="10"
         android:inputType="phone"
         android:text="111-111-1111"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@+id/phone_textView"
         app:layout_constraintTop_toBottomOf="@+id/playerEmail_TextEmailAddress" />
 
     <EditText
         android:id="@+id/UserName_editText"
-        android:layout_width="186dp"
-        android:layout_height="49dp"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/dark_gray"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="username"
+        android:textAlignment="center"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@+id/user_nameTextView"
         app:layout_constraintTop_toBottomOf="@+id/Account_Info_textView" />
 
     <Button
         android:id="@+id/SubmitchangeUsername"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="2dp"
+        android:background="@color/light_gray"
         android:text="submit"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.56"
         app:layout_constraintStart_toEndOf="@+id/UserName_editText"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -126,21 +158,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="2dp"
+        android:background="@color/light_gray"
         android:text="Submit"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/playerEmail_TextEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/Contact_Information_textView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/Contact_Information_textView" />
 
     <Button
         android:id="@+id/submitPhoneButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/light_gray"
         android:text="Submit"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.426"
         app:layout_constraintStart_toEndOf="@+id/player_phone_number_editTextPhone"
-        app:layout_constraintTop_toBottomOf="@+id/submitEmailbutton"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/submitEmailbutton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
