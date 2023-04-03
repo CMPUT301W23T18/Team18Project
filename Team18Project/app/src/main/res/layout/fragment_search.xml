@@ -25,6 +25,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/username_search"
                     android:layout_width="248dp"
+                    android:maxLines="1"
+                    android:inputType="text"
                     android:layout_height="match_parent"
                     android:hint="Username" />
 
@@ -32,8 +34,8 @@
 
             <Button
                 android:id="@+id/search_button"
-                android:layout_width="166dp"
-                android:layout_height="70dp"
+                android:layout_width="170dp"
+                android:layout_height="match_parent"
                 android:text="Search" />
 
         </LinearLayout>
