@@ -1,29 +1,24 @@
 package com.example.team18project.controller;
 
 import android.location.Location;
-
-import androidx.annotation.Nullable;
+import android.util.Log;
 
 import com.example.team18project.model.Comment;
+import com.example.team18project.model.QRArrayAdapter;
 import com.example.team18project.model.QRCode;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class MapController {
 
-    public void findCloseCodes(ArrayList<QRCode> qrCodes, double currentLongitude, double currentLatitude) {
+    public void findCloseCodes(ArrayList<QRCode> qrCodes, double currentLongitude, double currentLatitude, QRArrayAdapter qrAdapter) {
 
         CollectionReference qrCodesColl = FirebaseFirestore.getInstance().collection("QRCodes");
 
@@ -36,7 +31,11 @@ public class MapController {
 
                     if (codeLongitude != QRCode.NULL_LOCATION && codeLatitude != QRCode.NULL_LOCATION) {
                         float[] distance = new float[1];
-                        Location.distanceBetween(currentLatitude, currentLongitude, codeLatitude, codeLongitude, distance);
+                        distance[0] = GeoDist(currentLatitude, currentLongitude, codeLatitude, codeLongitude);
+                        String coordinates = Arrays.toString(new double[]{currentLatitude, currentLongitude, codeLatitude, codeLongitude});
+                        coordinates = coordinates.replace("[", "").replace("]", "").replace(", ", ";");
+                        Log.d("Distance", coordinates);
+                        Log.d("Distance", String.valueOf(distance[0]));
                         if (distance[0] <= 50) {
                             String value = doc.getString("value");
                             ArrayList<DocumentReference> commentRefs = (ArrayList<DocumentReference>) doc.get("comments");
@@ -51,11 +50,25 @@ public class MapController {
                             qrCodes.add(readCode);
                         }
                     }
-
+                // add call back here
                 }
+                qrAdapter.notifyDataSetChanged();
             }
         });
-
     }
 
+    private float GeoDist(double currentLatitude, double currentLongitude, double codeLatitude, double codeLongitude) {
+        double lat1 = Math.toRadians(currentLatitude);
+        double lon1 = Math.toRadians(currentLongitude);
+        double lat2 = Math.toRadians(codeLatitude);
+        double lon2 = Math.toRadians(codeLongitude);
+
+        double distanceInKm = Math.acos(Math.sin(lat1)*Math.sin(lat2) + Math.cos(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1)) * 6371;
+        float distanceInMeters = (float) (distanceInKm * 1000);
+
+        return distanceInMeters;
+    }
+
+
 }
+

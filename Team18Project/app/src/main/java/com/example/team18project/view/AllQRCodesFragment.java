@@ -1,18 +1,22 @@
 package com.example.team18project.view;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.team18project.controller.AllQRCodesController;
+import com.example.team18project.controller.MapController;
 import com.example.team18project.model.Player;
 import com.example.team18project.model.QRArrayAdapter;
 import com.example.team18project.R;
@@ -71,6 +75,7 @@ public class AllQRCodesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        MapController nearChecker = new MapController();
         otherQRCodeList = new ArrayList<QRCode>();
         qrListView = (ListView) getView().findViewById(R.id.other_qrcode_list);
         qrAdapter = new QRArrayAdapter(getContext(), otherQRCodeList);
@@ -93,6 +98,23 @@ public class AllQRCodesFragment extends Fragment {
         });
 
         getAllQRCode(otherQRCodeList, qrAdapter);
+
+        ToggleButton toggleNearby = getView().findViewById(R.id.ToggleNearby);
+        toggleNearby.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Call function if toggle is checked on
+                    otherQRCodeList = new ArrayList<QRCode>();
+                    qrAdapter = new QRArrayAdapter(getContext(), otherQRCodeList);
+                    qrListView.setAdapter(qrAdapter);
+                    nearChecker.findCloseCodes(otherQRCodeList, -113.3624917, 53.470775, qrAdapter);
+                } else {
+                    // Call function if toggle is checked off
+                    getAllQRCode(otherQRCodeList, qrAdapter);
+                }
+            }
+        });
     }
 
     /**
