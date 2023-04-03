@@ -10,36 +10,30 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/Score"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button 1" />
+            android:text="Score" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/Scans"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button 2" />
+            android:text="Scans" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/bestQR"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button 3" />
+            android:text="QR" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button 4" />
     </LinearLayout>
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/leaderBoard"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
