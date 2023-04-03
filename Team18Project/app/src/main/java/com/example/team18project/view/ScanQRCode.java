@@ -180,7 +180,7 @@ public class ScanQRCode extends AppCompatActivity {
             }
 
             if (keepLocation) {
-                code = new QRCode(sha256, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
+                code = new QRCode(sha256, new ArrayList<String>(), new ArrayList<Comment>(), longitude, latitude);
             } else {
                 code = new QRCode(sha256, new ArrayList<String>(), new ArrayList<Comment>(), QRCode.NULL_LOCATION, QRCode.NULL_LOCATION);
             }
