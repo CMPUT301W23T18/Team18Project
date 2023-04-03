@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.team18project.controller.HomeController;
+import com.example.team18project.controller.ProfileController;
 import com.example.team18project.model.QRArrayAdapter;
 import com.example.team18project.R;
 import com.example.team18project.model.Player;
@@ -33,7 +35,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "player";
-
+    private HomeController controller;
     private Player player;
     private QRArrayAdapter qrAdapter;
     private ListView qrList;
@@ -50,6 +52,7 @@ public class HomeFragment extends Fragment {
         Bundle args = new Bundle();
         args.putParcelable(ARG_PARAM1,player);
         fragment.setArguments(args);
+        fragment.controller = new HomeController(player);
         return fragment;
     }
 
@@ -111,8 +114,9 @@ public class HomeFragment extends Fragment {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     QRCode scannedCode = (QRCode) result.getData().getParcelableExtra("newCode");
                     Bitmap image = (Bitmap) result.getData().getParcelableExtra("image");
-                    QRCode.uploadQRCode(scannedCode, image);
+                    controller.addScannedQRCode(scannedCode, image);
                     player.addQRCode(scannedCode);
+
                     boolean isNew = true;
                     for (int i = 0; i < qrAdapter.getCount(); i++) {
                         if (qrAdapter.getItem(i).getQid().equals(scannedCode.getQid())) {

@@ -1,5 +1,7 @@
 package com.example.team18project.view;
 
+import static com.google.android.gms.location.Granularity.GRANULARITY_FINE;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -17,12 +19,22 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.gms.location.CurrentLocationRequest;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -50,15 +62,17 @@ public class ScanQRCode extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_CODE = 1;
     private boolean takePhoto;
     private boolean keepLocation;
-    private double latitude;
-    private double longitude;
+    private double latitude = QRCode.NULL_LOCATION;
+    private double longitude = QRCode.NULL_LOCATION;
     private Intent data = new Intent();
-    private LocationManager locationManager;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qrcode);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         Button scanButton = findViewById(R.id.scan_button);
         scanButton.setOnClickListener(new View.OnClickListener() {
@@ -91,20 +105,42 @@ public class ScanQRCode extends AppCompatActivity {
     }
 
     private void getLastLocation() {
-        if (ActivityCompat.checkSelfPermission(ScanQRCode.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(ScanQRCode.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_CODE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            CurrentLocationRequest.Builder requestBuilder = new CurrentLocationRequest.Builder();
+//            requestBuilder.setGranularity(GRANULARITY_FINE);
+//            requestBuilder.setPriority(Priority.PRIORITY_HIGH_ACCURACY);
+//            CurrentLocationRequest request = requestBuilder.build();
+//            Task<Location> currentLocationTask = fusedLocationClient.getCurrentLocation(request, null);
+//
+//            currentLocationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
+//                @Override
+//                public void onSuccess(Location location) {
+//                    if (location != null) {
+////                        latitude = location.getLatitude();
+////                        longitude = location.getLongitude();
+////                        Log.d("testing", "actual: " + location.getLatitude());
+////                        Log.d("testing", "actual: " + location.getLongitude());
+//                    }
+//                }
+//            });
+//            while (!currentLocationTask.isComplete()) {
+//                //wait until location is set
+//            }
+
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                            }
+                        }
+                    });
         } else {
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if(lastLocation !=null){
-                latitude = lastLocation.getLatitude();
-                longitude = lastLocation.getLongitude();
-            } else {
-                latitude = QRCode.NULL_LOCATION;
-                longitude = QRCode.NULL_LOCATION;
-            }
+            ActivityCompat.requestPermissions(ScanQRCode.this, new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_CODE);
         }
     }
 
@@ -134,24 +170,23 @@ public class ScanQRCode extends AppCompatActivity {
     ActivityResultLauncher<ScanOptions> barScanner = registerForActivityResult(new ScanContract(), result -> {
         if (result.getContents() != null) {
             String sha256 = null;
-            String id = null;
-            QRCode code = null;
+            QRCode code;
+
             try {
                 sha256 = QRCode.getSHA256(result.getContents());
             } catch (NoSuchAlgorithmException e) {
                 Toast.makeText(getApplicationContext(), "ERROR: could not hash value", Toast.LENGTH_LONG).show();
                 finish();
             }
+
             if (keepLocation) {
                 code = new QRCode(sha256, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
-                id = QRCode.computeQid(latitude, longitude, sha256);
             } else {
                 code = new QRCode(sha256, new ArrayList<String>(), new ArrayList<Comment>(), QRCode.NULL_LOCATION, QRCode.NULL_LOCATION);
-                id = QRCode.computeQid(QRCode.NULL_LOCATION, QRCode.NULL_LOCATION, sha256);
             }
 
-            code.setQid(id);
             data.putExtra("newCode", code);
+
             if (takePhoto) {
                 Intent takePicIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 takePicture.launch(takePicIntent);
@@ -177,18 +212,9 @@ public class ScanQRCode extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                @SuppressLint("MissingPermission") Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if(lastLocation !=null){
-                    latitude = lastLocation.getLatitude();
-                    longitude = lastLocation.getLongitude();
-                } else {
-                    latitude = QRCode.NULL_LOCATION;
-                    longitude = QRCode.NULL_LOCATION;
-                }
+                getLastLocation();
             } else {
                 Toast.makeText(this, "Please enable location services", Toast.LENGTH_LONG).show();
-                finish();
             }
         }
     }
