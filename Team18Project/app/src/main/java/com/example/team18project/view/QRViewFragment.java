@@ -82,6 +82,7 @@ public class QRViewFragment extends Fragment {
         ListView commentList = view.findViewById(R.id.comment_list);
         ListView otherPlayerListView = view.findViewById(R.id.other_player_list);
         Button commentButton = view.findViewById(R.id.post_comment_button);
+        Button viewImagesButton = view.findViewById(R.id.view_images_button);
         EditText commentEditText = view.findViewById(R.id.edit_text_comment);
 
         visual.setImageBitmap(code.getVisual(getContext(),2));
@@ -105,6 +106,13 @@ public class QRViewFragment extends Fragment {
                 //update views
                 commentAdapter.notifyDataSetChanged();
                 commentEditText.setText("");
+            }
+        });
+
+        viewImagesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(ViewImagesFragment.newInstance(player,code));
             }
         });
         return view;

@@ -106,26 +106,6 @@ public class ScanQRCode extends AppCompatActivity {
 
     private void getLastLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            CurrentLocationRequest.Builder requestBuilder = new CurrentLocationRequest.Builder();
-//            requestBuilder.setGranularity(GRANULARITY_FINE);
-//            requestBuilder.setPriority(Priority.PRIORITY_HIGH_ACCURACY);
-//            CurrentLocationRequest request = requestBuilder.build();
-//            Task<Location> currentLocationTask = fusedLocationClient.getCurrentLocation(request, null);
-//
-//            currentLocationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
-//                @Override
-//                public void onSuccess(Location location) {
-//                    if (location != null) {
-////                        latitude = location.getLatitude();
-////                        longitude = location.getLongitude();
-////                        Log.d("testing", "actual: " + location.getLatitude());
-////                        Log.d("testing", "actual: " + location.getLongitude());
-//                    }
-//                }
-//            });
-//            while (!currentLocationTask.isComplete()) {
-//                //wait until location is set
-//            }
 
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
