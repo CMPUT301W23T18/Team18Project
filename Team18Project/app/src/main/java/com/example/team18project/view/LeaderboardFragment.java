@@ -114,7 +114,12 @@ public class LeaderboardFragment extends Fragment {
 
                                                         clickedPlayer = new Player(codes,document.getId(),username,email,phoneNumber,isHidden);
                                                         MainActivity activity = (MainActivity) getActivity();
-                                                        activity.replaceFragment(new StatsFragment().newInstance(clickedPlayer));
+                                                        if (!isHidden) {
+                                                            activity.replaceFragment(new StatsFragment().newInstance(clickedPlayer));
+                                                        } else {
+                                                            Toast.makeText(getContext(), "This user is hidden, you cannot view them", Toast.LENGTH_SHORT).show();
+
+                                                        }
                                                     }
                                                 } else {
                                                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -166,7 +171,12 @@ public class LeaderboardFragment extends Fragment {
 
                                                         clickedPlayer = new Player(codes,document.getId(),username,email,phoneNumber,isHidden);
                                                         MainActivity activity = (MainActivity) getActivity();
-                                                        activity.replaceFragment(new StatsFragment().newInstance(clickedPlayer));
+                                                        if (!isHidden) {
+                                                            activity.replaceFragment(new StatsFragment().newInstance(clickedPlayer));
+                                                        } else {
+                                                            Toast.makeText(getContext(), "This user is hidden, you cannot view them", Toast.LENGTH_SHORT).show();
+
+                                                        }
                                                     }
                                                 } else {
                                                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -218,7 +228,11 @@ public class LeaderboardFragment extends Fragment {
 
                                                         clickedPlayer = new Player(codes,document.getId(),username,email,phoneNumber,isHidden);
                                                         MainActivity activity = (MainActivity) getActivity();
-                                                        activity.replaceFragment(new StatsFragment().newInstance(clickedPlayer));
+                                                        if (!isHidden) {
+                                                            activity.replaceFragment(new StatsFragment().newInstance(clickedPlayer));
+                                                        } else {
+                                                            Toast.makeText(getContext(), "This user is hidden, you cannot view them", Toast.LENGTH_SHORT).show();
+                                                        }
                                                     }
                                                 } else {
                                                     Log.d(TAG, "Error getting documents: ", task.getException());
