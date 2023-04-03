@@ -21,6 +21,11 @@ public class StatsController {
 
     }
 
+    /**
+     * get the ranking of a player based on qid
+     * @param qid the qid of player
+     * @param callback the callback object
+     */
     public void getRank(String qid, final StatsFragment.UserRankCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("QRCodes").orderBy("Score", Query.Direction.DESCENDING)

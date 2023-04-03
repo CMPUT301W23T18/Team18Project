@@ -14,9 +14,12 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 public class ViewImagesController {
-
+    /**
+     * get the image of a QRCode
+     * @param code the qrcode to get image for
+     * @param images the ImageArrayAdaptor object to update
+     */
     public void getImages(QRCode code, ImageArrayAdapter images) {
-
         FirebaseStorage storage = FirebaseStorage.getInstance();
         Log.d("testing", code.getValue());
         ArrayList<String> photoIDs = code.getPhotoIds();
