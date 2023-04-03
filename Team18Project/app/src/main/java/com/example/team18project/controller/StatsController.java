@@ -1,40 +1,42 @@
 package com.example.team18project.controller;
 
 import android.util.Log;
-import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
-import com.example.team18project.view.SearchFragment;
+import com.example.team18project.view.StatsFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
+public class StatsController {
 
-public class SearchController {
-    public SearchController() {
-        
+    /**
+     * An empty constructor
+     */
+    public StatsController() {
+
     }
 
-    public void generateUserList(String searchText, final SearchFragment.UserListCallback callback) {
+    public void getRank(String qid, final StatsFragment.UserRankCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Players").whereEqualTo("isHidden", false)
+        db.collection("QRCodes").orderBy("Score", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        ArrayList<String> usernameFilteredUserList = new ArrayList<>();
+                        int count = 1;
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String newUser = document.get("username").toString();
-                                if (newUser.toLowerCase().contains(searchText.toLowerCase())) {
-                                    usernameFilteredUserList.add(newUser);
+                                String newQid = document.getId().toString();
+                                if (newQid.equals(qid)) {
+                                    callback.onUserRankGenerated(count);
                                 }
+                                count++;
                             }
-                            callback.onUserListGenerated(usernameFilteredUserList);
                         } else {
                             Log.d("SearchError:", "Error getting documents: ", task.getException());
                         }

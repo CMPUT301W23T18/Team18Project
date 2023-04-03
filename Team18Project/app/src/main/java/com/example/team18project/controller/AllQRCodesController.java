@@ -21,6 +21,11 @@ public class AllQRCodesController {
     public AllQRCodesController() {
     }
 
+    /**
+     * Updates a given ArrayList to contain all QR codes in a given QuerySnapshot
+     * @param qrList the ArrayList to update
+     * @param queryDocumentSnapshots
+     */
     public void updateQRCodes(ArrayList<QRCode> qrList, QuerySnapshot queryDocumentSnapshots) {
         qrList.clear();
         for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {

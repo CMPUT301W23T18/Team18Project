@@ -92,5 +92,6 @@ public class StatsTesting {
 
     @After
     public void tearDown() {
+        TestSettings.resetSettings();
     }
 }

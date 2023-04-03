@@ -45,7 +45,7 @@ import java.util.ArrayList;
  */
 public class SearchFragment extends Fragment {
     public interface UserListCallback {
-        void onUserListGenerated(ArrayList<Pair<String, String>> userList);
+        void onUserListGenerated(ArrayList<String> usernameFilteredUserList);
     }
     private FirebaseFirestore db;
 
@@ -92,18 +92,9 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String searchText = usernameSearchEditText.getText().toString();
-                controller.generateUserList(new UserListCallback() {
+                controller.generateUserList(searchText,new UserListCallback() {
                     @Override
-                    public void onUserListGenerated(ArrayList<Pair<String, String>> userList) {
-                        ArrayList<String> idFilteredUserList = new ArrayList<>();
-                        ArrayList<String> usernameFilteredUserList = new ArrayList<>();
-
-                        for (Pair<String, String> item : userList) {
-                            if (item.second.toLowerCase().contains(searchText.toLowerCase())) {
-                                idFilteredUserList.add(item.first);
-                                usernameFilteredUserList.add(item.second);
-                            }
-                        }
+                    public void onUserListGenerated(ArrayList<String> usernameFilteredUserList) {
                         ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, usernameFilteredUserList);
                         //ArrayAdapter ids =
                         // try custom addapter  then pass

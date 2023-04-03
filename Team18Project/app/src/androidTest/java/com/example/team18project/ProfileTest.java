@@ -56,6 +56,9 @@ import junit.framework.AssertionFailedError;
 import junit.framework.AssertionFailedError;
 
 
+
+import org.junit.After;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -189,6 +192,11 @@ public class ProfileTest {
                 playerReference.update("username", "I");
             }
         });
+    }
+
+    @After
+    public void tearDown() {
+        TestSettings.resetSettings();
     }
 
 //    @Test

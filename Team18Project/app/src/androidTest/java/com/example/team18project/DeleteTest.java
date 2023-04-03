@@ -40,12 +40,12 @@ public class DeleteTest {
         rule.launchActivity(intent);
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
 
-        solo.waitForText("Duchess Katie White of Grimwall");
+        solo.waitForText("Queen Maximus Freenet of Sinniko");
 
         Player player = rule.getActivity().getPlayer();
         QRCode code = player.getCodes().get(0);
 
-        solo.clickOnText("Duchess Katie White of Grimwall");
+        solo.clickOnText("Queen Maximus Freenet of Sinniko");
         solo.clickOnText("Delete");
         try {
             assertFalse(solo.waitForText("Score:",1,3000));
@@ -60,5 +60,6 @@ public class DeleteTest {
     @After
     public void tearDown() throws Exception{
         solo.finishOpenedActivities();
+        TestSettings.resetSettings();
     }
 }
