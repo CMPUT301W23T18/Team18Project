@@ -47,6 +47,7 @@ public class PlayerTest {
 
         return player;
     }
+
     private QRCode getMockCode() {
         //score = 4533
         QRCode code = new QRCode("2eb3614a1560dfd81f521dc0a22148dd9bf5ea8570edcb3b89f6e82b9548b392",
