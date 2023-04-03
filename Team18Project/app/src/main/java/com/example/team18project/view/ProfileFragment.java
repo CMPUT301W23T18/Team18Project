@@ -66,6 +66,7 @@ public class ProfileFragment extends Fragment {
         userNameText.setText(currentPlayer.getUsername());
         emailText.setText(currentPlayer.getEmail());
         userPhoneText.setText(currentPlayer.getPhoneNumber());
+        hideSwitch.setChecked(currentPlayer.isHidden());
 
         // updating player username
         submitUser.setOnClickListener(new View.OnClickListener() {
