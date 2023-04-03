@@ -27,6 +27,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -85,13 +87,16 @@ public class FirebaseWriter {
                 //account not found, safe to write
                 if (username == null) {
                     // -- make a custom username
-
+                    LocalDateTime currentDateTime = LocalDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                    String newUniqueUsername = currentDateTime.format(formatter);
+                    // -- load into the DataBase
                     Map<String, Object> data = new HashMap<>();
                     data.put("codes",new ArrayList<>());
                     data.put("email","");
                     data.put("isHidden",true);
                     data.put("phoneNumber","");
-                    data.put("username","");
+                    data.put("username",newUniqueUsername);
                     data.put("highscore",0);
                     data.put("QRCount",0);
                     data.put("BestQRScore",0);
