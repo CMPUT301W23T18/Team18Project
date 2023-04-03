@@ -40,7 +40,6 @@ public class LeaderboardFragment extends Fragment {
     }
     private FirebaseFirestore db;
     CollectionReference usersRef;
-    DocumentReference playerRef;
     private LeaderBoardController controller;
 
     public static LeaderboardFragment newInstance() {
@@ -74,7 +73,7 @@ public class LeaderboardFragment extends Fragment {
         TotalScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.generateUserListHighScore(new SearchFragment.UserListCallback() {
+                controller.generateUserListHighScore(new LeaderboardFragment.UserListCallback() {
                     @Override
                     public void onUserListGenerated(ArrayList<String> usernameFilteredUserList) {
                         ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, usernameFilteredUserList);
@@ -87,7 +86,7 @@ public class LeaderboardFragment extends Fragment {
         TotalScansButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.generateUserListScans(new SearchFragment.UserListCallback() {
+                controller.generateUserListScans(new LeaderboardFragment.UserListCallback() {
                     @Override
                     public void onUserListGenerated(ArrayList<String> usernameFilteredUserList) {
                         ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, usernameFilteredUserList);
@@ -100,7 +99,7 @@ public class LeaderboardFragment extends Fragment {
         BestQRButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                controller.generateUserBestQR(new SearchFragment.UserListCallback() {
+                controller.generateUserBestQR(new LeaderboardFragment.UserListCallback() {
                     @Override
                     public void onUserListGenerated(ArrayList<String> usernameFilteredUserList) {
                         ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, usernameFilteredUserList);
