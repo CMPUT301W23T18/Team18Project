@@ -85,10 +85,21 @@ public class QRViewFragment extends Fragment {
         Button viewImagesButton = view.findViewById(R.id.view_images_button);
         EditText commentEditText = view.findViewById(R.id.edit_text_comment);
 
+        String latitude;
+        String longitude;
+
+        if (code.getLatitude() == QRCode.NULL_LOCATION) {
+            latitude = "null location";
+            longitude = "null location";
+        } else {
+            latitude = Double.toString(code.getLatitude());
+            longitude = Double.toString(code.getLongitude());
+        }
+
         visual.setImageBitmap(code.getVisual(getContext(),2));
         name.setText(code.getName());
         score.setText("Score: " + Integer.toString(code.getScore()));
-        location.setText("Latitude: " + Double.toString(code.getLatitude()) + "\nLongitude: " + Double.toString(code.getLongitude()));
+        location.setText("Latitude: " + latitude + "\nLongitude: " + longitude);
 
         otherPlayerList = new ArrayList<>();
         otherPlayerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, otherPlayerList);
