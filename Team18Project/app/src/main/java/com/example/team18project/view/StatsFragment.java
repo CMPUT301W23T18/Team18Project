@@ -1,5 +1,6 @@
 package com.example.team18project.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,14 +10,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.team18project.R;
+import com.example.team18project.controller.LeaderBoardController;
+import com.example.team18project.controller.StatsController;
 import com.example.team18project.model.Player;
 import com.example.team18project.model.QRCode;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,12 +31,14 @@ import com.example.team18project.model.QRCode;
  * create an instance of this fragment.
  */
 public class StatsFragment extends Fragment {
-
+    public interface UserRankCallback {
+        void onUserRankGenerated(int Rank);
+    }
     // Fields related to player information and their QR codes
     private Player player;
     private QRCode lowestScoredQR;
     private QRCode highestScoredQR;
-    private QRCode blank;
+    private StatsController controller;
 
     // Fields related to QR score and information
     private int totalScore;
@@ -55,6 +64,7 @@ public class StatsFragment extends Fragment {
         Bundle args = new Bundle();
         args.putParcelable("player", player);
         fragment.setArguments(args);
+        fragment.controller = new StatsController();
         return fragment;
     }
 
@@ -126,7 +136,26 @@ public class StatsFragment extends Fragment {
 
         // display the information related to the leader board
         TextView leaderBoard = view.findViewById(R.id.leaderboardRank);
-        leaderBoard.setText("0");
+        try {
+            controller.getRank(highestScoredQR.getQid(), new StatsFragment.UserRankCallback() {
+                @Override
+                public void onUserRankGenerated(int Rank) {
+                    String finalString = String.valueOf(Rank);
+                    leaderBoard.setText(finalString);
+                }
+            });
+        } catch (Exception e) {
+            leaderBoard.setText("UnRanked");
+        }
+        Button leaderboards = view.findViewById(R.id.leaderboards_btn);
+
+        leaderboards.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity activity = (MainActivity) getActivity();
+                activity.replaceFragment(new LeaderboardFragment().newInstance());
+            }
+        });
 
         return view;
     }

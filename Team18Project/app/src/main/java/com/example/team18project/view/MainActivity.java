@@ -155,21 +155,21 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
-
-    /**
-     * Allows for the onActivityResult method in the HomeFragment to be called. Necessary to
-     * process newly scanned QRCodes.
-     * @param requestCode The integer request code originally supplied to
-     *                    startActivityForResult(), allowing you to identify who this
-     *                    result came from.
-     * @param resultCode The integer result code returned by the child activity
-     *                   through its setResult().
-     * @param data An Intent, which can return result data to the caller
-     *               (various data can be attached to Intent "extras").
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // This is important, otherwise the result will not be passed to the fragment
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+//
+//    /**
+//     * Allows for the onActivityResult method in the HomeFragment to be called. Necessary to
+//     * process newly scanned QRCodes.
+//     * @param requestCode The integer request code originally supplied to
+//     *                    startActivityForResult(), allowing you to identify who this
+//     *                    result came from.
+//     * @param resultCode The integer result code returned by the child activity
+//     *                   through its setResult().
+//     * @param data An Intent, which can return result data to the caller
+//     *               (various data can be attached to Intent "extras").
+//     */
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        // This is important, otherwise the result will not be passed to the fragment
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 }
