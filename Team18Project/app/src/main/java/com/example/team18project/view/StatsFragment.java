@@ -19,13 +19,14 @@ import com.example.team18project.R;
 import com.example.team18project.model.Player;
 import com.example.team18project.model.QRCode;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link StatsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class StatsFragment extends Fragment {
-
     // Fields related to player information and their QR codes
     private Player player;
     private QRCode lowestScoredQR;
@@ -37,6 +38,7 @@ public class StatsFragment extends Fragment {
     private int highScore;
     private int lowScore;
     private int totalCount;
+    private int Rank;
 
     // Fields related to QR name and image
     private String lowName;
