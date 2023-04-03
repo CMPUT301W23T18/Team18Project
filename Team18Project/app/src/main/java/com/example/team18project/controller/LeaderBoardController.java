@@ -17,10 +17,18 @@ import com.google.firebase.firestore.core.OrderBy;
 import java.util.ArrayList;
 
 public class LeaderBoardController {
+
+    /**
+     * empty constructor
+     */
     public LeaderBoardController() {
 
     }
 
+    /**
+     * generates a list of the users with the highest scores
+     * @param callback
+     */
     public void generateUserListHighScore(final LeaderboardFragment.UserListCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Players").orderBy("highscore", Query.Direction.DESCENDING)
@@ -47,6 +55,10 @@ public class LeaderBoardController {
                 });
     }
 
+    /**
+     * generates list of the users with the most scanned qr codes
+     * @param callback
+     */
     public void generateUserListScans(final LeaderboardFragment.UserListCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Players").orderBy("QRCount", Query.Direction.DESCENDING)
@@ -73,6 +85,10 @@ public class LeaderBoardController {
                 });
     }
 
+    /**
+     * generates a collection of the users ordered by the best qr codes
+     * @param callback
+     */
     public void generateUserBestQR(final LeaderboardFragment.UserListCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Players").orderBy("BestQRScore", Query.Direction.DESCENDING)
