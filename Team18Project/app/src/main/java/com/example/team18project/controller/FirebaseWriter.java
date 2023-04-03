@@ -84,6 +84,8 @@ public class FirebaseWriter {
 
                 //account not found, safe to write
                 if (username == null) {
+                    // -- make a custom username
+
                     Map<String, Object> data = new HashMap<>();
                     data.put("codes",new ArrayList<>());
                     data.put("email","");
