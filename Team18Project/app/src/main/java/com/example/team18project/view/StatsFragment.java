@@ -157,6 +157,10 @@ public class StatsFragment extends Fragment {
             }
         });
 
+        // display the userName
+        TextView username = view.findViewById(R.id.Stats_usernametextView);
+        username.setText("User: "+player.getUsername());
+
         return view;
     }
 

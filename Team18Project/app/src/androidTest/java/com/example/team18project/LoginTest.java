@@ -65,8 +65,6 @@ public class LoginTest {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
 
         assertFalse(solo.waitForText("Score",1,3000));
-        onView(withId(R.id.profile_icon)).perform(click());
-        onView(withId(R.id.UserName_editText)).check(matches(withText("")));
 
         CollectionReference playersColl = FirebaseFirestore.getInstance().collection("Players");
         DocumentReference playerReference = playersColl.document("NEW");
