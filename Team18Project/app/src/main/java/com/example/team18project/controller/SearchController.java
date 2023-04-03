@@ -19,6 +19,11 @@ public class SearchController {
         
     }
 
+    /**
+     * generate a list of users based on keyword
+     * @param searchText the keyboard to be searched
+     * @param callback callback object
+     */
     public void generateUserList(String searchText, final SearchFragment.UserListCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Players").whereEqualTo("isHidden", false)
