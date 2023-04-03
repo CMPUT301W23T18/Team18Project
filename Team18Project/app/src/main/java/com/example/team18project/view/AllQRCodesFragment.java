@@ -18,6 +18,7 @@ import com.example.team18project.model.QRArrayAdapter;
 import com.example.team18project.R;
 import com.example.team18project.model.Comment;
 import com.example.team18project.model.QRCode;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -80,6 +81,14 @@ public class AllQRCodesFragment extends Fragment {
                 QRCode clicked = (QRCode) qrListView.getItemAtPosition(position);
                 Log.d("Michael",Boolean.toString(clicked == null));
                 ((MainActivity) getActivity()).replaceFragment(QRViewFragment.newInstance(player,clicked));
+            }
+        });
+
+        FloatingActionButton mapbutton = getView().findViewById(R.id.view_map_button);
+        mapbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(MapFragment.newInstance());
             }
         });
 
