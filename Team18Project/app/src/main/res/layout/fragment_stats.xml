@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/dark_gray"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,15 +14,19 @@
             android:id="@+id/QRcodeScanCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/dark_gray"
             android:text="QrCodes Scanned:"
+            android:textColor="@color/white"
             android:textSize="30sp" />
 
         <TextView
             android:id="@+id/QRTotalCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/dark_gray"
             android:gravity="center"
             android:text="0"
+            android:textColor="@color/white"
             android:textSize="30sp" />
 
     </LinearLayout>
@@ -36,15 +40,19 @@
             android:id="@+id/score_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/dark_gray"
             android:text="Total Score:"
+            android:textColor="@color/white"
             android:textSize="30sp" />
 
         <TextView
             android:id="@+id/QRTotalScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/dark_gray"
             android:gravity="center"
             android:text="0"
+            android:textColor="@color/white"
             android:textSize="30sp" />
     </LinearLayout>
 
@@ -52,37 +60,45 @@
         android:id="@+id/Highest_textView"
         android:layout_width="415dp"
         android:layout_height="wrap_content"
+        android:background="@color/dark_gray"
         android:text="Highest Scoring Code:"
+        android:textColor="@color/white"
         android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/HighScoreQRImage"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/dark_gray" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/dark_gray"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/HighScoreQRname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/dark_gray"
                 android:text="qrName"
+                android:textColor="@color/white"
                 android:textSize="27sp" />
 
             <TextView
                 android:id="@+id/HighScoreQRscore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:background="@color/dark_gray"
                 android:text="0"
+                android:textColor="@color/white"
 
                 android:textSize="27sp" />
 
@@ -94,13 +110,17 @@
         android:id="@+id/Lowest_textView"
         android:layout_width="414dp"
         android:layout_height="39dp"
+        android:background="@color/dark_gray"
         android:text="Lowest ScoringCode:"
+        android:textColor="@color/white"
         android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@color/dark_gray"
+        android:orientation="horizontal"
+        android:textColor="@color/white">
 
         <ImageView
             android:id="@+id/LowScoreQRImage"
@@ -116,15 +136,19 @@
                 android:id="@+id/LowScoreQRname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/dark_gray"
                 android:text="qrName"
+                android:textColor="@color/white"
                 android:textSize="27sp" />
 
             <TextView
                 android:id="@+id/LowScoreQRscore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:background="@color/dark_gray"
                 android:text="0"
+
+                android:textColor="@color/white"
                 android:textSize="27sp"
 
                 />
@@ -134,18 +158,22 @@
 
     <TextView
         android:id="@+id/LeaderBoard_Ranks_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="410dp"
         android:layout_height="wrap_content"
+        android:background="@color/dark_gray"
         android:gravity="center"
         android:text="Leaderboard Rank:"
+        android:textColor="@color/white"
         android:textSize="30sp" />
 
     <TextView
         android:id="@+id/leaderboardRank"
-        android:layout_width="wrap_content"
+        android:layout_width="410dp"
         android:layout_height="wrap_content"
+        android:background="@color/dark_gray"
         android:gravity="center"
         android:text="Loading..."
+        android:textColor="@color/white"
         android:textSize="25sp" />
 
     <Button
@@ -153,5 +181,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Leaderboards" />
+
+    <TextView
+        android:id="@+id/Stats_usernametextView"
+        android:layout_width="410dp"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_gray"
+        android:gravity="center"
+        android:text="Username"
+        android:textColor="@color/white"
+        android:textSize="30sp" />
 
 </LinearLayout>

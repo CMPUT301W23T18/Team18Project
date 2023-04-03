@@ -23,26 +23,31 @@
             android:id="@+id/qrcode_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/dark_gray"
             android:padding="5dp"
             android:text="Name"
             android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="24sp" />
 
         <TextView
             android:id="@+id/qrcode_score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/dark_gray"
             android:padding="5dp"
             android:text="Score"
             android:textAlignment="center"
+            android:textColor="@color/white"
             android:textSize="24sp" />
 
         <TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
+            android:background="@color/dark_gray"
             android:text="@string/location"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -50,16 +55,18 @@
             android:id="@+id/qrcode_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
+            android:background="@color/dark_gray"
             android:text="TextView"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
+            android:background="@color/dark_gray"
             android:padding="5dp"
             android:text="Players who have scanned this QR code"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -80,8 +87,9 @@
             android:id="@+id/comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_gray"
+            android:background="@color/dark_gray"
             android:text="@string/comments"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -96,6 +104,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+
+                android:background="@color/dark_gray"
                 android:ems="10"
                 android:inputType="textPersonName" />
 
