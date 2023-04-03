@@ -196,7 +196,7 @@ public class ScanQRCode extends AppCompatActivity {
                         QRCode code = new QRCode(finalSha25, new ArrayList<String>(), new ArrayList<Comment>(), latitude, longitude);
                         code.setQid(id);
                         player.addQRCode(code);
-                        // please work
+
                     }
                 });
 
@@ -213,7 +213,7 @@ public class ScanQRCode extends AppCompatActivity {
 
     /**
      * Handles the results of a permission request initiated by the system.
-     * @param requestCode The request code passed in {@link #requestPermissions(
+     * @param requestCode The request code passed in {requestPermissions(
      * android.app.Activity, String[], int)}
      * @param permissions The requested permissions. Never null.
      * @param grantResults The grant results for the corresponding permissions
