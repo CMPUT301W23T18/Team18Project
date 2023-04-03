@@ -2,6 +2,7 @@ package com.example.team18project.controller;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Log;
 
 import com.example.team18project.model.ImageArrayAdapter;
@@ -28,7 +29,17 @@ public class ViewImagesController {
                 public void onSuccess(byte[] bytes) {
                     Log.d("testing", "made it here");
                     Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    images.add(image);
+                    //
+                    float scaleFactor = 7.5F;
+
+                    int baseWidth = image.getWidth();
+                    int baseHeight = image.getHeight();
+
+                    Matrix matrix = new Matrix();
+                    matrix.postScale(scaleFactor, scaleFactor);
+
+                    Bitmap scaledBody = Bitmap.createBitmap(image, 0, 0, baseWidth, baseHeight, matrix, true);
+                    images.add(scaledBody);
                 }
             });
         }
