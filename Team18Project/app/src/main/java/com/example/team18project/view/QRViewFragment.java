@@ -4,9 +4,11 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.team18project.TestSettings;
 import com.example.team18project.model.CommentArrayAdapter;
 import com.example.team18project.R;
 import com.example.team18project.controller.QRViewController;
@@ -24,9 +27,7 @@ import com.example.team18project.model.QRCode;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link QRViewFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A fragment used to display all information about a QR code
  */
 public class QRViewFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,7 +52,6 @@ public class QRViewFragment extends Fragment {
      * @param code The QR code being viewed
      * @return A new instance of fragment QRViewFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static QRViewFragment newInstance(Player player, QRCode code) {
         QRViewFragment fragment = new QRViewFragment();
         Bundle args = new Bundle();
@@ -92,7 +92,7 @@ public class QRViewFragment extends Fragment {
         otherPlayerList = new ArrayList<>();
         otherPlayerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, otherPlayerList);
         otherPlayerListView.setAdapter(otherPlayerAdapter);
-        controller.getOtherPlayers(code,otherPlayerList,otherPlayerAdapter);
+        controller.getOtherPlayers(otherPlayerList,otherPlayerAdapter);
 
         commentAdapter = new CommentArrayAdapter(getContext(),code.getComments());
         commentList.setAdapter(commentAdapter);
@@ -105,6 +105,35 @@ public class QRViewFragment extends Fragment {
                 //update views
                 commentAdapter.notifyDataSetChanged();
                 commentEditText.setText("");
+            }
+        });
+
+        commentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Comment clicked = (Comment) commentList.getItemAtPosition(position);
+
+                //check if this a comment posted by the user
+                Boolean isPoster = false;
+                if (TestSettings.getInstance().isTesting()) {
+                    //isTesting is true, check test ID
+                    if (TestSettings.getInstance().getTestAndroidID().equals(clicked.getPosterId())) {
+                        isPoster = true;
+                    }
+                }
+                else if (Settings.Secure.getString(getContext().getContentResolver(),Settings.Secure.ANDROID_ID).equals(clicked.getPosterId())) {
+                    //isTesting is false, check device ID
+                    isPoster = true;
+                }
+
+                //show menu
+                new CommentMenuFragment(clicked,isPoster,new CommentMenuFragment.OnDeleteListener() {
+                    @Override
+                    public void onDelete() {
+                        controller.deleteComment(clicked);
+                        commentAdapter.notifyDataSetChanged();
+                    }
+                }).show(getParentFragmentManager(),"Menu");
             }
         });
         return view;

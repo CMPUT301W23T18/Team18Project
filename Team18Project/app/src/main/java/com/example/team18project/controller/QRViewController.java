@@ -18,6 +18,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * Controller class for QRViewFragment
+ */
 public class QRViewController {
     private Player player;
     private QRCode code;
@@ -27,6 +30,10 @@ public class QRViewController {
         this.code = code;
     }
 
+    /**
+     * Posts a comment to the currently selected QR code
+     * @param text The message of the comment
+     */
     public void postComment(String text) {
         String posterId = player.getUid();
         String posterUsername = player.getUsername();
@@ -46,7 +53,24 @@ public class QRViewController {
         //  screen twice
     }
 
-    public void getOtherPlayers(QRCode code, ArrayList<String> otherPlayerList, ArrayAdapter<String> otherPlayerAdapter) {
+    /**
+     * Deletes a comment from the currently selected QR code
+     * @param comment The comment to delete
+     */
+    public void deleteComment(Comment comment) {
+        code.removeComment(comment);
+        FirebaseWriter.getInstance().deleteComment(comment,code.getQid());
+    }
+
+    //TODO I feel like otherPlayerAdapter shouldn't be passed here,
+    // use a listener or something
+    /**
+     * Fills an ArrayList with usernames of other players who have scanned the currently
+     * selected QR code
+     * @param otherPlayerList The ArrayList to be filled
+     * @param otherPlayerAdapter
+     */
+    public void getOtherPlayers(ArrayList<String> otherPlayerList, ArrayAdapter<String> otherPlayerAdapter) {
         CollectionReference qrColl = FirebaseFirestore.getInstance().collection("QRCodes");
         FirebaseFirestore.getInstance().collection("Players")
                 .whereEqualTo("isHidden", false)

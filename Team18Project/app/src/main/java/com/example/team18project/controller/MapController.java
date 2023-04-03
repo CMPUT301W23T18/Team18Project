@@ -1,17 +1,21 @@
 package com.example.team18project.controller;
 
-import android.location.Location;
 import android.util.Log;
 
-import com.example.team18project.model.Comment;
 import com.example.team18project.model.QRArrayAdapter;
 import com.example.team18project.model.QRCode;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import com.example.team18project.model.Comment;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,9 +54,36 @@ public class MapController {
                             qrCodes.add(readCode);
                         }
                     }
-                // add call back here
+                    // add call back here
                 }
                 qrAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    public void writeCodesToMap(GoogleMap googleMap, LatLng currentLocation) {
+        googleMap.clear();
+
+        CollectionReference qrCodesColl = FirebaseFirestore.getInstance().collection("QRCodes");
+        qrCodesColl.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    double codeLongitude =  doc.getDouble("longitude");
+                    double codeLatitude = doc.getDouble("latitude");
+
+                    if (codeLongitude != QRCode.NULL_LOCATION && codeLatitude != QRCode.NULL_LOCATION) {
+                        float[] distance = new float[1];
+                        distance[0] = GeoDist(currentLocation.latitude, currentLocation.longitude, codeLatitude, codeLongitude);
+                        if (distance[0] <= 50) {
+                            LatLng location = new LatLng(codeLatitude, codeLongitude);
+                            String title = "" + doc.getDouble("Score");
+                            MarkerOptions options = new MarkerOptions().position(location).title(title);
+                            googleMap.addMarker(options);
+                        }
+                    }
+
+                }
             }
         });
     }

@@ -41,12 +41,12 @@ public class StatsTesting {
     public void testTotalScore() throws InterruptedException{
         Intent intent = new Intent();
         intent.putExtra("isTesting", true);
-        intent.putExtra("testAndroidID", "tOTGhDf8tNjzO8W1UpSU");
+        intent.putExtra("testAndroidID", "LoginTest");
         rule.launchActivity(intent);
         //Test doesn't succeed without a sleep (player is null), I'm guessing it needs time to login
         Thread.sleep(2000);
         onView(withId(R.id.stats_icon)).perform(click());
-        onView(withId(R.id.QRTotalCount)).check(matches(withText("3")));
+        onView(withId(R.id.QRTotalCount)).check(matches(withText("2")));
     }
 
     // test the stats fragment show the correct sum of QR scores
@@ -54,12 +54,12 @@ public class StatsTesting {
     public void testSumQRScore() throws InterruptedException{
         Intent intent = new Intent();
         intent.putExtra("isTesting", true);
-        intent.putExtra("testAndroidID", "tOTGhDf8tNjzO8W1UpSU");
+        intent.putExtra("testAndroidID", "LoginTest");
         rule.launchActivity(intent);
         //Test doesn't succeed without a sleep (player is null), I'm guessing it needs time to login
         Thread.sleep(2000);
         onView(withId(R.id.stats_icon)).perform(click());
-        onView(withId(R.id.QRTotalScore)).check(matches(withText("12876")));
+        onView(withId(R.id.QRTotalScore)).check(matches(withText("8928")));
     }
 
     // test the two stats related to the highest QR code, the score and the name
@@ -67,13 +67,13 @@ public class StatsTesting {
     public void testHighestQRStats() throws InterruptedException{
         Intent intent = new Intent();
         intent.putExtra("isTesting", true);
-        intent.putExtra("testAndroidID", "tOTGhDf8tNjzO8W1UpSU");
+        intent.putExtra("testAndroidID", "LoginTest");
         rule.launchActivity(intent);
         //Test doesn't succeed without a sleep (player is null), I'm guessing it needs time to login
         Thread.sleep(2000);
         onView(withId(R.id.stats_icon)).perform(click());
-        onView(withId(R.id.HighScoreQRname)).check(matches(withText("Queen Maximus Freenet of Sinniko")));
-        onView(withId(R.id.HighScoreQRscore)).check(matches(withText("Score: 4395")));
+        onView(withId(R.id.HighScoreQRname)).check(matches(withText("Duke Victor White of Driuru")));
+        onView(withId(R.id.HighScoreQRscore)).check(matches(withText("Score: 4533")));
     }
 
     // test the two stats related to the lowest QR code, the score and the name
@@ -81,13 +81,13 @@ public class StatsTesting {
     public void testLowestQRStats() throws InterruptedException{
         Intent intent = new Intent();
         intent.putExtra("isTesting", true);
-        intent.putExtra("testAndroidID", "tOTGhDf8tNjzO8W1UpSU");
+        intent.putExtra("testAndroidID", "LoginTest");
         rule.launchActivity(intent);
         //Test doesn't succeed without a sleep (player is null), I'm guessing it needs time to login
         Thread.sleep(2000);
         onView(withId(R.id.stats_icon)).perform(click());
-        onView(withId(R.id.LowScoreQRname)).check(matches(withText("Queen Maximus Hoffman of Sandgate")));
-        onView(withId(R.id.LowScoreQRscore)).check(matches(withText("Score: 4227")));
+        onView(withId(R.id.LowScoreQRname)).check(matches(withText("Queen Maximus Freenet of Sinniko")));
+        onView(withId(R.id.LowScoreQRscore)).check(matches(withText("Score: 4395")));
     }
 
     @After
